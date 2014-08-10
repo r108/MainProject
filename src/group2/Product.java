@@ -23,6 +23,17 @@ public class Product {
 		this.supplier = supplier;
 	}
 	
+	public void displayDetail(){
+		
+		System.out.println("ID : "+productID);
+		System.out.println("Name : "+productName);
+		System.out.println("Description : "+productDescription);
+		System.out.println("Category : "+productCategory);
+		System.out.println("Price : "+retailPrice);
+		System.out.println("Supplier details :");
+		supplier.displayDetails();
+	}
+	
 	
 	public int getProductID() {
 		return productID;

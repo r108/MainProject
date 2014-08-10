@@ -113,14 +113,19 @@ public class StockControl {
 	}
 	
 	public void displayStockList(){
-		System.out.println("\n******Product Levels On Stock*******");
-		System.out.println("Supplier ID  |  Quantity  |  Product Name");
-		System.out.println("------------------------------------------");
-		for(Object[] productAndQuantityInStock : stockList){
-			System.out.print(((Product)productAndQuantityInStock[0]).getSupplier().getId()+"                ");
-			System.out.print((Integer)productAndQuantityInStock[1]);
-			System.out.print("          "+((Product)productAndQuantityInStock[0]).getProductName()+"\n");
-			
-		}	
+		if(stockList.size()>0){
+			System.out.println("\n******Product Levels On Stock*******");
+			System.out.println("Supplier ID  |  Quantity  |  Product Name");
+			System.out.println("------------------------------------------");
+			for(Object[] productAndQuantityInStock : stockList){
+				System.out.print(((Product)productAndQuantityInStock[0]).getSupplier().getId()+"                ");
+				System.out.print((Integer)productAndQuantityInStock[1]);
+				System.out.print("          "+((Product)productAndQuantityInStock[0]).getProductName()+"\n");
+				
+			}
+		}
+		else{
+			System.out.println("Product listis empty!");
+		}
 	}
 }

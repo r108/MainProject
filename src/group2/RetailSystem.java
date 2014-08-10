@@ -15,6 +15,7 @@ public class RetailSystem {
 	private ArrayList<SupplyOrder> supplyOrderList;
 	private int menuOption;
 	private Person person;
+	private Product product;
 	private Random random;
 	private boolean valid = false;
 	private String userInput;
@@ -42,7 +43,7 @@ public class RetailSystem {
 			case 1: personOperation(new Customer()); break;
 			case 2: personOperation(new Staff()); break;
 			case 3: personOperation(new Supplier()); break;
-			case 4: automaticallyCreateProducts(); break;
+			case 4: productOperation(); break;
 			case 5: break;
 			case 6: break;
 			case 7: stockControl.displayStockList(); break;
@@ -55,8 +56,144 @@ public class RetailSystem {
 		}while(!terminateProgram);
 	}
 	
+	public void productOperation(){
+		do{
+			System.out.println("\n0 - Cancel");
+			System.out.println("1 - Add new product to stock");
+			System.out.println("2 - Show stock levels");
+			System.out.println("3 - Show products by category");
+			System.out.println("4 - Remove product from stock ");
+			System.out.println("5 - Change product detail");
+			System.out.println("6 - Update product quantity on stock");
+			System.out.println("7 - Automatically create products and add to stock");
+			menuOption = Keyboard.readInt();
+			switch(menuOption){
+			case 0: System.out.println("Exiting submenu.."); break;
+			case 1: createNewProduct();
+					break;
+			case 2: stockControl.displayStockList(); break;
+			case 3: stockControl.displayProductByCategory();  break;
+			case 4:  break;
+			case 5:  break;
+			case 6:  break;
+			case 7: if(supplierList.size()>0)
+						automaticallyCreateProducts();
+					else
+						System.out.println("Suppliers must be created first!");
+					break;
+			default: System.out.println("Invalid option! Try again!");
+			}
+		}while(menuOption!=0);
+	}
+	
+	public void createNewProduct(){
+		String productName, productDescription, productCategory;
+		double supplierPrice = -1;
+		int quantity = 0;
+		System.out.println("Enter product category :");
+		productCategory = Keyboard.readString();
+		System.out.println("Enter product name :");
+		productName = Keyboard.readString();
+		System.out.println("Enter product description :");
+		productDescription = Keyboard.readString();
+		valid = false;
+		do{
+			try{
+				System.out.println("Enter supplier price :");
+				supplierPrice = Double.parseDouble(Keyboard.readString());
+				valid = true;
+			}
+			catch(NumberFormatException e){
+				System.out.println("Error!Invalid input. Only digits 0-9 are allowed! Try again!");
+			}
+		}while(!valid);
+		System.out.println("Please select one of the following options :");
+OUTER : do{
+			//System.out.println("0 - Cancel ");
+			System.out.println("\n1 - Find supplier by ID ");
+			System.out.println("2 - Show suppliers list");
+			System.out.println("3 - Create new supplier ");			
+			menuOption = Keyboard.readInt();
+			switch(menuOption){
+			case 1: valid = false;
+					if(supplierList.size()>0){
+						do{
+							System.out.println("Enter supplier ID or 0 to cancel:"); 
+							try{
+								menuOption = Integer.parseInt(Keyboard.readString());
+								
+								if(menuOption==0){
+									continue OUTER;
+								}
+								else{
+									person = getSupplierById(menuOption);
+							//		person.displayDetails();
+									valid = true;
+									menuOption = 0;
+								}
+							}
+							catch(NumberFormatException e){
+								System.out.println("Error!Invalid ");
+							}
+						}while(!valid);
+					}
+					else{
+						System.out.println("Supplier list is empty. Add supplier to the list first!");
+						break;
+					}
+					break;
+			case 2: displayPersonList(new Supplier()); break;
+			case 3: createNewPerson(new Supplier()); menuOption = 0; break;
+			default: System.out.println("Error! Invalid option! Only numbers 1-3 are valid.");break;
+			}		
+		}while(menuOption!=0);
+		menuOption=-1;
+		product = new Product(productName, productDescription, productCategory, supplierPrice, (Supplier)person);
+		System.out.println("Product has been created.");
+		valid = false;
+		do{
+			try{
+				System.out.println("Enter product quantity to add to stock :");
+				quantity = Integer.parseInt(Keyboard.readString());
+				if(quantity<0){
+					System.out.println("Error! Invalid value. Only positive numbers are valid. Try again!");
+					continue;
+				}
+				else{
+					valid = true;
+				}
+			}
+			catch(NumberFormatException e){
+				System.out.println("Error!Invalid input. Only digits 0-9 are allowed! Try again!");
+			}
+		}while(!valid);
+		stockControl.addNewProductToStockList(product, quantity);
+		System.out.println(quantity+" "+productName+" was successfully added to stock.");
+	}
+			
+	private Supplier getSupplierById(int id){
+		boolean isFound = false;
+		
+		for(Person person : supplierList){
+			if(person.getId()==id){
+				isFound = true;
+				return (Supplier)person;
+			}
+			else{
+				isFound = false;
+			}
+		}
+		if(!isFound){
+			System.out.println("Supplier ID not found! Try again!");
+			System.out.println("Enter supplier ID :");
+			id = Keyboard.readInt();
+			getSupplierById(id);
+		}
+		return null;
+	}
+	
 	private void automaticallyCreateProducts(){
-		Product product = new Product("Asus EeeePC 1015px",
+		product = new Product("Asus EeeePC 1015px",
 				"Atom N570 / 1.66 GHz - Windows 7 Starter - 1 GB RAM - 250 GB HDD - 10.1 inches wide 1024 x 600 - Intel GMA 3150 - black Series",
 				"Laptop", 200, getRandomSupplier());
 		stockControl.addNewProductToStockList(product, 22);
@@ -124,7 +261,7 @@ public class RetailSystem {
 		customerList.add(person);
 		person = new Customer("Bob","bob@msn.com","0859983","1 Main Street");
 		customerList.add(person);
-		displayList(person);
+		displayPersonList(person);
 	}
 	
 	private void automaticallyCreateStaff(){
@@ -132,7 +269,7 @@ public class RetailSystem {
 		staffList.add(person);
 		person = new Staff("John","john@msn.com","08609382","38 Main Street","password",2);
 		staffList.add(person);
-		displayList(person);
+		displayPersonList(person);
 	}
 	
 	private void automaticallyCreateSupplier(){
@@ -144,10 +281,10 @@ public class RetailSystem {
 		supplierList.add(person);
 		person = new Supplier("Best Buy","bbb@msn.com","08599983","600 Main Street","Fred","x3456");
 		supplierList.add(person);
-		displayList(person);
+		displayPersonList(person);
 	}
 	
-	private void displayList(Person person){
+	private void displayPersonList(Person person){
 		if(person instanceof Customer){
 			displayList = customerList;
 		}
@@ -174,7 +311,7 @@ public class RetailSystem {
 		System.out.println("1  - Customers Menu");
 		System.out.println("2  - Staff Menu");
 		System.out.println("3  - Supplier Menu");
-		System.out.println("4  - Automatically Create Product and Add to Stock");
+		System.out.println("4  - Product Menu");
 		System.out.println("5  - Add New Product to Stock");
 		System.out.println("6  - Update Product Quantity On Stock");
 		System.out.println("7  - Display Stock Levels");
@@ -213,7 +350,7 @@ public class RetailSystem {
 			case 0: System.out.println("Exiting submenu.."); break;
 			case 1: createNewPerson(person);
 					break;
-			case 2: displayList(person); break;
+			case 2: displayPersonList(person); break;
 			case 3: changePersonDetails(person);  break;
 			case 4: if(person instanceof Customer)
 						automaticallyCreateCustomer();
@@ -229,7 +366,8 @@ public class RetailSystem {
 	}
 	
 	
-	public void createNewPerson(Person person){
+	public void createNewPerson(Person pers){
+		person = pers;
 		String name, email, address, contactNumber, password, contactName, vatNumber;
 		int accessLevel = 0;
 		System.out.println("Enter name :");
@@ -394,9 +532,8 @@ public class RetailSystem {
 				            case 6: if (person instanceof Staff){
 						            	System.out.println("Set access level!");
 										System.out.println("Enter 1 for staff access or 2 for manager access :");
-										try{
-											
-											do{
+										do{
+											try{
 												valid = false;
 												int accessLevel =Integer.parseInt(Keyboard.readString());
 												if(accessLevel==2||1==accessLevel){
@@ -407,11 +544,11 @@ public class RetailSystem {
 												else{
 													System.out.println("Error! Only access level 1 or 2 are valid!\nEnter access level again :");
 												}
-											}while(!valid);
-										}
-										catch(NumberFormatException e){
-											System.out.println("Incorrect Input! Only digits 1-2 are allowed.");
-										}
+											}
+											catch(NumberFormatException e){
+												System.out.println("Incorrect Input! Only digits 1-2 are allowed.\nEnter access level again :");
+											}
+										}while(!valid);
 				            		}
 				            		else if (person instanceof Supplier){
 				            			System.out.println("Enter new VAT number:");
@@ -476,9 +613,9 @@ public class RetailSystem {
 			    			for(Person person : list){
 			    				if(person.getId()==id){
 			    					isFound = true;
-			    					System.out.println("SELECTED SUPPLIER");
+			    					System.out.println("*****Selected "+personType+"*******\n");
 			    					person.displayDetails();
-			    					System.out.println("Confirm removing "+personType+"?\nENTER Y or N");
+			    					System.out.println("\nConfirm removing "+personType+"?\nENTER Y or N");
 			    					userInput = Keyboard.readString();
 			    					if(userInput.equalsIgnoreCase("Y")){
 			    						System.out.println(person.getName()+" has been removed.");

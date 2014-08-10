@@ -27,7 +27,7 @@ public class Person {
 	}
 	
 	public void displayDetails(){		
-		System.out.println("ID : "+this.getId());
+		System.out.println("\nID : "+this.getId());
 		System.out.println("Name : "+name);
 		System.out.println("Email : "+email);
 		System.out.println("Phone : "+contactNumber);
