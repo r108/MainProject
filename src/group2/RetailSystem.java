@@ -396,6 +396,7 @@ public class RetailSystem {
 											System.out.println("Incorrect Input! Only digits 1-2 are allowed.");
 										}
 				            		}
+				            		else if (person instanceof Supplier){}
 				            		break;
 				            
 				            default: System.out.println("Invalid choice. Try again."); break;
