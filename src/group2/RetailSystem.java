@@ -17,6 +17,7 @@ public class RetailSystem {
 	private Person person;
 	private Random random;
 	private boolean valid = false;
+	private String userInput;
 	
 	
 	public RetailSystem() {
@@ -38,9 +39,9 @@ public class RetailSystem {
 			
 			switch(menuOption){
 			case 0: terminateProgram = true; System.out.println("Terminate Program.."); break;
-			case 1: personOperation(1); break;
-			case 2: personOperation(2); break;
-			case 3: personOperation(3); break;
+			case 1: personOperation(new Customer()); break;
+			case 2: personOperation(new Staff()); break;
+			case 3: personOperation(new Supplier()); break;
 			case 4: automaticallyCreateProducts(); break;
 			case 5: break;
 			case 6: break;
@@ -119,11 +120,11 @@ public class RetailSystem {
 	private void automaticallyCreateCustomer(){
 		person = new Customer("Roland","roland@msn.com","08712345","12 Main Street");
 		customerList.add(person);
-		Person person1 = new Customer("Tom","tom@msn.com","08713455","33 Main Street");
-		customerList.add(person1);
+		person = new Customer("Tom","tom@msn.com","08713455","33 Main Street");
+		customerList.add(person);
 		person = new Customer("Bob","bob@msn.com","0859983","1 Main Street");
 		customerList.add(person);
-		displayList(1);
+		displayList(person);
 	}
 	
 	private void automaticallyCreateStaff(){
@@ -131,7 +132,7 @@ public class RetailSystem {
 		staffList.add(person);
 		person = new Staff("John","john@msn.com","08609382","38 Main Street","password",2);
 		staffList.add(person);
-		displayList(2);
+		displayList(person);
 	}
 	
 	private void automaticallyCreateSupplier(){
@@ -143,25 +144,25 @@ public class RetailSystem {
 		supplierList.add(person);
 		person = new Supplier("Best Buy","bbb@msn.com","08599983","600 Main Street","Fred","x3456");
 		supplierList.add(person);
-		displayList(3);
+		displayList(person);
 	}
 	
-	private void displayList(int type){
-		if(type==1){
+	private void displayList(Person person){
+		if(person instanceof Customer){
 			displayList = customerList;
 		}
-		else if(type==2){
+		else if(person instanceof Staff){
 			displayList = staffList;
 		}
-		else if(type==3){
+		else if(person instanceof Supplier){
 			displayList = supplierList;
 		}
 		else{
 			System.out.println("Something went wrong!!");
 		}
 		System.out.println();
-		for(Person person : displayList){
-			person.displayDetails();
+		for(Person pers : displayList){
+			pers.displayDetails();
 		}
 		
 	}
@@ -177,115 +178,121 @@ public class RetailSystem {
 		System.out.println("5  - Add New Product to Stock");
 		System.out.println("6  - Update Product Quantity On Stock");
 		System.out.println("7  - Display Stock Levels");
-		System.out.println("8  - Display Products");
-		System.out.println("9  - Display Products");
-		System.out.println("10  - Display Products");
-		System.out.println("11 - Create New Customer\n\n\n");
+		System.out.println("8  - Display Products\n\n\n");
 		
 	}
 	
-	public void personOperation(int type){
+	public void personOperation(Person person){
 		String personType = "";
-		String name, email, address, contactNumber, password, contactName, vatNumber;
-		int accessLevel = 0;
- MENU:  do{
-			valid = true;
-			if(1==type){
-				//id = "CX";
-				personType = "customer";
-				person = new Customer();
-			}
-			else if(2==type){
-				personType = "staff";
-				person = new Staff();
-			}
-			else if(3==type){
-				//id = "AX";
-				person = new Supplier();
-				personType = "supplier";
-			}
+		
+
+		valid = true;
+		if(person instanceof Customer){
+			//id = "CX";
+			personType = "customer";
+			person = new Customer();
+		}
+		else if(person instanceof Staff){
+			personType = "staff";
+			person = new Staff();
+		}
+		else if(person instanceof Supplier){
+			//id = "AX";
+			person = new Supplier();
+			personType = "supplier";
+		}
+		do{
 			System.out.println("\n0 - Cancel");
 			System.out.println("1 - Create new "+personType);
 			System.out.println("2 - Show "+personType+"s list");
 			System.out.println("3 - Edit "+personType+" details");
 			System.out.println("4 - Automatically Create "+personType);
+			System.out.println("5 - Remove "+personType);
 			menuOption = Keyboard.readInt();
 			switch(menuOption){
 			case 0: System.out.println("Exiting submenu.."); break;
-			case 1: System.out.println("Enter name :");
-					name = Keyboard.readString();
-					System.out.println("Enter email :");
-					email = Keyboard.readString();
-					System.out.println("Enter contact number:");
-					contactNumber = Keyboard.readString();
-					System.out.println("Enter address :");
-					address = Keyboard.readString();
-					if(type==2){
-						
-						do{
-							valid = false;
-							System.out.println("Enter password :");
-							String passwd = Keyboard.readString();
-							System.out.println("Enter password again :");
-							password = Keyboard.readString();
-							if(passwd.equals(password)){
-								valid = true;
-							}
-							else{
-								System.out.println("Error! Password do not match! Try again!");
-							}
-						}while(!valid);
-						System.out.println("Set access level!");
-						System.out.println("Enter 1 for staff access or 2 for manager access :");
-						try{
-							
-							do{
-								valid = false;
-								accessLevel =Integer.parseInt(Keyboard.readString());
-								if(accessLevel==2||1==accessLevel){
-									valid = true;
-									person = new Staff(name, email, contactNumber, address, password,accessLevel);
-									staffList.add(person);
-									System.out.println("Account has been created.");
-									System.out.println("Login is : "+person.getId()+" Password is : "+password);
-									continue MENU;
-								}
-								else{
-									System.out.println("Error! Only access level 1 or 2 are valid!\nEnter access level again :");
-								}
-							}while(!valid);
-						}
-						catch(NumberFormatException e){
-							System.out.println("Incorrect Input! Only digits 1-2 are allowed.");
-						}
-					}
-					else if(type==3){
-						System.out.println("Enter contact name :");
-						contactName = Keyboard.readString();
-						System.out.println("Enter VAT number : ");
-						vatNumber = Keyboard.readString();
-						person = new Supplier(name, email, contactNumber, address, contactName, vatNumber);
-						supplierList.add(person);
-						System.out.println("Supplier has been created.");
-						break;
-					}
-					person = new Customer(name, email, contactNumber, address);
-					customerList.add(person);
+			case 1: createNewPerson(person);
 					break;
-			case 2: displayList(type); break;
+			case 2: displayList(person); break;
 			case 3: changePersonDetails(person);  break;
-			case 4: if(type==1)
+			case 4: if(person instanceof Customer)
 						automaticallyCreateCustomer();
-					else if(type==2)
+					else if(person instanceof Staff)
 						automaticallyCreateStaff();
 					else
 						automaticallyCreateSupplier();
 					break;
+			case 5: removePerson(person); break;
 			default: System.out.println("Invalid option! Try again!");
 			}
 		}while(menuOption!=0);
 	}
 	
+	
+	public void createNewPerson(Person person){
+		String name, email, address, contactNumber, password, contactName, vatNumber;
+		int accessLevel = 0;
+		System.out.println("Enter name :");
+		name = Keyboard.readString();
+		System.out.println("Enter email :");
+		email = Keyboard.readString();
+		System.out.println("Enter contact number:");
+		contactNumber = Keyboard.readString();
+		System.out.println("Enter address :");
+		address = Keyboard.readString();
+		if(person instanceof Customer){
+			person = new Customer(name, email, contactNumber, address);
+			customerList.add(person);
+		}
+		else if(person instanceof Staff){
+			
+			do{
+				valid = false;
+				System.out.println("Enter password :");
+				String passwd = Keyboard.readString();
+				System.out.println("Enter password again :");
+				password = Keyboard.readString();
+				if(passwd.equals(password)){
+					valid = true;
+				}
+				else{
+					System.out.println("Error! Password do not match! Try again!");
+				}
+			}while(!valid);
+			System.out.println("Set access level!");
+			System.out.println("Enter 1 for staff access or 2 for manager access :");
+			try{
+				
+				do{
+					valid = false;
+					accessLevel =Integer.parseInt(Keyboard.readString());
+					if(accessLevel==2||1==accessLevel){
+						valid = true;
+						person = new Staff(name, email, contactNumber, address, password,accessLevel);
+						staffList.add(person);
+						System.out.println("Account has been created.");
+						System.out.println("Login is : "+person.getId()+" Password is : "+password);
+					
+					}
+					else{
+						System.out.println("Error! Only access level 1 or 2 are valid!\nEnter access level again :");
+					}
+				}while(!valid);
+			}
+			catch(NumberFormatException e){
+				System.out.println("Incorrect Input! Only digits 1-2 are allowed.");
+			}
+		}
+		else if(person instanceof Supplier){
+			System.out.println("Enter contact name :");
+			contactName = Keyboard.readString();
+			System.out.println("Enter VAT number : ");
+			vatNumber = Keyboard.readString();
+			person = new Supplier(name, email, contactNumber, address, contactName, vatNumber);
+			supplierList.add(person);
+			System.out.println("Supplier has been created.");
+		}
+	}
 	
 	public void changePersonDetails(Person pers){
 		String personType = "";
@@ -303,10 +310,16 @@ public class RetailSystem {
 		}
 		if(list.size()>0){
 			System.out.println("Enter "+personType+" ID to edit details:");
-			String userInput = Keyboard.readString();
+			int id=-1;
+			try{
+				id = Integer.parseInt(Keyboard.readString());
+			}
+			catch(NumberFormatException e){
+				System.out.println("Incorrect Input! Only digits 1-2 are allowed.");
+			}
 			boolean isFound = false;
 			for(Person person : list){
-				if(person.getId()==Integer.parseInt(userInput)){
+				if(person.getId()==id){
 					isFound = true;
 					person.displayDetails();
 					do{
@@ -388,11 +401,6 @@ public class RetailSystem {
 												int accessLevel =Integer.parseInt(Keyboard.readString());
 												if(accessLevel==2||1==accessLevel){
 													valid = true;
-													//person = new Staff(name, email, contactNumber, address, password,accessLevel);
-													//staffList.add(person);
-													//System.out.println("Account has been created.");
-													//System.out.println("Login is : "+person.getId()+" Password is : "+password);
-													//continue MENU;
 													((Staff) person).setAccessLevel(accessLevel);
 													break;
 												}
@@ -418,7 +426,7 @@ public class RetailSystem {
 				            default: System.out.println("Invalid choice. Try again."); break;
 						}			
 					}while(menuOption!=0);
-					break;	
+					menuOption=-1;	
 				}
 				else{
 					isFound = false;
@@ -431,6 +439,80 @@ public class RetailSystem {
 		else
 			System.out.println("The "+personType+"s list is empty.\n");	
 	}
+	
+	
+	public void removePerson(Person pers){
+		String personType = "";
+		if (pers instanceof Customer){
+			list = customerList;
+			personType = "customer";
+		}
+		else if(pers instanceof Staff){
+			list = staffList;
+			personType = "staff";
+		}
+		else{
+			list = supplierList;
+			personType = "supplier";
+		}	
+		do{
+			System.out.println("\n***Select the operation to perform***");
+			System.out.println("0 - Cancel");
+			System.out.println("1 - Remove "+personType);
+			System.out.println("2 - List "+personType+"s");
+			menuOption = Keyboard.readInt();
+			switch (menuOption) {
+				case 0: System.out.println("Exiting submenu..");break;
+	            case 1: if(list.size()>0){
+    						System.out.println("Enter "+personType+" ID to remove:");
+    						int id=-1;
+    						try{
+    								id = Integer.parseInt(Keyboard.readString());
+			    			}
+			    			catch(NumberFormatException e){
+			    				System.out.println("Incorrect Input! Only digits 1-2 are allowed.");
+			    			}
+			    			boolean isFound = false;
+			    			for(Person person : list){
+			    				if(person.getId()==id){
+			    					isFound = true;
+			    					System.out.println("SELECTED SUPPLIER");
+			    					person.displayDetails();
+			    					System.out.println("Confirm removing "+personType+"?\nENTER Y or N");
+			    					userInput = Keyboard.readString();
+			    					if(userInput.equalsIgnoreCase("Y")){
+			    						System.out.println(person.getName()+" has been removed.");
+			    						list.remove(person);	    						
+			    					}
+			    					break;
+			    				}
+			    				else{
+			    					isFound = false;
+			    				}
+			    			}
+			    			if(!isFound){
+			    				System.out.println("The ID is not found. Try again!");
+			    			}
+	            		}
+	            		else{
+	            			System.out.println("The list is empty!");
+	            		}
+	            		break;
+	            case 2:	if(list.size()>0){
+		    				for(Person person : list){
+		    					person.displayDetails();
+		    				}
+	    				}			            		
+			            else{
+	            			System.out.println("The list is empty!");
+			            }
+	            		break;
+	          default: System.out.println("Invalid choice. Try again."); break;
+			}			
+		}while(menuOption!=0);
+		menuOption=-1;	
+	}
+	
 	
 	
 	public static void main(String args[]){

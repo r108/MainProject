@@ -14,7 +14,7 @@ public class Person {
 		email = "";
 		address = "";
 		contactNumber = "0";
-		id = this.uniqueId++;
+		//id = uniqueId++;
 	}
 	
 	public Person(String name, String email, String contactNumber, String address) {
@@ -23,7 +23,7 @@ public class Person {
 		this.email = email;
 		this.contactNumber = contactNumber;
 		this.address = address;
-		id = this.uniqueId++;
+		id = uniqueId++;
 	}
 	
 	public void displayDetails(){		

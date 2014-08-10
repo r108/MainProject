@@ -13,7 +13,6 @@ public class Staff extends Person{
 		super(name, email, contactNumber, address);
 		this.password = password;
 		this.accessLevel = accesslevel;
-		// TODO Auto-generated constructor stub
 	}
 	public String getPassword() {
 		return password;
