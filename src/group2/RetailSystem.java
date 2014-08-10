@@ -358,16 +358,24 @@ public class RetailSystem {
 											System.out.println("Enter new password :");
 											String passwd = Keyboard.readString();
 											System.out.println("Enter new password again :");
-											password = Keyboard.readString();
-											if(passwd.equals(password)){
+											userInput = Keyboard.readString();
+											if(passwd.equals(userInput)){
 												valid = true;
-												((Staff) person).setPassword(password);
+												((Staff) person).setPassword(userInput);
+												break;
 											}
 											else{
 												System.out.println("Error! Password do not match! Try again!");
 											}
 										}while(!valid);
-										
+				            		}
+				            		else if (person instanceof Supplier){
+				            			System.out.println("Enter new contract name:");
+					            		userInput = Keyboard.readString();
+					            		if(!userInput.equalsIgnoreCase(" "))
+					            			((Supplier) person).setContactName(userInput);
+					            		person.displayDetails();
+					            		break;
 				            		}
 				            		break;
 				            case 6: if (person instanceof Staff){
@@ -386,6 +394,7 @@ public class RetailSystem {
 													//System.out.println("Login is : "+person.getId()+" Password is : "+password);
 													//continue MENU;
 													((Staff) person).setAccessLevel(accessLevel);
+													break;
 												}
 												else{
 													System.out.println("Error! Only access level 1 or 2 are valid!\nEnter access level again :");
@@ -397,7 +406,12 @@ public class RetailSystem {
 										}
 				            		}
 				            		else if (person instanceof Supplier){
-				            			break;
+				            			System.out.println("Enter new VAT number:");
+					            		userInput = Keyboard.readString();
+					            		if(!userInput.equalsIgnoreCase(" "))
+					            			((Supplier) person).setVatNumber(userInput);
+					            		person.displayDetails();
+					            		break;
 				            		}
 				            		break;
 				            
