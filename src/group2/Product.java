@@ -1,5 +1,9 @@
 package group2;
 
+/**
+ * @author Roland Katona
+ *
+ */
 public class Product {
 	
 	private int productID;            
@@ -13,6 +17,13 @@ public class Product {
 	private static int uniqueId = 1;
 	
 	
+	/**
+	 * @param productName
+	 * @param productDescription
+	 * @param productCategory
+	 * @param supplierPrice
+	 * @param supplier
+	 */
 	public Product(String productName,String productDescription, String productCategory,double supplierPrice,Supplier supplier) {
 		productID = uniqueId++;
 		this.productName = productName;
@@ -24,6 +35,9 @@ public class Product {
 		this.supplier = supplier;
 	}
 	
+	/**
+	 * Display product details
+	 */
 	public void displayDetail(){
 		
 		System.out.println("ID : "+productID);
@@ -39,75 +53,120 @@ public class Product {
 	}
 	
 	
+	/**
+	 * @return productID
+	 */
 	public int getProductID() {
 		return productID;
 	}
 
+	/**
+	 * @return productName
+	 */
 	public String getProductName() {
 		return productName;
 	}
 
 
+	/**
+	 * @param productName
+	 */
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
 
 
+	/**
+	 * @return productDescription
+	 */
 	public String getProductDescription() {
 		return productDescription;
 	}
 
 
+	/**
+	 * @param productDescription
+	 */
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
 	}
 
 
+	/**
+	 * @return productCategory
+	 */
 	public String getProductCategory() {
 		return productCategory;
 	}
 
 
+	/**
+	 * @param productCategory
+	 */
 	public void setProductCategory(String productCategory) {
 		this.productCategory = productCategory;
 	}
 
 
+	/**
+	 * @return retailPrice
+	 */
 	public double getRetailPrice() {
 		return retailPrice;
 	}
 
 
+	/**
+	 * @param retailPrice
+	 */
 	public void setRetailPrice(double retailPrice) {
 		this.retailPrice = retailPrice;
 	}
 
 
+	/**
+	 * @return supplierPrice
+	 */
 	public double getSupplierPrice() {
 		return supplierPrice;
 	}
 
 
+	/**
+	 * @param supplierPrice
+	 */
 	public void setSupplierPrice(double supplierPrice) {
 		this.supplierPrice = supplierPrice;
 	}
 
 
+	/**
+	 * @return profitMargin
+	 */
 	public double getProfitMargin() {
 		return profitMargin;
 	}
 
 
+	/**
+	 * @param profitMargin
+	 */
 	public void setProfitMargin(double profitMargin) {
 		this.profitMargin = profitMargin;
 	}
 
 
+	/**
+	 * @return supplier
+	 */
 	public Supplier getSupplier() {
 		return supplier;
 	}
 
 
+	/**
+	 * @param supplier
+	 */
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}

@@ -6,6 +6,9 @@ public class PurchaseOrder extends Order{
 	
 	private double shippingPrice;
 
+	/**
+	 * Default constructor
+	 */
 	public PurchaseOrder() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -13,6 +16,9 @@ public class PurchaseOrder extends Order{
 		this.person = new Customer();
 	}
 	
+	/**
+	 * @return totalPurchase
+	 */
 	private double calculateTotalPrice(){
 		double totalPurchase = 0;
 		for(Object[] purchaseAndQuantity : this.getProductList()){
@@ -22,6 +28,9 @@ public class PurchaseOrder extends Order{
 		
 	}
 	
+	/**
+	 * @return shippingPrice
+	 */
 	public double getShippingPrice(){
 		if(calculateTotalPrice()>100){
 			shippingPrice = 0;
@@ -32,6 +41,9 @@ public class PurchaseOrder extends Order{
 		return shippingPrice;	
 	}
 	
+	/* (non-Javadoc)
+	 * @see group2.Order#displayOrderDetails()
+	 */
 	public void displayOrderDetails(){
 		super.displayOrderDetails();
 		System.out.println("Total Purchase : Euro "+calculateTotalPrice());

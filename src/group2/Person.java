@@ -1,5 +1,9 @@
 package group2;
 
+/**
+ * @author Roland Katona
+ *
+ */
 public class Person {
 	
 	private String name;
@@ -9,6 +13,9 @@ public class Person {
 	private static int uniqueId = 1;
 	private String contactNumber;
 	
+	/**
+	 * Default constructor
+	 */
 	public Person(){
 		name = "";
 		email = "";
@@ -17,6 +24,12 @@ public class Person {
 		//id = uniqueId++;
 	}
 	
+	/**
+	 * @param name
+	 * @param email
+	 * @param contactNumber
+	 * @param address
+	 */
 	public Person(String name, String email, String contactNumber, String address) {
 		
 		this.name = name;
@@ -26,6 +39,9 @@ public class Person {
 		id = uniqueId++;
 	}
 	
+	/**
+	 * 
+	 */
 	public void displayDetails(){		
 		System.out.println("\nID : "+this.getId());
 		System.out.println("Name : "+name);
@@ -34,6 +50,9 @@ public class Person {
 		System.out.println("Address : "+address);		
 	}
 
+	/**
+	 * @return email
+	 */
 	public String getEmail() {
 		return email;
 	}
@@ -42,30 +61,51 @@ public class Person {
 		this.email = email;
 	}
 
+	/**
+	 * @return address
+	 */
 	public String getAddress() {
 		return address;
 	}
 
+	/**
+	 * @param address
+	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
+	/**
+	 * @return id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @return contactNumber
+	 */
 	public String getContactNumber() {
 		return contactNumber;
 	}
 
+	/**
+	 * @param contactNumber
+	 */
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
 
+	/**
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
+	/**
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}

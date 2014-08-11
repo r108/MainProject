@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+/**
+ * @author TIMI
+ *
+ */
 public class RetailSystem {
 	private ArrayList<Person> list;
 	private ArrayList<Person> displayList;
@@ -21,6 +25,9 @@ public class RetailSystem {
 	private String userInput;
 	
 	
+	/**
+	 * Default constructor
+	 */
 	public RetailSystem() {
 		random = new Random();
 		list = new ArrayList<Person>();
@@ -54,6 +61,9 @@ public class RetailSystem {
 		}while(!terminateProgram);
 	}
 	
+	/**
+	 * Product operations menu
+	 */
 	public void productOperation(){
 		do{
 			System.out.println("\n0 - Cancel");
