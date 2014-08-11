@@ -44,10 +44,8 @@ public class RetailSystem {
 			case 2: personOperation(new Staff()); break;
 			case 3: personOperation(new Supplier()); break;
 			case 4: productOperation(); break;
-			case 5: break;
-			case 6: break;
-			case 7: stockControl.displayStockList(); break;
-			case 8: stockControl.displayProductByCategory(); break;
+			case 5: stockControl.displayStockList(); break;
+			case 6: stockControl.displayProductByCategory(); break;
 			case 9: break;
 			default: break;
 			
@@ -73,9 +71,9 @@ public class RetailSystem {
 					break;
 			case 2: stockControl.displayStockList(); break;
 			case 3: stockControl.displayProductByCategory();  break;
-			case 4:  break;
-			case 5:  break;
-			case 6:  break;
+			case 4: removeProduct(); break;
+			case 5: changeProductDetails(); break;
+			case 6: updateProductQuantity(); break;
 			case 7: if(supplierList.size()>0)
 						automaticallyCreateProducts();
 					else
@@ -84,6 +82,256 @@ public class RetailSystem {
 			default: System.out.println("Invalid option! Try again!");
 			}
 		}while(menuOption!=0);
+	}
+	
+	public void updateProductQuantity(){		
+		do{
+			System.out.println("\n***Select the operation to perform***");
+			System.out.println("0 - Cancel");
+			System.out.println("1 - Update the quantity of an existing product on stock");
+			System.out.println("2 - Show current product quantity on stock");
+			menuOption = Keyboard.readInt();
+			switch (menuOption) {
+				case 0: System.out.println("Exiting submenu..");break;
+	            case 1: if(stockControl.getStockListSize()>0){
+    						System.out.println("Enter product ID to update its quantity :");
+    						int id=-1;
+    						try{
+    								id = Integer.parseInt(Keyboard.readString());
+			    			}
+			    			catch(NumberFormatException e){
+			    				System.out.println("Incorrect Input! Only digits 1-9 are allowed.");
+			    			}
+			    			boolean isFound = false;
+			    			Object [] productObject = stockControl.findProductInStockList(id);
+		    				if(productObject!=null){
+		    					isFound = true;
+		    					System.out.println("*****Selected product*******\n");
+		    					((Product)productObject[0]).displayDetail();
+		    					System.out.println("\nCurrent quantity on stock : "+(Integer)productObject[1]);
+		    					//System.out.println("\nConfirm removing product\nENTER Y or N");
+		    					System.out.println("Enter new quantity : ");
+		    					try{
+    								id = Integer.parseInt(Keyboard.readString());
+				    			}
+				    			catch(NumberFormatException e){
+				    				System.out.println("Incorrect Input! Only digits 1-9 are allowed.");
+				    			}
+		    					productObject[1] = id;
+		    					
+		    					stockControl.displayStockList();	
+		    					
+		    					break;
+		    				}
+		    				else{
+		    					isFound = false;
+		    				}
+			    			
+			    			if(!isFound){
+			    				System.out.println("The product ID is not found. Try again!");
+			    			}
+	            		}
+	            		else{
+	            			System.out.println("The list is empty!");
+	            		}
+	            		break;
+	            case 2:	stockControl.displayStockList();
+	            		break;
+	          default: System.out.println("Invalid choice. Try again."); break;
+			}			
+		}while(menuOption!=0);
+		menuOption=-1;	
+	}
+	
+	public void changeProductDetails(){
+		do{
+			System.out.println("\n***Select the operation to perform***");
+			System.out.println("0 - Cancel");
+			System.out.println("1 - Change the details of an existing product on stock");
+			System.out.println("2 - Show the details of all products on stock");
+			menuOption = Keyboard.readInt();
+			switch (menuOption) {	
+			case 1: if(stockControl.getStockListSize()>0){
+				System.out.println("Enter product ID to change its details :");
+				int id=-1;
+				try{
+						id = Integer.parseInt(Keyboard.readString());
+    			}
+    			catch(NumberFormatException e){
+    				System.out.println("Incorrect Input! Only digits 1-9 are allowed.");
+    			}
+    			boolean isFound = false;
+    			Object [] productObject = stockControl.findProductInStockList(id);
+				if(productObject!=null){
+					product = (Product)productObject[0];
+					isFound = true;
+					System.out.println("*****Selected product*******\n");
+					product.displayDetail();	
+					do{
+						System.out.println("\n***Select the detail to change***");
+						System.out.println("0 - Cancel");
+						System.out.println("1 - Change product name");
+						System.out.println("2 - Change product description");
+						System.out.println("3 - Change product category");
+						System.out.println("4 - Change supplier price");
+						System.out.println("5 - Change profit margin");
+						System.out.println("6 - Change product supplier");
+						menuOption = Keyboard.readInt();
+						switch (menuOption) {
+							case 0: System.out.println("Exiting submenu..");break;
+				            case 1: System.out.println("Enter new product name:");
+				            		userInput = Keyboard.readString();
+				            		product.setProductName(userInput);
+				            		product.displayDetail();
+				            		break;
+				            case 2:	System.out.println("Enter new product description:");
+				            		userInput = Keyboard.readString();
+				            		product.setProductDescription(userInput);
+				            		product.displayDetail();
+				            		break;
+				            case 3: System.out.println("Enter new product category:");
+				            		userInput = Keyboard.readString();
+				            		product.setProductCategory(userInput);
+				            		product.displayDetail();
+				            		break;
+				            case 4:	System.out.println("Enter new supplier price:");
+		            				product.setSupplierPrice(Double.parseDouble(Keyboard.readString()));
+		            				product.displayDetail();
+		            				break;
+				            case 5:	System.out.println("Enter new profit margin:");
+		            				product.setProfitMargin(Double.parseDouble(Keyboard.readString()));
+		            				product.displayDetail();
+		            				break;
+				            case 6: System.out.println("Not Yet Implemented!!");
+				            		break;
+				            
+				            default: System.out.println("Invalid choice. Try again."); break;
+						}			
+					}while(menuOption!=0);
+					menuOption=-1;	
+					
+					break;
+				}
+				else{
+					isFound = false;
+				}
+    			
+    			if(!isFound){
+    				System.out.println("The product ID is not found. Try again!");
+    			}
+    		}
+    		else{
+    			System.out.println("The list is empty!");
+    		}
+    		break;
+			case 2: displayAllProductDetails(); break;
+				default : break;
+			}
+		}while(menuOption!=0);
+	}
+	
+	public void displayAllProductDetails(){
+		
+		for(Object productObject [] : stockControl.getStockList()){
+			((Product)productObject[0]).displayDetail();
+		}
+	}
+	
+	public void removeProduct(){
+		do{
+			System.out.println("\n***Select the operation to perform***");
+			System.out.println("0 - Cancel");
+			System.out.println("1 - Remove product from stock");
+			System.out.println("2 - Show products in stock");
+			menuOption = Keyboard.readInt();
+			switch (menuOption) {
+				case 0: System.out.println("Exiting submenu..");break;
+	            case 1: if(stockControl.getStockListSize()>0){
+    						System.out.println("Enter product ID to remove:");
+    						int id=-1;
+    						try{
+    								id = Integer.parseInt(Keyboard.readString());
+			    			}
+			    			catch(NumberFormatException e){
+			    				System.out.println("Incorrect Input! Only digits 1-9 are allowed.");
+			    			}
+			    			boolean isFound = false;
+			    			Object [] productObject = stockControl.findProductInStockList(id);
+		    				if(productObject!=null){
+		    					isFound = true;
+		    					System.out.println("*****Selected product*******\n");
+		    					((Product)productObject[0]).displayDetail();
+		    					System.out.println("\nConfirm removing product\nENTER Y or N");
+		    					userInput = Keyboard.readString();
+		    					if(userInput.equalsIgnoreCase("Y")){
+		    						System.out.println("Product has been removed.");   
+		    						stockControl.removeProductFromStockList(productObject);
+		    						stockControl.displayStockList();	
+		    					}
+		    					break;
+		    				}
+		    				else{
+		    					isFound = false;
+		    				}
+			    			
+			    			if(!isFound){
+			    				System.out.println("The product ID is not found. Try again!");
+			    			}
+	            		}
+	            		else{
+	            			System.out.println("The list is empty!");
+	            		}
+	            		break;
+	            case 2:	stockControl.displayStockList();
+	            		break;
+	          default: System.out.println("Invalid choice. Try again."); break;
+			}			
+		}while(menuOption!=0);
+		menuOption=-1;	
+	}
+	
+	
+	
+	
+	private Object[] getProductById(int id){
+		boolean isFound = false;
+			Object [] object = stockControl.findProductInStockList(id);
+			product = null;
+			if(object!=null)
+				product = ((Product)object [0]);
+			if(product!=null){
+				isFound = true;
+				System.out.println("Quantity in stock : "+(Integer)object[1]);
+				product.displayDetail();
+				
+				return object;
+			}
+			else{
+				isFound = false;
+			}
+		
+		if(!isFound){
+			System.out.println("Try again!");
+			id = Keyboard.readInt();
+			//getProductById(id);
+			return null;
+			//System.out.println("Goagain!");
+		}
+		System.out.println("not good");
+		return null;
+	}
+	
+	
+	public boolean isUserInputValid(String input){
+		
+		try{
+			menuOption = Integer.parseInt(input);
+			return true;
+		}
+		catch(NumberFormatException e){
+			System.out.println("Error!Invalid input. Only digits 0-9 are allowed. Try again!");
+		}
+		return false;
 	}
 	
 	public void createNewProduct(){
@@ -170,6 +418,9 @@ OUTER : do{
 		stockControl.addNewProductToStockList(product, quantity);
 		System.out.println(quantity+" "+productName+" was successfully added to stock.");
 	}
+	
+	
+	
 			
 	private Supplier getSupplierById(int id){
 		boolean isFound = false;
@@ -312,10 +563,8 @@ OUTER : do{
 		System.out.println("2  - Staff Menu");
 		System.out.println("3  - Supplier Menu");
 		System.out.println("4  - Product Menu");
-		System.out.println("5  - Add New Product to Stock");
-		System.out.println("6  - Update Product Quantity On Stock");
-		System.out.println("7  - Display Stock Levels");
-		System.out.println("8  - Display Products\n\n\n");
+		System.out.println("5  - Display Stock Levels");
+		System.out.println("6  - Display Products\n\n\n");
 		
 	}
 	

@@ -4,11 +4,16 @@ import java.util.ArrayList;
 
 public class StockControl {
 	private ArrayList<Object[]> stockList;
+	private ArrayList<Object[]> list;
 	private Object[] productAndQuantity;
 	
 	public StockControl(){
 		stockList = new ArrayList<Object[]>();
 		
+	}
+	
+	public int getStockListSize(){
+		return stockList.size();
 	}
 	
 	public ArrayList<Object[]> getStockList(){
@@ -31,23 +36,61 @@ public class StockControl {
 	}
 	
 	public Object[] findProductInStockList(int productId){
-		productAndQuantity = new Object[2];
 		for(Object[] productAndQuantityInStock : stockList){
 			if(((Product)productAndQuantityInStock[0]).getProductID()==productId){
-				productAndQuantity[0] = ((Product)productAndQuantityInStock[0]);
-				productAndQuantity[1] = productAndQuantityInStock[1];
-			}
-			else{
-				return null;
+				return productAndQuantityInStock;
 			}
 		}
-		return productAndQuantity;
+		System.out.println("Product ID not found!");
+		return null;
 	}
 	
-	public void removeProductFromStockList(Product product){
-		productAndQuantity = new Object[2];
-		productAndQuantity= findProductInStockList(product.getProductID());
-		stockList.remove(productAndQuantity);
+	public void removeProductFromStockList(Object object[]){
+		if(object!=null){
+			stockList.remove(object);
+			System.out.println("Product has been removed from stock");
+		}
+		else{
+			System.out.println("Product could not be removed from stock!");
+		}
+		
+	}
+	
+	public void removeProduct(int id){
+		Object object [] = null;
+		System.out.println("enter id");
+		int pid = Keyboard.readInt();
+		for(Object [] o : stockList){
+			if(((Product)o[0]).getProductID()==pid){
+				object = o;
+				
+				((Product)o[0]).displayDetail();
+				System.out.println("Product has been removed from stock");
+			}
+		}
+		if(object!=null){
+			stockList.remove(object);
+			System.out.println("Product could not be removed from stock!");
+		}
+		displayStockList();
+	}
+	
+	public void displayStockList(){
+		if(stockList.size()>0){
+			System.out.println("\n******Product Levels On Stock*******");
+			System.out.println("Product ID  |   Supplier   |  Quantity  |  Product Name");
+			System.out.println("------------------------------------------");
+			for(Object[] productAndQuantityInStock : stockList){
+				System.out.print(((Product)productAndQuantityInStock[0]).getProductID()+"                ");
+				System.out.print(((Product)productAndQuantityInStock[0]).getSupplier().getId()+"                ");
+				System.out.print((Integer)productAndQuantityInStock[1]);
+				System.out.print("          "+((Product)productAndQuantityInStock[0]).getProductName()+"\n");
+				
+			}
+		}
+		else{
+			System.out.println("Product listis empty!");
+		}
 	}
 	
 	public void displayProductByCategory(){
@@ -110,22 +153,5 @@ public class StockControl {
 		}
 
 		
-	}
-	
-	public void displayStockList(){
-		if(stockList.size()>0){
-			System.out.println("\n******Product Levels On Stock*******");
-			System.out.println("Supplier ID  |  Quantity  |  Product Name");
-			System.out.println("------------------------------------------");
-			for(Object[] productAndQuantityInStock : stockList){
-				System.out.print(((Product)productAndQuantityInStock[0]).getSupplier().getId()+"                ");
-				System.out.print((Integer)productAndQuantityInStock[1]);
-				System.out.print("          "+((Product)productAndQuantityInStock[0]).getProductName()+"\n");
-				
-			}
-		}
-		else{
-			System.out.println("Product listis empty!");
-		}
 	}
 }

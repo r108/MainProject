@@ -10,10 +10,11 @@ public class Product {
 	private double supplierPrice;
 	private double profitMargin;
 	private Supplier supplier;
+	private static int uniqueId = 1;
 	
 	
 	public Product(String productName,String productDescription, String productCategory,double supplierPrice,Supplier supplier) {
-		productID++;
+		productID = uniqueId++;
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productCategory = productCategory;
@@ -29,9 +30,12 @@ public class Product {
 		System.out.println("Name : "+productName);
 		System.out.println("Description : "+productDescription);
 		System.out.println("Category : "+productCategory);
-		System.out.println("Price : "+retailPrice);
-		System.out.println("Supplier details :");
-		supplier.displayDetails();
+		System.out.println("Supplier price : "+supplierPrice);
+		System.out.println("Profit margin : "+profitMargin);
+		System.out.println("Retail price : "+retailPrice);
+		System.out.println("Supplier name : "+supplier.getName());
+		System.out.println("Supplier ID : "+supplier.getId());
+		//supplier.displayDetails();
 	}
 	
 	
