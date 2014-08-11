@@ -21,6 +21,10 @@ public class StockControl {
 		return stockList;
 	}
 	
+	/**
+	 * @param product
+	 * @param quantity
+	 */
 	public void addNewProductToStockList(Product product, int quantity){
 		productAndQuantity = new Object[2];
 		productAndQuantity[0] = product;
@@ -28,6 +32,10 @@ public class StockControl {
 		stockList.add(productAndQuantity);
 	}
 	
+	/**
+	 * @param product
+	 * @param quantity
+	 */
 	public void restockProductInStockList(Product product, int quantity){
 		productAndQuantity = new Object[2];
 		productAndQuantity= findProductInStockList(product.getProductID());
