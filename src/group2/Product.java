@@ -40,7 +40,7 @@ public class Product {
 	 */
 	public void displayDetail(){
 		
-		System.out.println("ID : "+productID);
+		System.out.println("\nID : "+productID);
 		System.out.println("Name : "+productName);
 		System.out.println("Description : "+productDescription);
 		System.out.println("Category : "+productCategory);

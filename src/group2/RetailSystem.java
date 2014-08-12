@@ -212,7 +212,7 @@ public class RetailSystem {
 		            				product.setProfitMargin(Double.parseDouble(Keyboard.readString()));
 		            				product.displayDetail();
 		            				break;
-				            case 6: System.out.println("Not Yet Implemented!!");
+				            case 6: addSupplier(2);
 				            		break;
 				            
 				            default: System.out.println("Invalid choice. Try again."); break;
@@ -303,35 +303,6 @@ public class RetailSystem {
 	
 	
 	
-	private Object[] getProductById(int id){
-		boolean isFound = false;
-			Object [] object = stockControl.findProductInStockList(id);
-			product = null;
-			if(object!=null)
-				product = ((Product)object [0]);
-			if(product!=null){
-				isFound = true;
-				System.out.println("Quantity in stock : "+(Integer)object[1]);
-				product.displayDetail();
-				
-				return object;
-			}
-			else{
-				isFound = false;
-			}
-		
-		if(!isFound){
-			System.out.println("Try again!");
-			id = Keyboard.readInt();
-			//getProductById(id);
-			return null;
-			//System.out.println("Goagain!");
-		}
-		System.out.println("not good");
-		return null;
-	}
-	
-	
 	public boolean isUserInputValid(String input){
 		
 		try{
@@ -365,46 +336,7 @@ public class RetailSystem {
 				System.out.println("Error!Invalid input. Only digits 0-9 are allowed! Try again!");
 			}
 		}while(!valid);
-		System.out.println("Please select one of the following options :");
-OUTER : do{
-			//System.out.println("0 - Cancel ");
-			System.out.println("\n1 - Find supplier by ID ");
-			System.out.println("2 - Show suppliers list");
-			System.out.println("3 - Create new supplier ");			
-			menuOption = Keyboard.readInt();
-			switch(menuOption){
-			case 1: valid = false;
-					if(supplierList.size()>0){
-						do{
-							System.out.println("Enter supplier ID or 0 to cancel:"); 
-							try{
-								menuOption = Integer.parseInt(Keyboard.readString());
-								
-								if(menuOption==0){
-									continue OUTER;
-								}
-								else{
-									person = getSupplierById(menuOption);
-							//		person.displayDetails();
-									valid = true;
-									menuOption = 0;
-								}
-							}
-							catch(NumberFormatException e){
-								System.out.println("Error!Invalid ");
-							}
-						}while(!valid);
-					}
-					else{
-						System.out.println("Supplier list is empty. Add supplier to the list first!");
-						break;
-					}
-					break;
-			case 2: displayPersonList(new Supplier()); break;
-			case 3: createNewPerson(new Supplier()); menuOption = 0; break;
-			default: System.out.println("Error! Invalid option! Only numbers 1-3 are valid.");break;
-			}		
-		}while(menuOption!=0);
+		addSupplier(1);
 		menuOption=-1;
 		product = new Product(productName, productDescription, productCategory, supplierPrice, (Supplier)person);
 		System.out.println("Product has been created.");
@@ -429,7 +361,59 @@ OUTER : do{
 		System.out.println(quantity+" "+productName+" was successfully added to stock.");
 	}
 	
-	
+	private void addSupplier(int option){
+		
+		System.out.println("Please select one of the following options :");
+		OUTER : do{
+					//System.out.println("0 - Cancel ");
+					System.out.println("\n1 - Find supplier by ID ");
+					System.out.println("2 - Show suppliers list");
+					System.out.println("3 - Create new supplier ");			
+					menuOption = Keyboard.readInt();
+					switch(menuOption){
+					case 1: valid = false;
+							if(supplierList.size()>0){
+								do{
+									System.out.println("Enter supplier ID or 0 to cancel:"); 
+									try{
+										menuOption = Integer.parseInt(Keyboard.readString());
+										
+										if(menuOption==0){
+											continue OUTER;
+										}
+										else{
+											person = getSupplierById(menuOption);
+											if(option==2){
+												product.setSupplier((Supplier)person);
+												System.out.println("Supplier of the product has been changed.");
+											}
+									//		person.displayDetails();
+											valid = true;
+											menuOption = 0;
+										}
+									}
+									catch(NumberFormatException e){
+										System.out.println("Error!Invalid ");
+									}
+								}while(!valid);
+							}
+							else{
+								System.out.println("Supplier list is empty. Add supplier to the list first!");
+								break;
+							}
+							break;
+					case 2: displayPersonList(new Supplier()); break;
+					case 3: createNewPerson(new Supplier()); 
+							menuOption = 0;
+							if(option==2){
+								product.setSupplier((Supplier)person);
+								System.out.println("Supplier of the product has been changed.");
+							}
+							break;
+					default: System.out.println("Error! Invalid option! Only numbers 1-3 are valid.");break;
+					}		
+				}while(menuOption!=0);
+	}
 	
 			
 	private Supplier getSupplierById(int id){
