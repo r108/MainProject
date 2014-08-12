@@ -61,6 +61,50 @@ public class RetailSystem {
 		}while(!terminateProgram);
 	}
 	
+	
+	
+	public void orderOperation(Order order){
+		String orderType = "";
+		
+		if(order instanceof SupplyOrder){
+			orderType = "supply order";
+			order = new SupplyOrder();
+		}
+		else if(order instanceof PurchaseOrder){
+			orderType = "purchase order";
+			order = new PurchaseOrder();
+		}
+		
+		
+		
+		do{
+			System.out.println("\n0 - Cancel");
+			System.out.println("1 - Create new "+orderType);
+			System.out.println("2 - Show "+orderType+"s");
+			System.out.println("3 - Update active "+orderType);
+			System.out.println("4 - Automatically create "+orderType+"s");
+			System.out.println("5 - Process "+orderType);
+			menuOption = Keyboard.readInt();
+			switch(menuOption){
+			case 0: System.out.println("Exiting submenu.."); break;
+			case 1: createNewOrder(order);
+					break;
+			case 2: stockControl.displayStockList(); break;
+			case 3: stockControl.displayProductByCategory();  break;
+			case 4: removeProduct(); break;
+			case 5: break;
+			default: System.out.println("Invalid option! Try again!"); break;
+			}
+		}while(menuOption!=0);
+		menuOption = -1;	
+	}
+	
+	
+	public void createNewOrder(Order order){
+		
+		
+	}
+	
 	/**
 	 * Product operations menu
 	 */
@@ -337,9 +381,8 @@ public class RetailSystem {
 			}
 		}while(!valid);
 		addSupplier(1);
-		menuOption=-1;
 		product = new Product(productName, productDescription, productCategory, supplierPrice, (Supplier)person);
-		System.out.println("Product has been created.");
+		System.out.println("\nProduct has been created.");
 		valid = false;
 		do{
 			try{
@@ -379,15 +422,19 @@ public class RetailSystem {
 										menuOption = Integer.parseInt(Keyboard.readString());
 										
 										if(menuOption==0){
+											menuOption = -1;
 											continue OUTER;
 										}
 										else{
-											person = getSupplierById(menuOption);
+											do{
+												person = getSupplierById(menuOption);
+											System.out.println("null again");
+										}while(person==null);
 											if(option==2){
 												product.setSupplier((Supplier)person);
 												System.out.println("Supplier of the product has been changed.");
 											}
-									//		person.displayDetails();
+											//person.displayDetails();
 											valid = true;
 											menuOption = 0;
 										}
@@ -413,9 +460,11 @@ public class RetailSystem {
 					default: System.out.println("Error! Invalid option! Only numbers 1-3 are valid.");break;
 					}		
 				}while(menuOption!=0);
+		menuOption=-1;
 	}
 	
-			
+// bug here!!!!!!!!!!
+	
 	private Supplier getSupplierById(int id){
 		boolean isFound = false;
 		
@@ -428,11 +477,12 @@ public class RetailSystem {
 				isFound = false;
 			}
 		}
+		
 		if(!isFound){
 			System.out.println("Supplier ID not found! Try again!");
 			System.out.println("Enter supplier ID :");
-			id = Keyboard.readInt();
-			getSupplierById(id);
+			menuOption = Keyboard.readInt();
+			getSupplierById(menuOption);
 		}
 		return null;
 	}
@@ -566,7 +616,7 @@ public class RetailSystem {
 		String personType = "";
 		
 
-		valid = true;
+		//valid = true;
 		if(person instanceof Customer){
 			//id = "CX";
 			personType = "customer";

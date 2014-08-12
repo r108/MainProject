@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Order {
 
 	protected ArrayList<Object[]> purchaseList;  //Includes quantity and product ID
+	protected static int uniqueId = 1;
 	private int orderId = 1;
 	protected Person person;
 	private boolean processed;
@@ -18,7 +19,7 @@ public class Order {
 	 */
 	public Order() {
 		purchaseList = new ArrayList<Object[]>();
-		orderId++;
+		//orderId++;
 		processed = false;
 	}
 	
