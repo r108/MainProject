@@ -367,6 +367,7 @@ public class RetailSystem {
 				            		break;
 				            case 4:	System.out.println("Enter new supplier price:");
 		            				product.setSupplierPrice(Double.parseDouble(Keyboard.readString()));
+		            				//product.setRetailPrice(product.getSupplierPrice()*(1+product.getProfitMargin()));
 		            				product.displayDetail();
 		            				break;
 				            case 5:	System.out.println("Enter new profit margin:");
