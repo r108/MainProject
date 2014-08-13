@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class Order {
 
-	protected ArrayList<Object[]> purchaseList;  //Includes quantity and product ID
+	protected ArrayList<Object[]> orderList;  //Includes quantity and product ID
 	protected static int uniqueId = 1;
-	private int orderId = 1;
+	protected int orderId = 1;
 	protected Person person;
 	private boolean processed;
 	
@@ -18,7 +18,7 @@ public class Order {
 	 * Default constructor
 	 */
 	public Order() {
-		purchaseList = new ArrayList<Object[]>();
+		orderList = new ArrayList<Object[]>();
 		//orderId++;
 		processed = false;
 	}
@@ -29,7 +29,7 @@ public class Order {
 	public void displayOrderDetails(){
 		System.out.println("\n*******"+this.getClass().getName()+" Details*******");
 		System.out.println("Quantity       Unit Price      Product Name");
-		for(Object[] purchaseAndQuantity : purchaseList){
+		for(Object[] purchaseAndQuantity : orderList){
 			System.out.println((Integer)purchaseAndQuantity[1]+"          "+((Product)purchaseAndQuantity[0]).getRetailPrice()+"           "+((Product)purchaseAndQuantity[0]).getProductName());		
 		}
 		
@@ -39,14 +39,14 @@ public class Order {
 	 * @return purchaseList
 	 */
 	public ArrayList<Object[]> getProductList() {
-		return purchaseList;
+		return orderList;
 	}
 
 	/**
 	 * @param productAndQuantity
 	 */
 	public void addProductToList(Object[] productAndQuantity) {
-		purchaseList.add(productAndQuantity);
+		orderList.add(productAndQuantity);
 	}
 
 	/**

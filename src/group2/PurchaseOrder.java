@@ -12,6 +12,7 @@ public class PurchaseOrder extends Order{
 	public PurchaseOrder() {
 		super();
 		// TODO Auto-generated constructor stub
+		orderId = uniqueId++;
 		shippingPrice = 10.0;
 		this.person = new Customer();
 	}
@@ -19,10 +20,10 @@ public class PurchaseOrder extends Order{
 	/**
 	 * @return totalPurchase
 	 */
-	private double calculateTotalPrice(){
+	public double calculateTotalOrderValue(){
 		double totalPurchase = 0;
 		for(Object[] purchaseAndQuantity : this.getProductList()){
-			totalPurchase+=(((Product)purchaseAndQuantity[0]).getRetailPrice()*(Double)purchaseAndQuantity[1]);
+			totalPurchase+=(((Product)purchaseAndQuantity[0]).getRetailPrice()*(Integer)purchaseAndQuantity[1]);
 		}
 		return totalPurchase;
 		
@@ -32,13 +33,20 @@ public class PurchaseOrder extends Order{
 	 * @return shippingPrice
 	 */
 	public double getShippingPrice(){
-		if(calculateTotalPrice()>100){
+		
+		return shippingPrice;	
+	}
+	
+	/**
+	 * Sets shipping price based on total order value
+	 */
+	public void setShippingPrice(){
+		if(calculateTotalOrderValue()>500){
 			shippingPrice = 0;
 		}
 		else{
 			// do nothing
 		}
-		return shippingPrice;	
 	}
 	
 	/* (non-Javadoc)
@@ -46,9 +54,9 @@ public class PurchaseOrder extends Order{
 	 */
 	public void displayOrderDetails(){
 		super.displayOrderDetails();
-		System.out.println("Total Purchase : Euro "+calculateTotalPrice());
+		System.out.println("Total Purchase : Euro "+calculateTotalOrderValue());
 		System.out.println("Shipping Fee : Euro "+getShippingPrice());
-		System.out.println("Grand Total : "+(calculateTotalPrice()+getShippingPrice()));
+		System.out.println("Grand Total : "+(calculateTotalOrderValue()+getShippingPrice()));
 		Date date = new Date();
 		System.out.println("Shipping Date : "+date.toString());
 		

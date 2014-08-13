@@ -113,7 +113,7 @@ public class StockControl {
 		if(stockList.size()>0){
 			System.out.println("\n******Product Levels On Stock*******");
 			System.out.println("Product ID  |   Supplier   |  Quantity  |  Product Name");
-			System.out.println("------------------------------------------");
+			System.out.println("----------------------------------------------------------");
 			for(Object[] productAndQuantityInStock : stockList){
 				System.out.print(((Product)productAndQuantityInStock[0]).getProductID()+"                ");
 				System.out.print(((Product)productAndQuantityInStock[0]).getSupplier().getId()+"                ");
