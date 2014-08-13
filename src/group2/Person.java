@@ -12,7 +12,7 @@ public class Person {
 	private int id;
 	private static int uniqueId = 1;
 	private String contactNumber;
-	
+	final int i=4;
 	/**
 	 * Default constructor
 	 */
