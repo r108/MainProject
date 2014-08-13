@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+/**
+ * @author TIMI
+ *
+ */
 public class RetailSystem {
 	private ArrayList<Person> list;
 	private ArrayList<Person> displayList;
@@ -11,16 +15,21 @@ public class RetailSystem {
 	private ArrayList<Person> customerList;
 	private ArrayList<Person> staffList;
 	private ArrayList<Person> supplierList;
-	private ArrayList<PurchaseOrder> purchaseOrderList;
-	private ArrayList<SupplyOrder> supplyOrderList;
+	private ArrayList<Order> purchaseOrderList;
+	private ArrayList<Order> supplyOrderList;
+	private ArrayList<Order> orderList;
 	private int menuOption;
 	private Person person;
 	private Product product;
 	private Random random;
 	private boolean valid = false;
 	private String userInput;
+	private Order order;
+	private Object orderObject[];
 	
-	
+	/**
+	 * Default constructor
+	 */
 	public RetailSystem() {
 		random = new Random();
 		list = new ArrayList<Person>();
@@ -28,9 +37,11 @@ public class RetailSystem {
 		customerList = new ArrayList<Person>();
 		staffList = new ArrayList<Person>();
 		supplierList = new ArrayList<Person>();
-		purchaseOrderList = new ArrayList<PurchaseOrder>();
-		supplyOrderList = new ArrayList<SupplyOrder>();
+		purchaseOrderList = new ArrayList<Order>();
+		supplyOrderList = new ArrayList<Order>();
+		orderList = new ArrayList<Order>();
 		menuOption = -1;
+		orderObject = new Object[2];
 		
 		
 		boolean terminateProgram = false;
@@ -46,7 +57,7 @@ public class RetailSystem {
 			case 4: productOperation(); break;
 			case 5: stockControl.displayStockList(); break;
 			case 6: stockControl.displayProductByCategory(); break;
-			case 9: break;
+			case 7: orderOperation(new PurchaseOrder()); break;
 			default: break;
 			
 			}
@@ -54,6 +65,165 @@ public class RetailSystem {
 		}while(!terminateProgram);
 	}
 	
+	
+	
+	public void orderOperation(Order order){
+		String orderType = "";
+		
+		if(order instanceof SupplyOrder){
+			orderType = "supply order";
+			this.order = new SupplyOrder();
+		}
+		else if(order instanceof PurchaseOrder){
+			orderType = "purchase order";
+			this.order = new PurchaseOrder();
+		}
+		do{
+			System.out.println("\n0 - Cancel");
+			System.out.println("1 - Create new "+orderType);
+			System.out.println("2 - Show "+orderType+"s");
+			System.out.println("3 - Update active "+orderType);
+			System.out.println("4 - Automatically create "+orderType+"s");
+			System.out.println("5 - Process "+orderType);
+			menuOption = Keyboard.readInt();
+			switch(menuOption){
+			case 0: System.out.println("Exiting submenu.."); break;
+			case 1: createNewOrder(this.order);break;
+			case 2: displayOrderList(this.order); break;
+			case 3: stockControl.displayProductByCategory();  break;
+			case 4: removeProduct(); break;
+			case 5: break;
+			default: System.out.println("Invalid option! Try again!"); break;
+			}
+		}while(menuOption!=0);
+		menuOption = -1;	
+	}
+	
+	public void displayOrderList(Order order){
+		if(order instanceof SupplyOrder){
+			orderList = supplyOrderList;
+		}
+		else if(order instanceof PurchaseOrder){
+			orderList = purchaseOrderList;
+		}
+		
+		for(Order ord : orderList){
+			System.out.println("\nOrder id : "+ord.getOrderId());
+			for(Object object[] : ord.getProductList()){
+				System.out.println();
+				((Product)object[0]).displayDetail();
+			}
+
+			System.out.println("The total order is : "+ ((PurchaseOrder)ord).calculateTotalOrderValue()+" euro.");
+			System.out.println("Shipping price : "+((PurchaseOrder)ord).getShippingPrice()+"euro");
+			System.out.println("===============================================================");
+			System.out.println("Grand total is : "+(((PurchaseOrder)ord).calculateTotalOrderValue()+((PurchaseOrder)ord).getShippingPrice())+" euro\n");
+			
+		}
+	}
+	
+	
+	private Product getProductById(int id){
+		boolean isFound = false;
+		
+		for(Object object[] : stockControl.getStockList()){
+			product = (Product)object[0];
+			if(product.getProductID()==id){
+				isFound = true;
+				return product;
+			}
+			else{
+				isFound = false;
+			}
+		}
+		
+		if(!isFound){
+			System.out.println("Product ID not found! Try again!");
+			System.out.println("Enter product ID :");
+			menuOption = Keyboard.readInt();
+			getProductById(menuOption);
+		}
+		return null;
+	}
+	
+	
+	
+	
+	public void createNewOrder(Order order){
+		
+		if(order instanceof SupplyOrder){
+			orderList = supplyOrderList;
+		}
+		else if(order instanceof PurchaseOrder){
+			orderList = purchaseOrderList;
+			this.order = new PurchaseOrder();
+		}
+		
+		System.out.println("New Order");
+		
+		
+		
+		do{
+			orderObject = new Object[2];
+			System.out.println("\n0 - Cancel");
+			System.out.println("1 - Add product to order");
+			System.out.println("2 - Show products in current order");
+			System.out.println("3 - Show all products ");
+			menuOption = Keyboard.readInt();
+			switch(menuOption){
+			case 0: System.out.println("Exiting submenu.."); break;
+			case 1: System.out.println("Enter the ID of the product you want to order :");
+					valid = false;
+					do{
+						valid = isUserInputValid(Keyboard.readString());
+					}while(!valid);
+					do{
+						product = getProductById(menuOption);
+					}while(product==null);
+					orderObject[0] = product;
+					product.displayDetail();
+					System.out.println("\nEnter quantity :");
+					do{
+						valid = isUserInputValid(Keyboard.readString());
+					}while(!valid);
+					orderObject[1] = menuOption;
+					if(menuOption>0)
+						this.order.orderList.add(orderObject);
+					break;
+			case 2: displayOrderDetails(order); break;
+			case 3: displayAllProductDetails(); break;
+			default: System.out.println("Invalid option! Try again!"); break;
+			}
+			
+		}while(menuOption!=0);
+		menuOption = -1;
+		((PurchaseOrder)this.order).setShippingPrice();
+		orderList.add(this.order);
+		System.out.println("\nNew order with ID: "+this.order.orderId+" has been created.");
+	}
+	
+	
+	public void displayOrderDetails(Order order){
+		
+		if(order instanceof SupplyOrder){
+			
+		}
+		else if(order instanceof PurchaseOrder){
+			System.out.println("The following products are on order "+(order.orderId+1));
+		}
+		System.out.println("Product ID | Quantity | Product name ");
+		System.out.println("---------------------------------------------\n");
+		for(Object object[] : this.order.getProductList()){
+			System.out.print(((Product)object[0]).getProductID()+"             ");
+			System.out.print(object[1]+"           ");
+			System.out.print(((Product)object[0]).getProductName()+"\n");
+		}
+	}
+	
+	
+	/**
+	 * Product operations menu
+	 */
 	public void productOperation(){
 		do{
 			System.out.println("\n0 - Cancel");
@@ -79,9 +249,10 @@ public class RetailSystem {
 					else
 						System.out.println("Suppliers must be created first!");
 					break;
-			default: System.out.println("Invalid option! Try again!");
+			default: System.out.println("Invalid option! Try again!"); break;
 			}
 		}while(menuOption!=0);
+		menuOption = -1;
 	}
 	
 	public void updateProductQuantity(){		
@@ -196,13 +367,14 @@ public class RetailSystem {
 				            		break;
 				            case 4:	System.out.println("Enter new supplier price:");
 		            				product.setSupplierPrice(Double.parseDouble(Keyboard.readString()));
+		            				//product.setRetailPrice(product.getSupplierPrice()*(1+product.getProfitMargin()));
 		            				product.displayDetail();
 		            				break;
 				            case 5:	System.out.println("Enter new profit margin:");
 		            				product.setProfitMargin(Double.parseDouble(Keyboard.readString()));
 		            				product.displayDetail();
 		            				break;
-				            case 6: System.out.println("Not Yet Implemented!!");
+				            case 6: addSupplier(2);
 				            		break;
 				            
 				            default: System.out.println("Invalid choice. Try again."); break;
@@ -215,7 +387,6 @@ public class RetailSystem {
 				else{
 					isFound = false;
 				}
-    			
     			if(!isFound){
     				System.out.println("The product ID is not found. Try again!");
     			}
@@ -228,6 +399,7 @@ public class RetailSystem {
 				default : break;
 			}
 		}while(menuOption!=0);
+		menuOption = -1;
 	}
 	
 	public void displayAllProductDetails(){
@@ -293,35 +465,6 @@ public class RetailSystem {
 	
 	
 	
-	private Object[] getProductById(int id){
-		boolean isFound = false;
-			Object [] object = stockControl.findProductInStockList(id);
-			product = null;
-			if(object!=null)
-				product = ((Product)object [0]);
-			if(product!=null){
-				isFound = true;
-				System.out.println("Quantity in stock : "+(Integer)object[1]);
-				product.displayDetail();
-				
-				return object;
-			}
-			else{
-				isFound = false;
-			}
-		
-		if(!isFound){
-			System.out.println("Try again!");
-			id = Keyboard.readInt();
-			//getProductById(id);
-			return null;
-			//System.out.println("Goagain!");
-		}
-		System.out.println("not good");
-		return null;
-	}
-	
-	
 	public boolean isUserInputValid(String input){
 		
 		try{
@@ -355,49 +498,9 @@ public class RetailSystem {
 				System.out.println("Error!Invalid input. Only digits 0-9 are allowed! Try again!");
 			}
 		}while(!valid);
-		System.out.println("Please select one of the following options :");
-OUTER : do{
-			//System.out.println("0 - Cancel ");
-			System.out.println("\n1 - Find supplier by ID ");
-			System.out.println("2 - Show suppliers list");
-			System.out.println("3 - Create new supplier ");			
-			menuOption = Keyboard.readInt();
-			switch(menuOption){
-			case 1: valid = false;
-					if(supplierList.size()>0){
-						do{
-							System.out.println("Enter supplier ID or 0 to cancel:"); 
-							try{
-								menuOption = Integer.parseInt(Keyboard.readString());
-								
-								if(menuOption==0){
-									continue OUTER;
-								}
-								else{
-									person = getSupplierById(menuOption);
-							//		person.displayDetails();
-									valid = true;
-									menuOption = 0;
-								}
-							}
-							catch(NumberFormatException e){
-								System.out.println("Error!Invalid ");
-							}
-						}while(!valid);
-					}
-					else{
-						System.out.println("Supplier list is empty. Add supplier to the list first!");
-						break;
-					}
-					break;
-			case 2: displayPersonList(new Supplier()); break;
-			case 3: createNewPerson(new Supplier()); menuOption = 0; break;
-			default: System.out.println("Error! Invalid option! Only numbers 1-3 are valid.");break;
-			}		
-		}while(menuOption!=0);
-		menuOption=-1;
+		addSupplier(1);
 		product = new Product(productName, productDescription, productCategory, supplierPrice, (Supplier)person);
-		System.out.println("Product has been created.");
+		System.out.println("\nProduct has been created.");
 		valid = false;
 		do{
 			try{
@@ -419,9 +522,66 @@ OUTER : do{
 		System.out.println(quantity+" "+productName+" was successfully added to stock.");
 	}
 	
+	private void addSupplier(int option){
+		
+		System.out.println("Please select one of the following options :");
+		OUTER : do{
+					//System.out.println("0 - Cancel ");
+					System.out.println("\n1 - Find supplier by ID ");
+					System.out.println("2 - Show suppliers list");
+					System.out.println("3 - Create new supplier ");			
+					menuOption = Keyboard.readInt();
+					switch(menuOption){
+					case 1: valid = false;
+							if(supplierList.size()>0){
+								do{
+									System.out.println("Enter supplier ID or 0 to cancel:"); 
+									try{
+										menuOption = Integer.parseInt(Keyboard.readString());
+										
+										if(menuOption==0){
+											menuOption = -1;
+											continue OUTER;
+										}
+										else{
+											do{
+												person = getSupplierById(menuOption);
+											//System.out.println("null again");
+										}while(person==null);
+											if(option==2){
+												product.setSupplier((Supplier)person);
+												System.out.println("Supplier of the product has been changed.");
+											}
+											//person.displayDetails();
+											valid = true;
+											menuOption = 0;
+										}
+									}
+									catch(NumberFormatException e){
+										System.out.println("Error!Invalid ");
+									}
+								}while(!valid);
+							}
+							else{
+								System.out.println("Supplier list is empty. Add supplier to the list first!");
+								break;
+							}
+							break;
+					case 2: displayPersonList(new Supplier()); break;
+					case 3: createNewPerson(new Supplier()); 
+							menuOption = 0;
+							if(option==2){
+								product.setSupplier((Supplier)person);
+								System.out.println("Supplier of the product has been changed.");
+							}
+							break;
+					default: System.out.println("Error! Invalid option! Only numbers 1-3 are valid.");break;
+					}		
+				}while(menuOption!=0);
+		menuOption=-1;
+	}
 	
 	
-			
 	private Supplier getSupplierById(int id){
 		boolean isFound = false;
 		
@@ -434,11 +594,12 @@ OUTER : do{
 				isFound = false;
 			}
 		}
+		
 		if(!isFound){
 			System.out.println("Supplier ID not found! Try again!");
 			System.out.println("Enter supplier ID :");
-			id = Keyboard.readInt();
-			getSupplierById(id);
+			menuOption = Keyboard.readInt();
+			getSupplierById(menuOption);
 		}
 		return null;
 	}
@@ -564,7 +725,8 @@ OUTER : do{
 		System.out.println("3  - Supplier Menu");
 		System.out.println("4  - Product Menu");
 		System.out.println("5  - Display Stock Levels");
-		System.out.println("6  - Display Products\n\n\n");
+		System.out.println("6  - Display Products");
+		System.out.println("7  - Order Menu\n\n\n");
 		
 	}
 	
@@ -572,7 +734,7 @@ OUTER : do{
 		String personType = "";
 		
 
-		valid = true;
+		//valid = true;
 		if(person instanceof Customer){
 			//id = "CX";
 			personType = "customer";
@@ -612,6 +774,7 @@ OUTER : do{
 			default: System.out.println("Invalid option! Try again!");
 			}
 		}while(menuOption!=0);
+		menuOption = -1;
 	}
 	
 	

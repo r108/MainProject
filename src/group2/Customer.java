@@ -1,12 +1,24 @@
 package group2;
 
+/**
+ * @author Roland Katona
+ *
+ */
 public class Customer extends Person {
 
+	/**
+	 * Default constructor
+	 */
 	public Customer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @param name
+	 * @param email
+	 * @param contactNumber
+	 * @param address
+	 */
 	public Customer(String name, String email, String contactNumber, String address) {
 		super(name, email, contactNumber, address);
 	}
