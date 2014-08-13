@@ -12,6 +12,7 @@ public class StockControl {
 	private Object[] productAndQuantity;
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public static void main(String [] args){
 		StockControl c = new StockControl();
 		Supplier s = new Supplier("bob man bread", "a@b.c", "0896457123",
@@ -20,6 +21,11 @@ public class StockControl {
 		c.addNewProductToStockList(p, 20);
 		System.out.println(c.getStockListSize());
 	}
+=======
+	/**
+	 * Roland Katona
+	 */
+>>>>>>> origin/master
 =======
 	/**
 	 * Roland Katona

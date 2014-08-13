@@ -13,11 +13,17 @@ public class Person {
 	private static int uniqueId = 1;
 	private String contactNumber;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 	public static void main(String [] args){
 	
 	}
 	
+=======
+	/**
+	 * Default constructor
+	 */
+>>>>>>> origin/master
 =======
 	/**
 	 * Default constructor
@@ -39,6 +45,9 @@ public class Person {
 	 * @param contactNumber
 	 * @param address
 	 */
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
 	public Person(String name, String email, String contactNumber, String address) {
 		
