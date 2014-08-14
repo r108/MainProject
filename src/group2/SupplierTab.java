@@ -1,4 +1,4 @@
-package StoreManagementSystem;
+package group2;
 
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
@@ -119,7 +119,7 @@ public class SupplierTab extends JPanel {
 		addAllElements();
 	}
 	public void startCreationMode(){
-		JOptionPane.showInputDialog(addressField)
+		JOptionPane.showInputDialog(addressField);
 		btnCreateSupplier.setVisible(true);
 		
 		businessNameField.setVisible(true);

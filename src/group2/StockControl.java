@@ -1,4 +1,4 @@
-//package group2;
+package group2;
 
 import java.util.ArrayList;
 
@@ -11,8 +11,6 @@ public class StockControl {
 	private ArrayList<Object[]> list;
 	private Object[] productAndQuantity;
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
 	public static void main(String [] args){
 		StockControl c = new StockControl();
 		Supplier s = new Supplier("bob man bread", "a@b.c", "0896457123",
@@ -21,16 +19,10 @@ public class StockControl {
 		c.addNewProductToStockList(p, 20);
 		System.out.println(c.getStockListSize());
 	}
-=======
 	/**
 	 * Roland Katona
 	 */
->>>>>>> origin/master
-=======
-	/**
-	 * Roland Katona
-	 */
->>>>>>> origin/master
+
 	public StockControl(){
 		stockList = new ArrayList<Object[]>();
 		
