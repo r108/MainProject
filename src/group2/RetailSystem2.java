@@ -30,6 +30,8 @@ public class RetailSystem2 {
 		//automaticallyCreateCustomer();
 		automaticallyCreateStaff();
 		automaticallyCreateSupplier();
+		automaticallyCreateProducts();
+		automaticallyCreateCustomer();
 		
 		Login l = new Login(staffList, customerList, supplierList, purchaseOrderList, supplyOrderList);
 		 l.run();

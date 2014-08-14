@@ -63,7 +63,7 @@ public class MainDisplay extends JFrame {
 		tabbedPane.setBounds(10, 11, 824, 381);
 		contentPane.add(tabbedPane);
 		
-		CustomerTab tabbedPane_1 = new CustomerTab(customerList);
+		CustomerTab tabbedPane_1 = new CustomerTab();
 		SupplierTab supplierPane = new SupplierTab(supplierList);
 		tabbedPane.addTab("Customer", null, tabbedPane_1, null);
 		tabbedPane.addTab("Supplier", null, supplierPane, null);
