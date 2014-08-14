@@ -2,8 +2,10 @@ package group2;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class CustomerTab extends JPanel{
 	public ArrayList<Customer> customerList;
