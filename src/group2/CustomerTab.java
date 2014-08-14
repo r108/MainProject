@@ -1,7 +1,5 @@
 package group2;
 
-import java.util.ArrayList;
-
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
