@@ -49,6 +49,7 @@ public class RetailSystem {
 			displayMainMenu();
 			menuOption = Keyboard.readInt();
 			
+			//
 			switch(menuOption){
 			case 0: terminateProgram = true; System.out.println("Terminate Program.."); break;
 			case 1: personOperation(new Customer()); break;
