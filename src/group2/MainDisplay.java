@@ -25,13 +25,14 @@ public class MainDisplay extends JFrame {
 	private ArrayList<Supplier> supplierList;
 	private ArrayList<PurchaseOrder> purchaseOrderList;
 	private ArrayList<SupplyOrder> supplyOrderList;
+	private int accessLevel;
 	
 	/**
 	 * Launch the application.
 	 */
 	public void run() {
 		try {
-			MainDisplay frame = new MainDisplay(staffList, customerList, supplierList, purchaseOrderList, supplyOrderList);
+			MainDisplay frame = new MainDisplay(accessLevel, staffList, customerList, supplierList, purchaseOrderList, supplyOrderList);
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,8 +42,9 @@ public class MainDisplay extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainDisplay(ArrayList<Staff> staffList, ArrayList<Customer> customerList, ArrayList<Supplier> supplierList, 
+	public MainDisplay(int accessLevel,ArrayList<Staff> staffList, ArrayList<Customer> customerList, ArrayList<Supplier> supplierList, 
 		     ArrayList<PurchaseOrder> purchaseOrderList,  ArrayList<SupplyOrder> supplyOrderList) {
+		this.accessLevel = accessLevel;
 		this.staffList = staffList;
 		this.customerList = customerList;
 		this.supplierList = supplierList;
@@ -63,8 +65,8 @@ public class MainDisplay extends JFrame {
 		tabbedPane.setBounds(10, 11, 824, 381);
 		contentPane.add(tabbedPane);
 		
-		CustomerTab tabbedPane_1 = new CustomerTab(customerList);
-		SupplierTab supplierPane = new SupplierTab(supplierList);
+		CustomerTab tabbedPane_1 = new CustomerTab(customerList, accessLevel);
+		SupplierTab supplierPane = new SupplierTab(supplierList, accessLevel);
 		tabbedPane.addTab("Customer", null, tabbedPane_1, null);
 		tabbedPane.addTab("Supplier", null, supplierPane, null);
 	}

@@ -22,7 +22,7 @@ public class SupplierTab extends JPanel {
 	protected ArrayList<String>listItems;
 	private Supplier p = new Supplier();
 	private Supplier newSupplier;
-	private int selectedIndex = 0;
+	private int selectedIndex = 0, accessLevel = 0;
 	
 	private JButton btnNewSupplier = new JButton("New Supplier");
 	private JButton btnEditSupplier = new JButton("Edit supplier");
@@ -50,14 +50,18 @@ public class SupplierTab extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public SupplierTab(ArrayList<Supplier> supplierList) {
+	public SupplierTab(ArrayList<Supplier> supplierList, int accessLevel) {
+		//Set the access level for the user
+		this.accessLevel = accessLevel;
+		
+		//Initialize components
 		initialize(supplierList);
 		
 		//Change the text in the text box
 		comboBox.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent arg0) {
-					Supplier pers = new Supplier();
 					selectedIndex = comboBox.getSelectedIndex();
+					Supplier pers = suppliers.get(selectedIndex);
 					p = pers;
 					textArea.setText("Business name: \t" 	+pers.getName()
 							 +"\nSupplier ID: \t\t"			+pers.getId()
@@ -205,6 +209,48 @@ public class SupplierTab extends JPanel {
 	}
 	
 	public void initialize(ArrayList<Supplier> supplierList){
+		
+		//Set the initial visiblity of elements
+		lblBusinessName.setVisible(false);
+		lblSupplierId.setVisible(false);
+		lblContact.setVisible(false);
+		lblAddress.setVisible(false);
+		lblEmail.setVisible(false);
+		lblVatNumber.setVisible(false);
+		
+		businessNameField.setVisible(false);
+		supplierIdField.setVisible(false);
+		vatNumField.setVisible(false);
+		addressField.setVisible(false);
+		contactField.setVisible(false);
+		emailField.setVisible(false);
+		
+		//Buttons only visble within a mode
+		btnDoneEditing.setVisible(false);
+		btnCreateSupplier.setVisible(false);
+		
+		//Buttons visible according to access level
+		switch (accessLevel){
+			case 1: {
+				btnEditSupplier.setVisible(false);
+				btnDeleteSupplier.setVisible(false);
+				btnNewSupplier.setVisible(false);
+				break;
+			}
+			case 2:{
+				btnEditSupplier.setVisible(true);
+				btnDeleteSupplier.setVisible(true);
+				btnNewSupplier.setVisible(true);
+				break;
+			}
+			default: {
+				btnEditSupplier.setVisible(false);
+				btnDeleteSupplier.setVisible(false);
+				btnNewSupplier.setVisible(false);
+				break;
+			}
+		}
+		
 		//Set the boundaries for each element
 		addressField.setBounds(509, 140, 192, 62);
 		addressField.setColumns(10);
@@ -222,7 +268,6 @@ public class SupplierTab extends JPanel {
 		btnEditSupplier.setBounds(201, 260, 131, 23);
 		btnDeleteSupplier.setBounds(342, 260, 131, 23);
 		btnDoneEditing.setBounds(565, 219, 136, 23);
-		btnDoneEditing.setBounds(565, 219, 136, 23);
 		btnNewSupplier.setBounds(60, 260, 131, 23);
 		btnCreateSupplier.setBounds(565, 219, 136, 23);
 		
@@ -237,7 +282,7 @@ public class SupplierTab extends JPanel {
 		updateComboBox();
 		comboBox.setBounds(60, 229, 264, 20);
 		
-		//Set the inital choice for the combo box
+		//Set the initial choice for the combo box
 		p = suppliers.get(comboBox.getSelectedIndex());
 		setLayout(null);
 		
@@ -255,23 +300,6 @@ public class SupplierTab extends JPanel {
 			}
 		});
 		
-		//Set the initial visiblity of elements
-		lblBusinessName.setVisible(false);
-		lblSupplierId.setVisible(false);
-		lblContact.setVisible(false);
-		lblAddress.setVisible(false);
-		lblEmail.setVisible(false);
-		lblVatNumber.setVisible(false);
-		
-		businessNameField.setVisible(false);
-		supplierIdField.setVisible(false);
-		vatNumField.setVisible(false);
-		addressField.setVisible(false);
-		contactField.setVisible(false);
-		emailField.setVisible(false);
-		
-		btnDoneEditing.setVisible(false);
-		btnCreateSupplier.setVisible(false);
 	}
 	public void updateComboBox(){
 		listItems = new ArrayList<String>();

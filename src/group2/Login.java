@@ -42,6 +42,7 @@ public class Login extends JFrame {
 	private String usernameText = new String();
 	private final Action action = new SwingAction();
 	private boolean login;
+	private int accessLevel = 0;
 
 	/**
 	 * Launches the window for the login screen
@@ -122,12 +123,9 @@ public class Login extends JFrame {
 				}
 				if(user != null){
 					char [] validate = passwordField.getPassword();
-					login = ((Staff)user).passwordValidation(validate);
+					login = user.passwordValidation(validate);
+					accessLevel = user.getAccessLevel();
 				}
-				else{
-					JOptionPane.showMessageDialog(null,"Invalid username!");
-				}
-					
 			}
 		});
 		
@@ -145,12 +143,12 @@ public class Login extends JFrame {
 				JOptionPane.showMessageDialog(null,"Login successful");
 				setVisible(false);
 				dispose();
-				MainDisplay display = new MainDisplay(staffList, customerList, supplierList, purchaseOrderList, supplyOrderList);
+				MainDisplay display = new MainDisplay(accessLevel, staffList, customerList, supplierList, purchaseOrderList, supplyOrderList);
 				//Access level
 				display.run();
 			}
 			else
-				JOptionPane.showMessageDialog(null,"Invalid password!");
+				JOptionPane.showMessageDialog(null,"Invalid username or password!");
 		}
 	}
 }
