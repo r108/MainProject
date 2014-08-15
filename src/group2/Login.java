@@ -1,6 +1,4 @@
 package group2;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,11 +13,10 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JToolBar;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Launches a GUI for entering a username and password, with
@@ -34,6 +31,7 @@ public class Login extends JFrame {
 	private JTextField username;
 	private JLabel lblNewLabel;
 	private JPasswordField passwordField;
+	private JButton btnNewButton = new JButton();
 	
 	private ArrayList<Staff> staffList;
 	private ArrayList<Customer>customerList;
@@ -93,6 +91,14 @@ public class Login extends JFrame {
 		
 		//Setup code for the password field
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_ENTER){
+					btnNewButton.doClick();
+				}
+			}
+		});
 		passwordField.setBounds(162, 140, 86, 20);
 		contentPane.add(passwordField);
 		
@@ -102,7 +108,7 @@ public class Login extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		//Login button and event handler
-		JButton btnNewButton = new JButton();
+		
 		btnNewButton.setAction(action);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

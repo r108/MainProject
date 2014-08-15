@@ -6,13 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.Choice;
-import java.awt.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -61,16 +56,16 @@ public class SupplierTab extends JPanel {
 		//Change the text in the text box
 		comboBox.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent arg0) {
-				Supplier pers = new Supplier();
-				selectedIndex = comboBox.getSelectedIndex();
-				pers = suppliers.get(selectedIndex);
-				p = pers;
-				textArea.setText("Business name: \t" 	+pers.getName()
-						 +"\nSupplier ID: \t\t"			+pers.getId()
-						 +"\nVat number: \t\t" 			+pers.getVatNumber()
-						 +"\nContact name: \t\t" 		+pers.getContactName()
-						 +"\nEmail: \t\t" 				+pers.getEmail()
-						 +"\nAddress: \t\t" 			+pers.getAddress());
+					Supplier pers = new Supplier();
+					selectedIndex = comboBox.getSelectedIndex();
+					p = pers;
+					textArea.setText("Business name: \t" 	+pers.getName()
+							 +"\nSupplier ID: \t\t"			+pers.getId()
+							 +"\nVat number: \t\t" 			+pers.getVatNumber()
+							 +"\nContact name: \t\t" 		+pers.getContactName()
+							 +"\nEmail: \t\t" 				+pers.getEmail()
+							 +"\nAddress: \t\t" 			+pers.getAddress());
+				
 			}
 		});
 		
@@ -90,9 +85,9 @@ public class SupplierTab extends JPanel {
 				newSupplier.setAddress(addressField.getText());
 				newSupplier.setContactName(contactField.getText());
 				newSupplier.setEmail(emailField.getText());
-				suppliers.add(suppliers.size(), newSupplier);
+				suppliers.add(newSupplier);
+				comboBox.addItem(newSupplier.getName());
 				endCreationMode();
-				updateComboBox();
 			}
 		});
 		
@@ -113,6 +108,7 @@ public class SupplierTab extends JPanel {
 		//Remove a supplier (BLANK)
 		btnDeleteSupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+		
 			}
 		});
 		
@@ -120,7 +116,6 @@ public class SupplierTab extends JPanel {
 		addAllElements();
 	}
 	public void startCreationMode(){
-		JOptionPane.showInputDialog(addressField);
 		btnCreateSupplier.setVisible(true);
 		
 		businessNameField.setVisible(true);
