@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-
+ 
 public class SupplierTab extends JPanel {
 	protected ArrayList<Supplier>suppliers = new ArrayList<Supplier>();
 	protected ArrayList<String>listItems;

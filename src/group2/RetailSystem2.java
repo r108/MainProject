@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
-
+ 
 public class RetailSystem2 {
 	private JPanel contentPane;
 	

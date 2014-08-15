@@ -17,7 +17,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+ 
 /**
  * Launches a GUI for entering a username and password, with
  * password validation taking place within the Staff class.

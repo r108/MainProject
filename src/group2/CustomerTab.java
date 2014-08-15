@@ -9,5 +9,4 @@ public class CustomerTab extends JPanel{
 	public CustomerTab(ArrayList<Customer> customerList) {
 		this.customerList = customerList;
 	}
-
 }
