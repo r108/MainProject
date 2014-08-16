@@ -1,12 +1,12 @@
 package group2;
-//test
-//another test comment
+
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeEvent; 
  
 public class SupplierTab extends JPanel {
 	protected ArrayList<Supplier>suppliers = new ArrayList<Supplier>();
@@ -60,8 +60,14 @@ public class SupplierTab extends JPanel {
 		//Change the text in the text box
 		comboBox.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent arg0) {
+				if(suppliers.size()>0){
 					selectedIndex = comboBox.getSelectedIndex();
-					Supplier pers = suppliers.get(selectedIndex);
+					Supplier pers = new Supplier();
+					for(Supplier i:suppliers){
+						if(i.getName().equals(comboBox.getSelectedItem().toString())){
+							pers = i; break;
+						}	
+					}
 					p = pers;
 					textArea.setText("Business name: \t" 	+pers.getName()
 							 +"\nSupplier ID: \t\t"			+pers.getId()
@@ -69,7 +75,9 @@ public class SupplierTab extends JPanel {
 							 +"\nContact name: \t\t" 		+pers.getContactName()
 							 +"\nEmail: \t\t" 				+pers.getEmail()
 							 +"\nAddress: \t\t" 			+pers.getAddress());
-				
+				}
+				else
+					textArea.setVisible(false);
 			}
 		});
 		
@@ -112,7 +120,21 @@ public class SupplierTab extends JPanel {
 		//Remove a supplier (BLANK)
 		btnDeleteSupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		
+				if(suppliers.size() > 0){
+					int index = 0;
+	    			for(Supplier supplier : suppliers){
+	    				if(supplier.getName().equals(comboBox.getSelectedItem().toString())){
+	    						suppliers.remove(supplier);
+	    						JOptionPane.showMessageDialog(null, "Supplier removed");
+	    						break;
+	    					}
+	    				else
+	    					index++;
+	    				}
+	    			comboBox.removeItemAt(index);
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Supplier list is empty!");
 			}
 		});
 		
@@ -287,13 +309,15 @@ public class SupplierTab extends JPanel {
 		setLayout(null);
 		
 		//Initialize the text in the text box
-		textArea.setText("Business name: \t" 	+p.getName()
-				 +"\nSupplier ID: \t\t"			+p.getId()
-				 +"\nVat number: \t\t" 			+p.getVatNumber()
-				 +"\nContact name: \t\t" 		+p.getContactName()
-				 +"\nEmail: \t\t" 				+p.getEmail()
-				 +"\nAddress: \t\t" 			+p.getAddress());
-		textArea.setEditable(false);
+		if(suppliers.size()>0){
+			textArea.setText("Business name: \t" 	+p.getName()
+					 +"\nSupplier ID: \t\t"			+p.getId()
+					 +"\nVat number: \t\t" 			+p.getVatNumber()
+					 +"\nContact name: \t\t" 		+p.getContactName()
+					 +"\nEmail: \t\t" 				+p.getEmail()
+					 +"\nAddress: \t\t" 			+p.getAddress());
+			textArea.setEditable(false);
+		}
 		
 		addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent arg0) {
@@ -303,7 +327,7 @@ public class SupplierTab extends JPanel {
 	}
 	public void updateComboBox(){
 		listItems = new ArrayList<String>();
-		for(Person i:suppliers)
+		for(Supplier i:suppliers)
 			listItems.add(i.getName());
 		
 		String [] items = new String[listItems.size()];

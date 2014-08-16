@@ -66,8 +66,6 @@ public class RetailSystem {
 		}while(!terminateProgram);
 	}
 	
-	
-	
 	public void orderOperation(Order order){
 		String orderType = "";
 		
@@ -123,7 +121,6 @@ public class RetailSystem {
 		}
 	}
 	
-	
 	private Product getProductById(int id){
 		boolean isFound = false;
 		
@@ -147,9 +144,6 @@ public class RetailSystem {
 		return null;
 	}
 	
-	
-	
-	
 	public void createNewOrder(Order order){
 		
 		if(order instanceof SupplyOrder){
@@ -161,8 +155,6 @@ public class RetailSystem {
 		}
 		
 		System.out.println("New Order");
-		
-		
 		
 		do{
 			orderObject = new Object[2];
@@ -203,9 +195,7 @@ public class RetailSystem {
 		System.out.println("\nNew order with ID: "+this.order.orderId+" has been created.");
 	}
 	
-	
 	public void displayOrderDetails(Order order){
-		
 		if(order instanceof SupplyOrder){
 			
 		}
@@ -220,7 +210,6 @@ public class RetailSystem {
 			System.out.print(((Product)object[0]).getProductName()+"\n");
 		}
 	}
-	
 	
 	/**
 	 * Product operations menu
@@ -463,9 +452,6 @@ public class RetailSystem {
 		menuOption=-1;	
 	}
 	
-	
-	
-	
 	public boolean isUserInputValid(String input){
 		
 		try{
@@ -582,7 +568,6 @@ public class RetailSystem {
 		menuOption=-1;
 	}
 	
-	
 	private Supplier getSupplierById(int id){
 		boolean isFound = false;
 		
@@ -659,9 +644,6 @@ public class RetailSystem {
 		stockControl.addNewProductToStockList(product, 6);
 	}
 	
-	
-	
-	
 	private Supplier getRandomSupplier(){
 		int randomSupplier = random.nextInt((supplierList.size() - 1) + 1);
 		return (Supplier)supplierList.get(randomSupplier);		
@@ -733,8 +715,7 @@ public class RetailSystem {
 	
 	public void personOperation(Person person){
 		String personType = "";
-		
-
+	
 		//valid = true;
 		if(person instanceof Customer){
 			//id = "CX";
@@ -777,7 +758,6 @@ public class RetailSystem {
 		}while(menuOption!=0);
 		menuOption = -1;
 	}
-	
 	
 	public void createNewPerson(Person pers){
 		person = pers;
@@ -990,7 +970,6 @@ public class RetailSystem {
 			System.out.println("The "+personType+"s list is empty.\n");	
 	}
 	
-	
 	public void removePerson(Person pers){
 		String personType = "";
 		if (pers instanceof Customer){
@@ -1062,8 +1041,6 @@ public class RetailSystem {
 		}while(menuOption!=0);
 		menuOption=-1;	
 	}
-	
-	
 	
 	public static void main(String args[]){
 		new RetailSystem();
