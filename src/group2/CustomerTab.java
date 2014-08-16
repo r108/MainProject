@@ -1,6 +1,8 @@
 package group2;
 
 import java.util.ArrayList;
+import javax.swing.JPanel;
+
 public class CustomerTab extends JPanel{
 	private ArrayList<Customer> customers;
 	private int accessLevel = 0;
