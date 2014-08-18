@@ -105,9 +105,9 @@ public class RetailSystem2 {
 	}
 	
 	private void automaticallyCreateStaff(){
-		Staff person = new Staff("Jim","jim@msn.com","08712345","123 Main Street","pass",1);
+		Staff person = new Staff("j","jim@msn.com","08712345","123 Main Street","p",2);
 		staffList.add(person);
-		person = new Staff("John","john@msn.com","08609382","38 Main Street","password",2);
+		person = new Staff("John","john@msn.com","08609382","38 Main Street","password",1);
 		staffList.add(person);
 	}
 	

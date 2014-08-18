@@ -7,6 +7,7 @@ package group2;
 public class Supplier extends Person {
 	private  String contactName;
 	private  String vatNumber;
+	private  int supplierId, defaultId = 1;
 	
 	/**
 	 * Default constructor
@@ -14,6 +15,7 @@ public class Supplier extends Person {
 	public Supplier() {
 		super();
 		vatNumber = "";
+		supplierId = defaultId++;
 	}
 
 	/**
@@ -53,6 +55,9 @@ public class Supplier extends Person {
 		return contactName;
 	}
 	
+	public int getSupplierId() {
+		return supplierId;
+	}
 
 	/**
 	 * @param contactName

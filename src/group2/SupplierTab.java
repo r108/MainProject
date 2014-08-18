@@ -61,22 +61,20 @@ public class SupplierTab extends JPanel {
 		comboBox.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent arg0) {
 				if(suppliers.size()>0){
+					textArea.setVisible(true);
 					selectedIndex = comboBox.getSelectedIndex();
-					Supplier pers = new Supplier();
-					for(Supplier i:suppliers){
-						if(i.getName().equals(comboBox.getSelectedItem().toString())){
-							pers = i; break;
-						}	
-					}
-					p = pers;
+					Supplier pers = suppliers.get(selectedIndex);
+					
+					
+					textArea.setVisible(true);
 					textArea.setText("Business name: \t" 	+pers.getName()
-							 +"\nSupplier ID: \t\t"			+pers.getId()
+							 +"\nSupplier ID: \t\t"			+pers.getSupplierId()
 							 +"\nVat number: \t\t" 			+pers.getVatNumber()
 							 +"\nContact name: \t\t" 		+pers.getContactName()
 							 +"\nEmail: \t\t" 				+pers.getEmail()
 							 +"\nAddress: \t\t" 			+pers.getAddress());
 				}
-				else
+				else if(suppliers.size()==0)
 					textArea.setVisible(false);
 			}
 		});
@@ -106,7 +104,10 @@ public class SupplierTab extends JPanel {
 		//Edit a supplier
 		btnEditSupplier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				startEditMode();
+				if(suppliers.size()==0)
+					JOptionPane.showMessageDialog(null, "No supplier to edit!!");
+				else
+					startEditMode();
 			}
 		});
 		
@@ -123,14 +124,14 @@ public class SupplierTab extends JPanel {
 				if(suppliers.size() > 0){
 					int index = 0;
 	    			for(Supplier supplier : suppliers){
-	    				if(supplier.getName().equals(comboBox.getSelectedItem().toString())){
-	    						suppliers.remove(supplier);
+	    				if(index == selectedIndex){
+	    						suppliers.remove(index);
 	    						JOptionPane.showMessageDialog(null, "Supplier removed");
 	    						break;
 	    					}
 	    				else
 	    					index++;
-	    				}
+	    			}
 	    			comboBox.removeItemAt(index);
 				}
 				else
@@ -143,93 +144,63 @@ public class SupplierTab extends JPanel {
 	}
 	public void startCreationMode(){
 		btnCreateSupplier.setVisible(true);
+		setFieldVisibility(true);
+	}
+	public void setFieldVisibility(boolean flag){
+		businessNameField.setVisible(flag);
+		vatNumField.setVisible(flag);
+		addressField.setVisible(flag);
+		contactField.setVisible(flag);
+		emailField.setVisible(flag);
 		
-		businessNameField.setVisible(true);
-		vatNumField.setVisible(true);
-		addressField.setVisible(true);
-		contactField.setVisible(true);
-		emailField.setVisible(true);
-		
-		lblBusinessName.setVisible(true);
-		lblVatNumber.setVisible(true);
-		lblContact.setVisible(true);
-		lblAddress.setVisible(true);
-		lblEmail.setVisible(true);
+		lblBusinessName.setVisible(flag);
+		lblVatNumber.setVisible(flag);
+		lblContact.setVisible(flag);
+		lblAddress.setVisible(flag);
+		lblEmail.setVisible(flag);
 	}
 	public void endCreationMode(){
 		btnCreateSupplier.setVisible(false);
-		
-		businessNameField.setVisible(false);
-		vatNumField.setVisible(false);
-		addressField.setVisible(false);
-		contactField.setVisible(false);
-		emailField.setVisible(false);
-		
-		lblBusinessName.setVisible(false);
-		lblVatNumber.setVisible(false);
-		lblContact.setVisible(false);
-		lblAddress.setVisible(false);
-		lblEmail.setVisible(false);
+		setFieldVisibility(false);
 	}
 	public void startEditMode(){
 		btnDoneEditing.setVisible(true);
-		
-		businessNameField.setVisible(true);
-		vatNumField.setVisible(true);
-		addressField.setVisible(true);
-		contactField.setVisible(true);
-		emailField.setVisible(true);
-		
-		lblBusinessName.setVisible(true);
-		lblVatNumber.setVisible(true);
-		lblContact.setVisible(true);
-		lblAddress.setVisible(true);
-		lblEmail.setVisible(true);
+		setFieldVisibility(true);
 	}
 	
 	public void endEditMode(){
 		btnDoneEditing.setVisible(false);
-		
-		businessNameField.setVisible(false);
-		vatNumField.setVisible(false);
-		addressField.setVisible(false);
-		contactField.setVisible(false);
-		emailField.setVisible(false);
-		
-		lblBusinessName.setVisible(false);
-		lblVatNumber.setVisible(false);
-		lblContact.setVisible(false);
-		lblAddress.setVisible(false);
-		lblEmail.setVisible(false);
-		
+		setFieldVisibility(false);
+		Supplier sup = suppliers.get(selectedIndex);
 		if(!businessNameField.getText().equals(""))
-			p.setName(businessNameField.getText());
-		else
-			p.setName(suppliers.get(selectedIndex).getName());
+			sup.setName(businessNameField.getText());
+		/*		else
+			sup.setName(suppliers.get(selectedIndex).getName());*/
 		
 		if(!vatNumField.getText().equals(""))
-			p.setVatNumber(vatNumField.getText());
-		else
-			p.setVatNumber(suppliers.get(selectedIndex).getVatNumber());
+			sup.setVatNumber(vatNumField.getText());
+		/*		else
+			sup.setVatNumber(suppliers.get(selectedIndex).getVatNumber());*/
 		
 		if(!addressField.getText().equals(""))
-			p.setAddress(addressField.getText());
-		else
-			p.setAddress(suppliers.get(selectedIndex).getAddress());
+			sup.setAddress(addressField.getText());
+		/*		else
+			sup.setAddress(suppliers.get(selectedIndex).getAddress());*/
 		
 		if(!contactField.getText().equals(""))
-			p.setContactName(contactField.getText());
-		else
-			p.setContactName(suppliers.get(selectedIndex).getContactName());
+			sup.setContactName(contactField.getText());
+		/*		else
+			sup.setContactName(suppliers.get(selectedIndex).getContactName());*/
 		
 		if(!emailField.getText().equals(""))
-			p.setEmail(emailField.getText());
-		else
-			p.setEmail(suppliers.get(selectedIndex).getEmail());
+			sup.setEmail(emailField.getText());
+		/*		else
+			sup.setEmail(suppliers.get(selectedIndex).getEmail());*/
 		
-		suppliers.set(selectedIndex, p);
+		//listItems.set(selectedIndex, sup.getName());
+		suppliers.set(selectedIndex, sup);
+		editComboBox(sup.getName(), selectedIndex);
 	}
-	
 	public void initialize(ArrayList<Supplier> supplierList){
 		
 		//Set the initial visiblity of elements
@@ -247,7 +218,7 @@ public class SupplierTab extends JPanel {
 		contactField.setVisible(false);
 		emailField.setVisible(false);
 		
-		//Buttons only visble within a mode
+		//Buttons only visible within a mode
 		btnDoneEditing.setVisible(false);
 		btnCreateSupplier.setVisible(false);
 		
@@ -301,7 +272,7 @@ public class SupplierTab extends JPanel {
 		
 		//Set up the text in the combo box
 		this.suppliers = supplierList;
-		updateComboBox();
+		initializeComboBox();
 		comboBox.setBounds(60, 229, 264, 20);
 		
 		//Set the initial choice for the combo box
@@ -325,7 +296,8 @@ public class SupplierTab extends JPanel {
 		});
 		
 	}
-	public void updateComboBox(){
+	public void initializeComboBox(){
+		
 		listItems = new ArrayList<String>();
 		for(Supplier i:suppliers)
 			listItems.add(i.getName());
@@ -336,7 +308,21 @@ public class SupplierTab extends JPanel {
 			items[index++] = i;
 		
 		comboBox = new JComboBox(items);
+		comboBox.setEditable(true);
 	}
+	public void editComboBox(String str, int index){
+		listItems.set(index, str);
+		
+		String [] items = new String[listItems.size()];
+		int x = 0;
+		for(String i: listItems)
+			items[x++] = i;
+		
+		comboBox.setEditable(true);
+		comboBox = new JComboBox(items);
+		comboBox.setEditable(false);
+	}
+	
 	public void addAllElements(){
 		add(btnNewSupplier);
 		add(btnDeleteSupplier);
