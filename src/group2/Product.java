@@ -1,5 +1,7 @@
 package group2;
 
+import person.Supplier;
+
 /**
  * @author Roland Katona
  *

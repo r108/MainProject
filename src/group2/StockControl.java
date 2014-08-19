@@ -11,22 +11,42 @@ public class StockControl {
 	private ArrayList<Object[]> list;
 	private Object[] productAndQuantity;
 	
-	public static void main(String [] args){
-		StockControl c = new StockControl();
-		Supplier s = new Supplier("bob man bread", "a@b.c", "0896457123",
-			"church road, newtown, co laois","bob lynch", "06876453j");
-		Product p = new Product("bread","a loaf of bread", "bakery",0.40,s);
-		c.addNewProductToStockList(p, 20);
-		System.out.println(c.getStockListSize());
-	}
+	
+	private Product product;
+	private int menuOption;
+	
 	/**
 	 * Roland Katona
 	 */
-
 	public StockControl(){
 		stockList = new ArrayList<Object[]>();
 		
 	}
+	
+	
+	private Product getProductById(int id){
+		boolean isFound = false;
+		
+		for(Object object[] : getStockList()){
+			product = (Product)object[0];
+			if(product.getProductID()==id){
+				isFound = true;
+				return product;
+			}
+			else{
+				isFound = false;
+			}
+		}
+		
+		if(!isFound){
+			System.out.println("Product ID not found! Try again!");
+			System.out.println("Enter product ID :");
+			menuOption = Keyboard.readInt();
+			getProductById(menuOption);
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * @return stockList.size()
