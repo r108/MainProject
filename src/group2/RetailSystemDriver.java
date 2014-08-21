@@ -80,8 +80,8 @@ public class RetailSystemDriver {
 		personDB.automaticallyCreateStaff();
 		personDB.automaticallyCreateSupplier();
 		personDB.automaticallyCreateCustomer();
-		automaticallyCreateProducts();
 		stockControl = new StockControl();
+		automaticallyCreateProducts();
 
 		new Login(personDB, stockControl);
 	}
@@ -97,7 +97,7 @@ public class RetailSystemDriver {
 		stockControl.addNewProductToStockList(product, 22);
 		product = new Product(
 				"Apple MacBook Pro",
-				"2.0GHz Intel Core i7 - 4 GB RAM - 1,280x800-pixel 15inches display - 500 GB SSD - OSX 10.9.3 Mawericks",
+				"2.0GHz Intel Core i7 - 4 GB RAM - 1,280x800-pixel 15inches display - 500 GB SSD - OSX 10.9.3 Mavericks",
 				"Laptop", 1000, personDB.getRandomSupplier());
 		stockControl.addNewProductToStockList(product, 5);
 		product = new Product(

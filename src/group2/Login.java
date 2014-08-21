@@ -13,6 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import order.Account;
 import person.Person;
 import person.Staff;
 import personTabGUI.GUI;
@@ -29,6 +30,7 @@ public class Login extends JFrame {
 	private PersonDB personDB;
 	private StockControl stockControl;
 	private ArrayList<Person> staffList;
+	private Account accounts;
 	private boolean login;
 
 	/**

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * 
  * @author Conor
  */
-public class Accounting {
+public class Account {
 	private ArrayList<SupplyOrder> supplyOrderList;
 	private ArrayList<PurchaseOrder> purchaseOrderList;
 	public double totalSales;
@@ -16,7 +16,7 @@ public class Accounting {
 	/**
 	 * Accounting constructor
 	 */
-	public Accounting(ArrayList<PurchaseOrder> purchaseOrderList,
+	public Account(ArrayList<PurchaseOrder> purchaseOrderList,
 			ArrayList<SupplyOrder> supplyOrderList) {
 		this.totalPurchases = 0;
 		this.totalSales = 0;
@@ -68,6 +68,17 @@ public class Accounting {
 		for (PurchaseOrder i : purchaseOrderList) {
 			totalPurchases += i.getTotalPrice();
 		}
+	}
+
+	public ArrayList<PurchaseOrder> autoCreatePurchaseOrders() {
+		ArrayList<PurchaseOrder> purchases = new ArrayList<PurchaseOrder>();
+		return purchases;
+	}
+
+	public ArrayList<SupplyOrder> autoCreateSupplyOrders() {
+		ArrayList<SupplyOrder> supplies = new ArrayList<SupplyOrder>();
+
+		return supplies;
 	}
 
 }
