@@ -1,7 +1,6 @@
 package personTabGUI;
 
 import group2.PersonDB;
-import group2.ProductTab;
 import group2.StockControl;
 
 import java.awt.SystemColor;

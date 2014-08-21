@@ -79,6 +79,8 @@ public class Login extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			String	usernameText = username.getText();
 			Staff user = null;
+			
+			//Check if the user exists
 			for(Person person:staffList){
 				if(person.getName().equals(usernameText)){
 					user = (Staff)person;
@@ -86,12 +88,19 @@ public class Login extends JFrame {
 				}	
 			}
 			if(user != null){
+				
+				//Validate the password
 				char [] validate = passwordField.getPassword();
 				login = ((Staff)user).passwordValidation(validate);
+				
+				/*If the password is valid, set up the main application the 
+				 *close the login screen
+				 */
 				if(login){
+					
+					//If the user is an admin, grant them privileged access
 					if(((Staff)user).getAccessLevel()==2){
 						RetailSystemDriver.setPriviledged(true);
-						System.out.println("Priviledged access granted!");
 					}
 					
 					JOptionPane.showMessageDialog(null,"Login successful!");
@@ -103,11 +112,11 @@ public class Login extends JFrame {
 				else
 					JOptionPane.showMessageDialog(null,"Wrong Password!");
 			}
-			else{
-				JOptionPane.showMessageDialog(null,"Invalid username!");
-			}		
+			else
+				JOptionPane.showMessageDialog(null,"Invalid username!");		
 		}
 	});
+		
 	//Add the login button to the panel
 	btnNewButton.setBounds(162, 205, 89, 23);
 	contentPane.add(btnNewButton);

@@ -33,8 +33,8 @@ public class StaffTab extends PersonTab{
 		super.setTextField(index, list);
 			
 		accessLevelField.setText(""+((Staff)person).getAccessLevel());
-		passwordField1.setText(((Staff)person).getPassword());
-		passwordField2.setText(((Staff)person).getPassword());
+		//passwordField1.setText(((Staff)person).getPassword());
+		//passwordField2.setText(((Staff)person).getPassword());
 		addItemsToCombobox(personDB.getStaffList());
 		comboBox.setSelectedIndex(index);
 		revalidate();
@@ -108,8 +108,6 @@ public class StaffTab extends PersonTab{
 		super.setFieldEditable(editable);	
 		accessLevelField.setEditable(editable);
 	}
-	
-	
 	
 	public void personDetailsForm(){	
 		super.personDetailsForm();
@@ -240,7 +238,7 @@ public class StaffTab extends PersonTab{
 		
 		if(valid){
 			//super.actionPerformed(e);	
-			togglePasswordField();
+			//togglePasswordField();
 			setFieldEditable(false);
 			valid = false;
 		}
@@ -248,18 +246,18 @@ public class StaffTab extends PersonTab{
 			clearTextFields(personDB.getStaffList());
 			super.actionPerformed(e);
 			setFieldEditable(true);
-			togglePasswordField();
+			//togglePasswordField();
 				
 		}	
 		if(e.getSource()==editPersonButton){	
 			//super.actionPerformed(e);
-			togglePasswordField();
+			//togglePasswordField();
 			setFieldEditable(true);	
 		}	
 		if(e.getSource()==cancelButton){
 			
 			setFieldEditable(false);
-			togglePasswordField();
+			//togglePasswordField();
 			setTextField(personDB.getStaffList().size()-1,personDB.getStaffList());	
 			if(!(personDB.getStaffList().size()>0))
 				clearTextFields(personDB.getStaffList());
@@ -267,7 +265,7 @@ public class StaffTab extends PersonTab{
 		if(e.getSource()==cancelEditButton){		
 			setTextField(comboBox.getSelectedIndex(),personDB.getStaffList());
 			setFieldEditable(false);
-			togglePasswordField();	
+			//togglePasswordField();	
 			if(!(personDB.getStaffList().size()>0))
 				clearTextFields(personDB.getStaffList());
 		}
