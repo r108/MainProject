@@ -24,20 +24,32 @@ public class PersonDB {
 		random = new Random();
 		
 	}
-	
+	/**
+	 * @return A list of customers
+	 */
 	public ArrayList<Person> getCustomerList() {
 		return customerList;
 	}
 
+	/**
+	 * @return A list of staff
+	 */
 	public ArrayList<Person> getStaffList() {
 		return staffList;
 	}
 
-
+	/**
+	 * @return A list of suppliers
+	 */
 	public ArrayList<Person> getSupplierList() {
 		return supplierList;
 	}
 	
+	/**
+	 * Find a supplier using their ID
+	 * @param id The Suppliers' ID
+	 * @return A Supplier
+	 */
 	public Supplier getSupplierById(int id){
 		boolean isFound = false;
 		
@@ -60,12 +72,18 @@ public class PersonDB {
 		return null;
 	}
 
+	/**
+	 * Randomly select a supplier from the list
+	 * @return A random supplier
+	 */
 	public Supplier getRandomSupplier(){
 		int randomSupplier = random.nextInt((supplierList.size() - 1) + 1);
 		return (Supplier)supplierList.get(randomSupplier);		
 	}
 	
-	
+	/**
+	 * Add Customers automatically generated
+	 */
 	public void automaticallyCreateCustomer(){
 		person = new Customer("Roland","roland@msn.com","08712345","12 Main Street");
 		customerList.add(person);
@@ -75,6 +93,9 @@ public class PersonDB {
 		customerList.add(person);
 	}
 	
+	/**
+	 * Add Staff automatically generated
+	 */
 	public void automaticallyCreateStaff(){
 		person = new Staff("Jim","jim@msn.com","08712345","123 Main Street","pass",1);
 		staffList.add(person);
@@ -82,6 +103,9 @@ public class PersonDB {
 		staffList.add(person);
 	}
 	
+	/**
+	 * Add Suppliers automatically generated
+	 */
 	public void automaticallyCreateSupplier(){
 		person = new Supplier("Poor Buy","pb@msn.com","08502274","111 Main Street","Pat","x0123");
 		supplierList.add(person);
@@ -93,8 +117,18 @@ public class PersonDB {
 		supplierList.add(person);
 	}
 	
-	
-	
+	/**
+	 * Creates a new person and adds them to the relevant list
+	 * @param person The person object
+	 * @param name Name of the person
+	 * @param email Email of the person
+	 * @param contactNumber Contact number of the person
+	 * @param address Address of the person
+	 * @param accessLevel Determines elements visible to staff
+	 * @param password Password for staff login
+	 * @param vatNumber VAT number for a supplier
+	 * @param contactName COntact person for a suppliers business
+	 */
 	public void createNewPerson(Person person, String name, String email, String contactNumber, String address, int accessLevel, String password, String vatNumber, String contactName ){
 		if (person instanceof Customer){
 			customerList.add( new Customer(name, email, contactNumber, address));
