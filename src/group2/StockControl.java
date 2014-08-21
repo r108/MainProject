@@ -3,20 +3,21 @@ package group2;
 import java.util.ArrayList;
 
 import order.Product;
+import order.QProduct;
 
 /**
  * @author Roland Katona
  *
  */
 public class StockControl {
-	private ArrayList<Object[]> stockList;
-	private Object[] productAndQuantity;
+	private ArrayList<QProduct> stockList;
+	private QProduct productAndQuantity;
 
 	/**
 	 * Roland Katona
 	 */
 	public StockControl() {
-		stockList = new ArrayList<Object[]>();
+		stockList = new ArrayList<QProduct>();
 	}
 
 	/**
@@ -29,7 +30,7 @@ public class StockControl {
 	/**
 	 * @return stockList
 	 */
-	public ArrayList<Object[]> getStockList() {
+	public ArrayList<QProduct> getStockList() {
 		return stockList;
 	}
 
@@ -38,10 +39,8 @@ public class StockControl {
 	 * @param quantity
 	 */
 	public void addNewProductToStockList(Product product, int quantity) {
-		productAndQuantity = new Object[2];
-		productAndQuantity[0] = product;
-		productAndQuantity[1] = quantity;
-		stockList.add(productAndQuantity);
+		QProduct q = new QProduct(product, quantity);
+		stockList.add(q);
 	}
 
 	/**
@@ -49,19 +48,18 @@ public class StockControl {
 	 * @param quantity
 	 */
 	public void restockProductInStockList(Product product, int quantity) {
-		productAndQuantity = new Object[2];
-		productAndQuantity = findProductInStockList(product.getProductID());
-		quantity += (Integer) productAndQuantity[1];
-		productAndQuantity[1] = quantity;
+		QProduct q = findProductInStockList(product.getProductID());
+		q.setQuantity(q.getQuantity() + quantity);
+		stockList.set(product.getProductID(), q);
 	}
 
 	/**
 	 * @param productId
 	 * @return productAndQuantityInStock
 	 */
-	public Object[] findProductInStockList(int productId) {
-		for (Object[] productAndQuantityInStock : stockList) {
-			if (((Product) productAndQuantityInStock[0]).getProductID() == productId) {
+	public QProduct findProductInStockList(int productId) {
+		for (QProduct productAndQuantityInStock : stockList) {
+			if ((productAndQuantityInStock.getProduct()).getProductID() == productId) {
 				return productAndQuantityInStock;
 			}
 		}
@@ -70,11 +68,11 @@ public class StockControl {
 	}
 
 	/**
-	 * @param object
+	 * @param q
 	 */
-	public void removeProductFromStockList(Object object[]) {
-		if (object != null) {
-			stockList.remove(object);
+	public void removeProductFromStockList(QProduct q) {
+		if (q != null) {
+			stockList.remove(q);
 			System.out.println("Product has been removed from stock");
 		}
 		else {
@@ -86,19 +84,19 @@ public class StockControl {
 	 * @param id
 	 */
 	public void removeProduct(int id) {
-		Object object[] = null;
+		QProduct q = null;
 		System.out.println("enter id");
 		int pid = Keyboard.readInt();
-		for (Object[] o : stockList) {
-			if (((Product) o[0]).getProductID() == pid) {
-				object = o;
+		for (QProduct i : stockList) {
+			if (i.getProduct().getProductID() == pid) {
+				q = i;
 
-				((Product) o[0]).displayDetail();
+				q.getProduct().displayDetail();
 				System.out.println("Product has been removed from stock");
 			}
 		}
-		if (object != null) {
-			stockList.remove(object);
+		if (q != null) {
+			stockList.remove(q);
 			System.out.println("Product could not be removed from stock!");
 		}
 		displayStockList();
@@ -114,17 +112,17 @@ public class StockControl {
 					.println("Product ID  |   Supplier   |  Quantity  |  Product Name");
 			System.out
 					.println("----------------------------------------------------------");
-			for (Object[] productAndQuantityInStock : stockList) {
-				System.out.print(((Product) productAndQuantityInStock[0])
+			for (QProduct productAndQuantity : stockList) {
+				System.out.print((productAndQuantity.getProduct())
 						.getProductID()
 						+ "                ");
-				System.out.print(((Product) productAndQuantityInStock[0])
+				System.out.print((productAndQuantity.getProduct())
 						.getSupplier().getId()
 						+ "                ");
-				System.out.print(productAndQuantityInStock[1]);
+				System.out.print(productAndQuantity.getQuantity());
 				System.out.print("          "
-						+ ((Product) productAndQuantityInStock[0])
-								.getProductName() + "\n");
+						+ (productAndQuantity.getProduct()).getProductName()
+						+ "\n");
 			}
 		}
 		else
@@ -140,80 +138,79 @@ public class StockControl {
 		System.out
 				.println("------------------------------------------------\n");
 
-		for (Object[] productAndQuantityInStock : stockList) {
-			if (((Product) productAndQuantityInStock[0]).getProductCategory()
+		for (QProduct productAndQuantityInStock : stockList) {
+			if ((productAndQuantity.getProduct()).getProductCategory()
 					.equalsIgnoreCase("desktop")) {
-				System.out.print(((Product) productAndQuantityInStock[0])
+				System.out.print((productAndQuantity.getProduct())
 						.getProductCategory());
-				if ((Integer) productAndQuantityInStock[1] > 0)
+				if (productAndQuantity.getQuantity() > 0)
 					System.out.print("       " + "Yes");
 				else
 					System.out.print("        " + "No");
+
 				System.out.print("         "
-						+ ((Product) productAndQuantityInStock[0])
-								.getRetailPrice());
+						+ (productAndQuantity.getProduct()).getRetailPrice());
 				System.out.print("     "
-						+ ((Product) productAndQuantityInStock[0])
-								.getProductName() + "\n");
+						+ (productAndQuantity.getProduct()).getProductName()
+						+ "\n");
 			}
 
 		}
 		System.out.println();
-		for (Object[] productAndQuantityInStock : stockList) {
-			if (((Product) productAndQuantityInStock[0]).getProductCategory()
+		for (QProduct productAndQuantityInStock : stockList) {
+			if ((productAndQuantity.getProduct()).getProductCategory()
 					.equalsIgnoreCase("laptop")) {
-				System.out.print(((Product) productAndQuantityInStock[0])
+				System.out.print((productAndQuantity.getProduct())
 						.getProductCategory());
-				if ((Integer) productAndQuantityInStock[1] > 0)
+				if (productAndQuantity.getQuantity() > 0)
 					System.out.print("        " + "Yes");
 				else
 					System.out.print("         " + "No");
+
 				System.out.print("         "
-						+ ((Product) productAndQuantityInStock[0])
-								.getRetailPrice());
+						+ (productAndQuantity.getProduct()).getRetailPrice());
 				System.out.print("     "
-						+ ((Product) productAndQuantityInStock[0])
-								.getProductName() + "\n");
+						+ (productAndQuantity.getProduct()).getProductName()
+						+ "\n");
 			}
 
 		}
 
 		System.out.println();
-		for (Object[] productAndQuantityInStock : stockList) {
-			if (((Product) productAndQuantityInStock[0]).getProductCategory()
+		for (QProduct productAndQuantityInStock : stockList) {
+			if ((productAndQuantity.getProduct()).getProductCategory()
 					.equalsIgnoreCase("tablet")) {
-				System.out.print(((Product) productAndQuantityInStock[0])
+				System.out.print((productAndQuantity.getProduct())
 						.getProductCategory());
-				if ((Integer) productAndQuantityInStock[1] > 0)
+				if (productAndQuantity.getQuantity() > 0)
 					System.out.print("        " + "Yes");
 				else
 					System.out.print("         " + "No");
+
 				System.out.print("         "
-						+ ((Product) productAndQuantityInStock[0])
-								.getRetailPrice());
+						+ (productAndQuantity.getProduct()).getRetailPrice());
 				System.out.print("     "
-						+ ((Product) productAndQuantityInStock[0])
-								.getProductName() + "\n");
+						+ (productAndQuantity.getProduct()).getProductName()
+						+ "\n");
 			}
 
 		}
 
 		System.out.println();
-		for (Object[] productAndQuantityInStock : stockList) {
-			if (((Product) productAndQuantityInStock[0]).getProductCategory()
+		for (QProduct productAndQuantityInStock : stockList) {
+			if ((productAndQuantity.getProduct()).getProductCategory()
 					.equalsIgnoreCase("smartphone")) {
-				System.out.print(((Product) productAndQuantityInStock[0])
+				System.out.print((productAndQuantity.getProduct())
 						.getProductCategory());
-				if ((Integer) productAndQuantityInStock[1] > 0)
+				if (productAndQuantity.getQuantity() > 0)
 					System.out.print("    " + "Yes");
 				else
 					System.out.print("     " + "No");
+
 				System.out.print("         "
-						+ ((Product) productAndQuantityInStock[0])
-								.getRetailPrice());
-				System.out.print("     "
-						+ ((Product) productAndQuantityInStock[0])
-								.getProductName() + "\n");
+						+ (productAndQuantity.getProduct()) + "     "
+						+ (productAndQuantity.getProduct()).getProductName()
+						+ "\n");
 			}
 		}
 	}

@@ -14,11 +14,11 @@ public class SupplyOrder extends Order {
 		super();
 		orderId = uniqueID++;
 		person = customer;
-		totalPrice = getOrderPrice();
+		setTotalPrice();
 	}
 
 	/**
-	 * @return The orderId
+	 * @return the orderId
 	 */
 	public int getOrderId() {
 		return orderId;
