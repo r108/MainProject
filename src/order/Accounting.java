@@ -1,7 +1,5 @@
 package order;
 
-import group2.StockControl;
-
 import java.util.ArrayList;
 
 /**
@@ -10,21 +8,66 @@ import java.util.ArrayList;
  * @author Conor
  */
 public class Accounting {
-	private ArrayList<QProduct> purchaseOrderList;
-	private ArrayList<QProduct> supplyOrderList;
-	private StockControl stockControl;
+	private ArrayList<SupplyOrder> supplyOrderList;
+	private ArrayList<PurchaseOrder> purchaseOrderList;
 	public double totalSales;
 	public double totalPurchases;
 
 	/**
 	 * Accounting constructor
 	 */
-	public Accounting() {
+	public Accounting(ArrayList<PurchaseOrder> purchaseOrderList,
+			ArrayList<SupplyOrder> supplyOrderList) {
 		this.totalPurchases = 0;
 		this.totalSales = 0;
-		this.stockControl = new StockControl();
-		this.purchaseOrderList = new ArrayList<QProduct>();
-		this.supplyOrderList = new ArrayList<QProduct>();
+		this.purchaseOrderList = purchaseOrderList;
+		this.supplyOrderList = supplyOrderList;
+	}
+
+	/**
+	 * @param e
+	 */
+	public void add(SupplyOrder e) {
+		supplyOrderList.add(e);
+	}
+
+	/**
+	 * @param e
+	 */
+	public void add(PurchaseOrder e) {
+		purchaseOrderList.add(e);
+	}
+
+	/**
+	 * @return the totalSales
+	 */
+	public double getTotalSales() {
+		return totalSales;
+	}
+
+	/**
+	 * Calculate the amount of the total sales
+	 */
+	public void setTotalSales() {
+		for (SupplyOrder i : supplyOrderList) {
+			totalSales += i.getTotalPrice();
+		}
+	}
+
+	/**
+	 * @return the totalPurchases
+	 */
+	public double getTotalPurchases() {
+		return totalPurchases;
+	}
+
+	/**
+	 * Calculate the amount of the total purchases
+	 */
+	public void setTotalPurchases() {
+		for (PurchaseOrder i : purchaseOrderList) {
+			totalPurchases += i.getTotalPrice();
+		}
 	}
 
 }
