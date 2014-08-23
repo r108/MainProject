@@ -1,6 +1,4 @@
-package personTabGUI;
-
-import group2.PersonDB;
+package guiTabs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -12,6 +10,7 @@ import javax.swing.JTextField;
 
 import person.Customer;
 import person.Person;
+import retailSystem.PersonDB;
 
 @SuppressWarnings("serial")
 public class CustomerTab extends PersonTab {

@@ -1,21 +1,23 @@
-package personTabGUI;
+package guiTabs;
 //test
 //another test comment
 
 
-import group2.PersonDB;
-import group2.RetailSystemDriver;
+
 
 
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 import person.Person;
 import person.Staff;
+import retailSystem.PersonDB;
+import retailSystem.RetailSystemDriver;
 
 
 @SuppressWarnings("serial")
@@ -33,8 +35,8 @@ public class StaffTab extends PersonTab{
 		super.setTextField(index, list);
 			
 		accessLevelField.setText(""+((Staff)person).getAccessLevel());
-		//passwordField1.setText(((Staff)person).getPassword());
-		//passwordField2.setText(((Staff)person).getPassword());
+		passwordField1.setText(((Staff)person).getPassword());
+		passwordField2.setText(((Staff)person).getPassword());
 		addItemsToCombobox(personDB.getStaffList());
 		comboBox.setSelectedIndex(index);
 		revalidate();
@@ -73,16 +75,16 @@ public class StaffTab extends PersonTab{
 		passwordLabel1.setVisible(false);
 		passwordLabel2.setVisible(false);
 		
-		accessLevelField.setBounds(150, 160, 265, 20);
+		accessLevelField.setBounds(200, 160, 265, 20);
 		accessLevelField.setColumns(10);
-		passwordField2.setBounds(150, 185, 265, 20);
+		passwordField2.setBounds(200, 185, 265, 20);
 		passwordField2.setColumns(10);
-		passwordField1.setBounds(150, 210, 265, 20);
+		passwordField1.setBounds(200, 210, 265, 20);
 		passwordField1.setColumns(10);
 		
-		accessLevelLabel.setBounds(9, 160, 94, 14);
-		passwordLabel1.setBounds(9, 185, 93, 14);
-		passwordLabel2.setBounds(9, 210, 93, 14);
+		accessLevelLabel.setBounds(59, 160, 94, 14);
+		passwordLabel1.setBounds(59, 185, 93, 14);
+		passwordLabel2.setBounds(59, 210, 93, 14);
 		
 		
 		setTextField(0,personDB.getStaffList());
@@ -109,6 +111,8 @@ public class StaffTab extends PersonTab{
 		accessLevelField.setEditable(editable);
 	}
 	
+	
+	
 	public void personDetailsForm(){	
 		super.personDetailsForm();
 		int aLevel = 0;
@@ -133,49 +137,33 @@ public class StaffTab extends PersonTab{
 				JOptionPane.showMessageDialog(null, "Passwords do not match!!!");
 			}	
 			else{
+				try {
+					aLevel = Integer.parseInt(accessLevel);
+				} 
+				catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Invalid input! Only numbers are allowed!");
+					e.printStackTrace();
+				}
+				
+				if(RetailSystemDriver.validateAccessLevel(accessLevel)){
+					
+					valid = true;
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Only access level 1 or 2 are valid!");
+					errorMessage = errorMessage+ "Only access level 1 or 2 are valid!\n";
+				}
 				if(editMode){
-					
-					try {
-						aLevel = Integer.parseInt(accessLevel);
-					} 
-					catch (NumberFormatException e) {
-						JOptionPane.showMessageDialog(null, "Invalid input! Only numbers are allowed!");
-						e.printStackTrace();
-					}
-					
-					if(RetailSystemDriver.validateAccessLevel(accessLevel)){
-						
-						valid = true;
-					}
-					else{
-						JOptionPane.showMessageDialog(null, "Only access level 1 or 2 are valid!");
-						errorMessage = errorMessage+ "Only access level 1 or 2 are valid!\n";
-					}
-					
+					System.out.println(valid);
 					if(valid){
-						personDB.changePersonDetails(new Staff(), name, email, contactNumber, address, aLevel, password, null, null);
+						personDB.changePersonDetails(person, name, email, contactNumber, address, aLevel, password, null, null);
+						System.out.println("Done");
 						setTextField(comboBox.getSelectedIndex(), personDB.getStaffList());
 					}
 				}
 				else{
-					try {
-						aLevel = Integer.parseInt(accessLevel);
-					} 
-					catch (NumberFormatException e) {
-						JOptionPane.showMessageDialog(null, "Invalid input! Only numbers are allowed!");
-						e.printStackTrace();
-					}
-					if(RetailSystemDriver.validateAccessLevel(accessLevel)){
-						
-						valid = true;
-					}
-					else{
-						JOptionPane.showMessageDialog(null, "Only access level 1 or 2 are valid!");
-						errorMessage = errorMessage+ "Only access level 1 or 2 are valid!\n";
-					}
-					
 					if(valid){
-						personDB.createNewPerson(new Staff(),name, email, contactNumber, address,  aLevel, password,null, null);
+						personDB.createNewPerson(person,name, email, contactNumber, address,  aLevel, password,null, null);
 						setTextField(personDB.getStaffList().size()-1,personDB.getStaffList());
 					}
 				}
@@ -201,6 +189,7 @@ public class StaffTab extends PersonTab{
 		}	
 		revalidate();
 		repaint();
+		
 	}
 	
 	
@@ -238,7 +227,7 @@ public class StaffTab extends PersonTab{
 		
 		if(valid){
 			//super.actionPerformed(e);	
-			//togglePasswordField();
+			togglePasswordField();
 			setFieldEditable(false);
 			valid = false;
 		}
@@ -246,18 +235,18 @@ public class StaffTab extends PersonTab{
 			clearTextFields(personDB.getStaffList());
 			super.actionPerformed(e);
 			setFieldEditable(true);
-			//togglePasswordField();
+			togglePasswordField();
 				
 		}	
 		if(e.getSource()==editPersonButton){	
 			//super.actionPerformed(e);
-			//togglePasswordField();
+			togglePasswordField();
 			setFieldEditable(true);	
 		}	
 		if(e.getSource()==cancelButton){
 			
 			setFieldEditable(false);
-			//togglePasswordField();
+			togglePasswordField();
 			setTextField(personDB.getStaffList().size()-1,personDB.getStaffList());	
 			if(!(personDB.getStaffList().size()>0))
 				clearTextFields(personDB.getStaffList());
@@ -265,7 +254,7 @@ public class StaffTab extends PersonTab{
 		if(e.getSource()==cancelEditButton){		
 			setTextField(comboBox.getSelectedIndex(),personDB.getStaffList());
 			setFieldEditable(false);
-			//togglePasswordField();	
+			togglePasswordField();	
 			if(!(personDB.getStaffList().size()>0))
 				clearTextFields(personDB.getStaffList());
 		}
@@ -286,4 +275,5 @@ public class StaffTab extends PersonTab{
 	  		repaint();
        }
 	}
+
 }

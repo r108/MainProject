@@ -1,40 +1,30 @@
-package personTabGUI;
+package guiTabs;
 
-import group2.PersonDB;
+
+
 
 import java.util.ArrayList;
-import java.util.Vector;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.Choice;
-import java.awt.Insets;
-import java.awt.List;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.JList;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.ScrollPaneConstants;
+
+
 
 import person.Person;
-import person.Staff;
 import person.Supplier;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import retailSystem.PersonDB;
 
 public class SupplierTab extends PersonTab{
 	
-	
+	private JButton newSupplierButton;
+	private JTabbedPane tabbedPane;
+	private ProductTab productTab;
+	private MainGUI gui;
 	private String contactName, vatNumber;
 	private JTextField vatNumberField,contactNameField;
 	private JLabel vatNumberLabel,contactNameLabel;
@@ -43,7 +33,7 @@ public class SupplierTab extends PersonTab{
 	public void setTextField(int index, ArrayList<Person> list){
 		
 		super.setTextField(index, list);
-		
+
 		vatNumberField.setText(((Supplier)person).getVatNumber());
 		contactNameField.setText(((Supplier)person).getContactName());
 		addItemsToCombobox(personDB.getSupplierList());
@@ -67,10 +57,14 @@ public class SupplierTab extends PersonTab{
 	/**
 	 * Create the panel.
 	 */
-	public SupplierTab(PersonDB personDB) {
+	public SupplierTab(PersonDB personDB,JTabbedPane tabbedPane,MainGUI gui) {
 		
 		super(personDB);
 		
+		this.tabbedPane = tabbedPane;
+		this.gui = gui;
+		newSupplierButton = new JButton();
+		newSupplierButton.addActionListener(this);
 		contactNameLabel = new JLabel("Contact Name");
 		vatNumberLabel = new JLabel("Vat Number");
 		comboboxLabel.setText("Supplier List");
@@ -79,17 +73,21 @@ public class SupplierTab extends PersonTab{
 		contactNameField = new JTextField();
 
 		//Set the boundaries for each element
-		contactNameField.setBounds(150, 160, 265, 20);
+		contactNameField.setBounds(200, 160, 265, 20);
 		contactNameField.setColumns(10);
-		vatNumberField.setBounds(150, 185, 265, 20);
+		vatNumberField.setBounds(200, 185, 265, 20);
 		vatNumberField.setColumns(10);
-		contactNameLabel.setBounds(9, 160, 93, 14);
-		vatNumberLabel.setBounds(9, 185, 94, 14);
+		contactNameLabel.setBounds(59, 160, 93, 14);
+		vatNumberLabel.setBounds(59, 185, 94, 14);
 		
 		
 		setTextField(0,personDB.getSupplierList());
 		setFieldEditable(false);
 		addAllElements();	
+	}
+	
+	public JButton getNewSupplierButton(){
+		return newSupplierButton;
 	}
 	
 	public void addAllElements(){
@@ -132,19 +130,20 @@ public class SupplierTab extends PersonTab{
 				personDB.createNewPerson(person,name, email, contactNumber, address,  0, null,contactName, vatNumber);
 				setTextField(personDB.getSupplierList().size()-1,personDB.getSupplierList());
 			}
-			deletePersonButton.setEnabled(true);
 			
-			newPersonButton.setEnabled(true);
-			newPersonButton.setVisible(true);
-			
-			editPersonButton.setEnabled(true);
-			editPersonButton.setVisible(true);
-			
-			submitButton.setVisible(false);
-			
-			
-			cancelButton.setVisible(false);
-			cancelEditButton.setVisible(false);
+				deletePersonButton.setEnabled(true);
+				
+				newPersonButton.setEnabled(true);
+				newPersonButton.setVisible(true);
+				
+				editPersonButton.setEnabled(true);
+				editPersonButton.setVisible(true);
+				
+				submitButton.setVisible(false);
+				
+				
+				cancelButton.setVisible(false);
+				cancelEditButton.setVisible(false);
 		}	
 	
 		else{
@@ -161,7 +160,15 @@ public class SupplierTab extends PersonTab{
 		super.actionPerformed(e);	
 	
 		if(e.getSource()==submitButton){
-			if(submitButtonMode == 2){
+			if(submitButtonMode == 3){
+				editMode = false;
+				personDetailsForm();
+				if(valid){
+					tabbedPane.setSelectedComponent(gui.getProductTab());
+					gui.getProductTab().addItemsToSupplierCombobox(personDB.getSupplierList());
+				}
+			}
+			else if(submitButtonMode == 2){
 				editMode = true;
 				personDetailsForm();
 			}
@@ -199,6 +206,13 @@ public class SupplierTab extends PersonTab{
 		if(e.getSource()==deletePersonButton){
 			deletePerson(person, personDB.getSupplierList());
 		}
+		
+		if(e.getSource()==newSupplierButton){
+			newPersonButton.doClick();
+			submitButtonMode = 3;
+		}
+		
+		
 		revalidate();
   		repaint();
 	}
