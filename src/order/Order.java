@@ -3,12 +3,13 @@ package order;
 import java.util.ArrayList;
 
 import person.Person;
+import retailSystem.Product;
 
 /**
  * @author Roland Katona
  */
 public class Order {
-	protected ArrayList<QProduct> orderList; // Includes quantity and product ID
+	protected ArrayList<StockItem> orderList; // Includes quantity and product ID
 	protected int uniqueID = 1;
 	protected Person person;
 	private boolean processed;
@@ -18,14 +19,14 @@ public class Order {
 	 * Order constructor
 	 */
 	public Order() {
-		orderList = new ArrayList<QProduct>();
+		orderList = new ArrayList<StockItem>();
 		processed = false;
 	}
 
 	/**
 	 * @return The list of products in the order, along with the quantity
 	 */
-	public ArrayList<QProduct> getProductList() {
+	public ArrayList<StockItem> getProductList() {
 		return orderList;
 	}
 
@@ -38,7 +39,7 @@ public class Order {
 	 *            The amount of this product to be added
 	 */
 	public void addProductToList(Product product, int quantity) {
-		QProduct p = new QProduct(product, quantity);
+		StockItem p = new StockItem(product, quantity);
 		orderList.add(p);
 	}
 
@@ -84,7 +85,7 @@ public class Order {
 	 */
 	public double getOrderPrice() {
 		double totalPurchase = 0;
-		for (QProduct orderProduct : this.getProductList()) {
+		for (StockItem orderProduct : this.getProductList()) {
 			double itemPrice = orderProduct.getProduct().getRetailPrice();
 			double quantity = (double) orderProduct.getQuantity();
 			totalPurchase += itemPrice * quantity;

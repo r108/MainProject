@@ -1,4 +1,4 @@
-package personTabGUI;
+package guiTabs;
 
 import javax.swing.JPanel;
 

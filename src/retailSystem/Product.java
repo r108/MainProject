@@ -1,4 +1,4 @@
-package order;
+package retailSystem;
 
 import person.Supplier;
 
@@ -6,7 +6,7 @@ import person.Supplier;
  * @author Roland Katona
  *
  */
-public class Product extends Object{
+public class Product {
 	
 	private int productID;            
 	private String productName;               
@@ -19,6 +19,10 @@ public class Product extends Object{
 	private static int uniqueId = 1;
 	
 	
+	public static int getUniqueId() {
+		return uniqueId;
+	}
+
 	/**
 	 * @param productName
 	 * @param productDescription
@@ -26,13 +30,13 @@ public class Product extends Object{
 	 * @param supplierPrice
 	 * @param supplier
 	 */
-	public Product(String productName,String productDescription, String productCategory,double supplierPrice,Supplier supplier) {
+	public Product(String productName,String productDescription, String productCategory,double supplierPrice,double profitMargin, Supplier supplier) {
 		productID = uniqueId++;
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productCategory = productCategory;
 		this.supplierPrice = supplierPrice;
-		this.profitMargin = 0.2;
+		this.profitMargin = profitMargin;
 		this.retailPrice = supplierPrice+(supplierPrice*profitMargin);
 		this.supplier = supplier;
 	}
@@ -51,8 +55,8 @@ public class Product extends Object{
 		System.out.println("Retail price : "+retailPrice);
 		System.out.println("Supplier name : "+supplier.getName());
 		System.out.println("Supplier ID : "+supplier.getId());
-		//supplier.displayDetails();
 	}
+	
 	
 	/**
 	 * @return productID
@@ -68,12 +72,14 @@ public class Product extends Object{
 		return productName;
 	}
 
+
 	/**
 	 * @param productName
 	 */
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
+
 
 	/**
 	 * @return productDescription
@@ -82,12 +88,14 @@ public class Product extends Object{
 		return productDescription;
 	}
 
+
 	/**
 	 * @param productDescription
 	 */
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
 	}
+
 
 	/**
 	 * @return productCategory
@@ -96,12 +104,14 @@ public class Product extends Object{
 		return productCategory;
 	}
 
+
 	/**
 	 * @param productCategory
 	 */
 	public void setProductCategory(String productCategory) {
 		this.productCategory = productCategory;
 	}
+
 
 	/**
 	 * @return retailPrice
@@ -110,6 +120,7 @@ public class Product extends Object{
 		return retailPrice;
 	}
 
+
 	/**
 	 * @param retailPrice
 	 */
@@ -117,12 +128,14 @@ public class Product extends Object{
 		this.retailPrice = retailPrice;
 	}
 
+
 	/**
 	 * @return supplierPrice
 	 */
 	public double getSupplierPrice() {
 		return supplierPrice;
 	}
+
 
 	/**
 	 * @param supplierPrice
@@ -134,6 +147,7 @@ public class Product extends Object{
 		retailPrice = supplierPrice*(1+profitMargin); 
 	}
 
+
 	/**
 	 * @return profitMargin
 	 */
@@ -141,15 +155,16 @@ public class Product extends Object{
 		return profitMargin;
 	}
 
+
 	/**
 	 * @param profitMargin
 	 */
 	public void setProfitMargin(double profitMargin) {
 		this.profitMargin = profitMargin;
-		
 		// upgrade retail price according to change in profit margin
 		retailPrice = supplierPrice*(1+profitMargin); 
 	}
+
 
 	/**
 	 * @return supplier
@@ -157,6 +172,7 @@ public class Product extends Object{
 	public Supplier getSupplier() {
 		return supplier;
 	}
+
 
 	/**
 	 * @param supplier

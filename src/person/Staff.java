@@ -19,8 +19,7 @@ public class Staff extends Person{
 		password = "";
 		accessLevel=0;
 	}
-	
-	
+		
 	/**
 	 * @param name
 	 * @param email
@@ -65,14 +64,6 @@ public class Staff extends Person{
 		this.accessLevel = accessLevel;
 	}
 	
-	/* (non-Javadoc)
-	 * @see group2.Person#displayDetails()
-	 */
-	public void displayDetails(){
-		super.displayDetails();
-		System.out.println("Staff Access Level : "+accessLevel);	
-	}
-	
 	/**
 	 * Validates a char array to check if it matches the password. 
 	 * If it does, it returns the boolean 'login' as true. 
@@ -82,6 +73,7 @@ public class Staff extends Person{
 	 * member to log in 
 	 */
 	public boolean passwordValidation(char [] charArr){
+		login = false;
 		String testStr = String.valueOf(charArr);
 		if(this.password.equals(testStr))
 			login = true;

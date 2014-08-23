@@ -1,7 +1,6 @@
-package personTabGUI;
+package guiTabs;
 
-import group2.PersonDB;
-import group2.RetailSystemDriver;
+
 
 
 import java.awt.event.ActionEvent;
@@ -22,6 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import person.Person;
+import retailSystem.PersonDB;
+import retailSystem.RetailSystemDriver;
 
 public class PersonTab extends JPanel implements ActionListener, ItemListener{
 	
@@ -40,7 +41,7 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 	protected JScrollPane scrollPane;
 	protected JComboBox<String> comboBox;
 	protected DefaultComboBoxModel<String> comboboxModel;
-	private final boolean PRIVILEDGED_ACCESS = RetailSystemDriver.isPriviledged(); 
+	//private final boolean PRIVILEDGED_ACCESS = RetailSystemDriver.isPriviledged(); 
 	
 	
 	
@@ -70,7 +71,8 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		contactNumberField = new JTextField();
 		emailField = new JTextField();
 		addressField = new JTextArea(5,20);
-		
+		addressField.setLineWrap(true);
+		addressField.setWrapStyleWord(true);
 		newPersonButton = new JButton("Add New");
 		editPersonButton = new JButton("Edit");
 		deletePersonButton = new JButton("Delete");
@@ -78,11 +80,11 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		cancelButton = new JButton("Cancel");
 		cancelEditButton = new JButton("Cancel");
 		
-		if(!PRIVILEDGED_ACCESS){
+		/*if(!RetailSystemDriver.isPriviledged()){
 			newPersonButton.setEnabled(false);
 			editPersonButton.setEnabled(false);
 			deletePersonButton.setEnabled(false);
-		}
+		}*/
 		
 		newPersonButton.addActionListener(this);
 		editPersonButton.addActionListener(this);
@@ -94,34 +96,34 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		cancelEditButton.addActionListener(this);
 		cancelEditButton.setVisible(false);
 	
-		idNumberLabel.setBounds(153, 7, 265, 20);	
-		nameField.setBounds(150, 30, 265, 20);
+		idNumberLabel.setBounds(203, 7, 265, 20);	
+		nameField.setBounds(200, 30, 265, 20);
 		nameField.setColumns(10);
-		emailField.setBounds(150, 55, 265, 20);
+		emailField.setBounds(200, 55, 265, 20);
 		emailField.setColumns(10);
-		contactNumberField.setBounds(150, 80, 265, 20);
+		contactNumberField.setBounds(200, 80, 265, 20);
 		contactNumberField.setColumns(10);
 		
-		idLabel.setBounds(9, 10, 93, 14);	
-		nameLabel.setBounds(9, 33, 93, 14);		
-		emailLabel.setBounds(9, 58, 46, 14);
-		contactNumberLabel.setBounds(9, 83, 93, 14);
-		addressLabel.setBounds(9, 106, 93, 14);
+		idLabel.setBounds(59, 10, 93, 14);	
+		nameLabel.setBounds(59, 33, 93, 14);		
+		emailLabel.setBounds(59, 58, 46, 14);
+		contactNumberLabel.setBounds(59, 83, 93, 14);
+		addressLabel.setBounds(59, 106, 93, 14);
 		
 		
 		scrollPane = new JScrollPane(addressField);
-		scrollPane.setBounds(150, 105, 265, 50);
+		scrollPane.setBounds(200, 105, 265, 50);
 		
 		
-		submitButton.setBounds(150, 250, 106, 23);
-		newPersonButton.setBounds(14, 320, 130, 23);
-		cancelButton.setBounds(14, 320, 130, 23);
-		cancelEditButton.setBounds(149, 320, 130, 23);
-		editPersonButton.setBounds(149, 320, 130, 23);
-		deletePersonButton.setBounds(285, 320, 130, 23);
+		submitButton.setBounds(200, 250, 106, 23);
+		newPersonButton.setBounds(64, 320, 130, 23);
+		cancelButton.setBounds(64, 320, 130, 23);
+		cancelEditButton.setBounds(199, 320, 130, 23);
+		editPersonButton.setBounds(199, 320, 130, 23);
+		deletePersonButton.setBounds(335, 320, 130, 23);
 		
-		comboboxLabel.setBounds(15, 285, 120, 20);
-		comboBox.setBounds(150, 285, 265, 20);
+		comboboxLabel.setBounds(65, 285, 120, 20);
+		comboBox.setBounds(200, 285, 265, 20);
 		comboBox.addItemListener(this);
 		
 		setLayout(null);
@@ -141,7 +143,7 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 	}
 	
 	public void setTextField(int index,ArrayList<Person> list){
-
+		
 		if(list.size()>0){
 			person = list.get(index);
 			idNumberLabel.setText(""+person.getId());
@@ -152,6 +154,7 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		addressField.setText(person.getAddress());
 		contactNumberField.setText(person.getContactNumber());
 		emailField.setText(person.getEmail());
+		
 		addItemsToCombobox(list);
 		comboBox.setSelectedIndex(index);
 	}
@@ -202,23 +205,23 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		addressField.setEditable(editable);		
 	}
 	
+	public void enableButtons(boolean enabled){
+		newPersonButton.setEnabled(enabled);
+		editPersonButton.setEnabled(enabled);
+		deletePersonButton.setEnabled(enabled);
+	}
+	
 	public void deletePerson(Person person, ArrayList<Person> list){
 		
 		int answer=JOptionPane.showConfirmDialog(null, "Do you really want to delete "+person.getName()+"?", " CONFIRMATION " , JOptionPane.YES_NO_OPTION);//displaying JOptionPane.YES_NO_OPTION Confirmdialog box
 		if ( answer==JOptionPane.YES_OPTION ){
-			//list.remove(person);
 			personDB.deletePersonFromList(person);
-			setTextField(list.size()-1, list);
-			clearTextFields(list);
-			revalidate();
-			repaint();
-			
 		}
 		if(list.size()>0){
-			setTextField(list.size()-1, list);
-			
+			setTextField(0, list);	
 		}
 		else{
+			setTextField(list.size()-1, list);
 			clearTextFields(list);
 			deletePersonButton.setEnabled(false);
 			editPersonButton.setEnabled(false);
@@ -254,15 +257,15 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		}
 		if(!contactNumberField.getText().equals("")){
 			contactNumber = (contactNumberField.getText());
-			try {
-				Integer.parseInt(contactNumber);
-			} catch (NumberFormatException e) {
+			/*try {*/
+				//Integer.parseInt(contactNumber);
+			/*} catch (NumberFormatException e) {
 				errorMessage = errorMessage +"\nInvalid phone number!!\nOnly numbers are allowed!";
 				e.printStackTrace();
-			}
+			}*/
 			if(!RetailSystemDriver.validateContactNumber(contactNumber)){
 				contactNumber = null;
-				errorMessage = errorMessage +"\nInvalid phone number!!\nValid format is 0xxxxxxxxx";
+				errorMessage = errorMessage +"\nInvalid phone number!!\nValid format is 0xxxxxxxxx\nOnly numbers are allowed!";
 			}
 		}
 		else{
@@ -318,11 +321,14 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		revalidate();
   		repaint();
 	}
-
+	
 
 	@Override
-	public void itemStateChanged(ItemEvent e){
+	public void itemStateChanged(ItemEvent e) {
 		
 	}
+
+
+	
 	
 }
