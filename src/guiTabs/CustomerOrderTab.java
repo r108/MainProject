@@ -21,8 +21,7 @@ import order.StockDBControl;
 import order.StockItem;
 import retailSystem.Product;
 
-public class CustomerOrderTab extends JPanel implements ActionListener,
-		ItemListener {
+public class CustomerOrderTab extends JPanel implements ActionListener, ItemListener {
 
 	private JScrollPane scrollpane;
 	private StockDBControl stockDBControl;
@@ -31,8 +30,7 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 	protected ArrayList<Double> ItemsPrice = new ArrayList<Double>();
 	protected DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<String>(
 			comboBoxItems);
-	protected JComboBox<String> productComboBox = new JComboBox<String>(
-			comboBoxModel);
+	protected JComboBox<String> productComboBox = new JComboBox<String>(comboBoxModel);
 
 	protected Vector<String> orderingListItems = new Vector<String>();
 	protected DefaultListModel<String> listModel = new DefaultListModel<String>();
@@ -43,9 +41,8 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 	protected ArrayList<Product> currentOrderList = new ArrayList<Product>();
 	protected ArrayList<Integer> currentOrderListQuantity = new ArrayList<Integer>();
 
-	protected JLabel productComboBoxLabel, quantityLabel,
-			availableQuantityLabel, availableQuantityField, priceLabel,
-			priceField, subtotalLabel, subtotalField;
+	protected JLabel productComboBoxLabel, quantityLabel, availableQuantityLabel,
+			availableQuantityField, priceLabel, priceField, subtotalLabel, subtotalField;
 	protected JTextField quantityTextField;
 	protected JButton addButton;
 	protected double subTotal = 0;
@@ -99,8 +96,7 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 		availableQuantityLabel = new JLabel("Available");
 		availableQuantityLabel.setBounds(330, 10, 70, 20);
 
-		availableQuantityField = new JLabel(Integer.toString(ItemsQuantity
-				.get(0)));
+		availableQuantityField = new JLabel(Integer.toString(ItemsQuantity.get(0)));
 		availableQuantityField.setBounds(340, 30, 40, 20);
 		add(availableQuantityLabel);
 		add(availableQuantityField);
@@ -145,7 +141,6 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 	 */
 	private void orderingList() {
 		scrollpane.setBounds(60, 100, 410, 180);
-		// add(new JScrollPane(orderingList));
 		add(scrollpane);
 	}
 
@@ -176,15 +171,13 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 	 * @param index
 	 */
 	private void refreshTab(int index) {
-		availableQuantityField.setText(Integer.toString(ItemsQuantity
-				.get(index)));
+		availableQuantityField.setText(Integer.toString(ItemsQuantity.get(index)));
 		priceField.setText(Double.toString(ItemsPrice.get(index)));
 		quantityTextField.setText("1");
 	}
 
 	/**
-	 * Event listener for the combo box. The combo box selects the produc to add
-	 * to the order.
+	 * Event listener for the combo box. The combo box selects the produc to add to the order.
 	 */
 	@Override
 	public void itemStateChanged(ItemEvent event) {
@@ -194,6 +187,9 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 		}
 	}
 
+	/**
+	 * Action listeners
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// If the add button has been clicked
@@ -207,10 +203,8 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 			currentOrderListQuantity.add(tempQuantity);
 
 			// Display the above in a text field
-			orderingListItems.add(comboBoxItems.get(productComboBox
-					.getSelectedIndex()));
-			listModel.addElement(comboBoxItems.get(productComboBox
-					.getSelectedIndex())
+			orderingListItems.add(comboBoxItems.get(productComboBox.getSelectedIndex()));
+			listModel.addElement(comboBoxItems.get(productComboBox.getSelectedIndex())
 					+ "\t\t   "
 					+ quantityTextField.getText()
 					+ " \t\t  "
@@ -220,9 +214,6 @@ public class CustomerOrderTab extends JPanel implements ActionListener,
 			// Calculate the running total for the order price
 			subTotal += (tempProduct.getRetailPrice() * tempQuantity);
 			subtotalField.setText(Double.toString(subTotal));
-
 		}
-
 	}
-
 }
