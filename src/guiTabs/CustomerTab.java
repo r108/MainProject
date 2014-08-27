@@ -34,7 +34,8 @@ public class CustomerTab extends PersonTab {
 	 * 
 	 * @param index
 	 *            The selected index
-	 * @paral list The list of customers
+	 * @param list
+	 *            The list of customers
 	 */
 	public void setTextField(int index, ArrayList<Person> list) {
 
