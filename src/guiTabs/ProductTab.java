@@ -55,9 +55,6 @@ public class ProductTab extends JPanel implements ActionListener, ItemListener {
 	private JComboBox<String> comboBox, supplierComboBox;
 	private DefaultComboBoxModel<String> comboboxModel, supplierComboBoxModel;
 
-	// private final boolean PRIVILEDGED_ACCESS =
-	// RetailSystemDriver.isPriviledged();
-
 	/**
 	 * Product tab constructor
 	 * 
@@ -375,64 +372,65 @@ public class ProductTab extends JPanel implements ActionListener, ItemListener {
 		// Enter a product name
 		if (!nameField.getText().equals("")) {
 			name = nameField.getText();
-			nameField.setForeground(Color.black);
+			nameLabel.setForeground(Color.black);
 		}
-		else
+		else {
 			errorMessage = errorMessage + "Product name field cannot be empty!\n";
-		nameField.setForeground(Color.red);
+			nameLabel.setForeground(Color.red);
+		}
 
 		// Enter a product Category
 		if (!categoryField.getText().equals("")) {
 			category = (categoryField.getText());
-			categoryField.setForeground(Color.black);
+			categoryLabel.setForeground(Color.black);
 		}
 		else {
 			errorMessage = errorMessage + "Category field cannot be empty!\n";
-			categoryField.setForeground(Color.red);
+			categoryLabel.setForeground(Color.red);
 		}
 
 		// Product description
 		if (!descriptionField.getText().equals("")) {
 			description = (descriptionField.getText());
-			descriptionField.setForeground(Color.black);
+			descriptionLabel.setForeground(Color.black);
 		}
 		else {
 			errorMessage = errorMessage + "Description number field cannot be empty!\n";
-			descriptionField.setForeground(Color.red);
+			descriptionLabel.setForeground(Color.red);
 		}
 
 		// Supplier price
 		if (!supplierPriceField.getText().equals(""))
 			try {
 				supplierPrice = Double.parseDouble(supplierPriceField.getText());
-				supplierPriceField.setForeground(Color.black);
+				supplierPriceLabel.setForeground(Color.black);
 			}
 			catch (NumberFormatException e) {
 				errorMessage = errorMessage
 						+ "\nInvalid supplier price value!!\nOnly numbers are allowed!";
 				e.printStackTrace();
-				supplierPriceField.setForeground(Color.red);
+				supplierPriceLabel.setForeground(Color.red);
 			}
 		else {
 			errorMessage = errorMessage + "Supplier price field cannot be empty!\n";
-			supplierPriceField.setForeground(Color.red);
+			supplierPriceLabel.setForeground(Color.red);
 		}
 
 		// Profit margin
 		if (!profitMarginField.getText().equals(""))
 			try {
 				profitMargin = Double.parseDouble(profitMarginField.getText());
-				profitMarginField.setForeground(Color.black);
+				profitMarginLabel.setForeground(Color.black);
 			}
 			catch (NumberFormatException e) {
 				errorMessage = errorMessage
 						+ "\nInvalid profit margin value!!\nOnly numbers are allowed!";
 				e.printStackTrace();
-				profitMarginField.setForeground(Color.red);
+				profitMarginLabel.setForeground(Color.red);
 			}
 		else {
 			errorMessage = errorMessage + "Profit margin field cannot be empty!\n";
-			profitMarginField.setForeground(Color.red);
+			profitMarginLabel.setForeground(Color.red);
 		}
 
 		// Executed if something has been altered or added
@@ -563,14 +561,21 @@ public class ProductTab extends JPanel implements ActionListener, ItemListener {
 
 			// If all fields valid
 			if (valid) {
-				setFieldEditable(false);
+				nameLabel.setForeground(Color.black);
 				supplierLabel.setForeground(Color.black);
+				profitMarginLabel.setForeground(Color.black);
+				supplierPriceLabel.setForeground(Color.black);
+				descriptionLabel.setForeground(Color.black);
+				categoryLabel.setForeground(Color.black);
+
+				setFieldEditable(false);
 				valid = false;
 			}
 			else
 				supplierLabel.setForeground(Color.red);
 		}
 
+		// New button clicked
 		if (e.getSource() == newProductButton) {
 			addItemsToSupplierCombobox(personDB.getSupplierList());
 			supplierComboBox.setSelectedItem(product.getSupplier().getName());
@@ -592,6 +597,8 @@ public class ProductTab extends JPanel implements ActionListener, ItemListener {
 				idNumberLabel.setText("" + Product.getUniqueId());
 			setFieldEditable(true);
 		}
+
+		// Edit button clicked
 		if (e.getSource() == editProductButton) {
 			addItemsToSupplierCombobox(personDB.getSupplierList());
 			supplierComboBox.setSelectedItem(product.getSupplier().getName());
@@ -609,22 +616,40 @@ public class ProductTab extends JPanel implements ActionListener, ItemListener {
 			newProductButton.setEnabled(false);
 			deleteProductButton.setEnabled(false);
 		}
+
+		// Cancel clicked
 		if (e.getSource() == cancelButton) {
+			nameLabel.setForeground(Color.black);
+			supplierLabel.setForeground(Color.black);
+			profitMarginLabel.setForeground(Color.black);
+			supplierPriceLabel.setForeground(Color.black);
+			descriptionLabel.setForeground(Color.black);
+			categoryLabel.setForeground(Color.black);
+
+			// Make the fields non editable again
 			supplier = product.getSupplier();
 			supplierComboBox.setSelectedItem(product.getSupplier().getName());
 			setFieldEditable(false);
+
+			// Hide buttons
 			submitButton.setVisible(false);
 			newProductButton.setVisible(true);
 			cancelButton.setVisible(false);
+
+			// Enable the delete and edit buttons as long as the list isn't empty
 			if (!emptiedList) {
 				deleteProductButton.setEnabled(true);
 				editProductButton.setEnabled(true);
 			}
 
+			// Change the information displayed in the text fields to the last non null item
 			setTextField(stockDBControl.getStockList().size() - 1, stockDBControl.getStockList());
+
+			// Clear the text fields if the database is empty
 			if (!(stockDBControl.getStockList().size() > 0))
 				clearTextFields(stockDBControl.getStockList());
 		}
+		// Cancel clicked in edit mode
 		if (e.getSource() == cancelEditButton) {
 			setFieldEditable(false);
 			submitButton.setVisible(false);
@@ -638,11 +663,12 @@ public class ProductTab extends JPanel implements ActionListener, ItemListener {
 			if (!(stockDBControl.getStockList().size() > 0))
 				clearTextFields(stockDBControl.getStockList());
 		}
+		// Delete product clicked
 		if (e.getSource() == deleteProductButton)
 			deleteProduct(stockItem, stockDBControl.getStockList());
 
+		// Refresh the view
 		revalidate();
 		repaint();
 	}
-
 }

@@ -85,23 +85,37 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 
+	/**
+	 * Main GUI constructor
+	 * 
+	 * @param personDB
+	 *            Person database
+	 * @param stockDBControl
+	 *            Stock control database
+	 */
 	public MainGUI(PersonDB personDB, StockDBControl stockDBControl) {
 		Login l = new Login(personDB, stockDBControl);
 		l.setVisible(false);
 		new MainGUI(personDB, stockDBControl, l);
 	}
 
+	/**
+	 * Main GUI constructor
+	 * 
+	 * @param personDB
+	 *            Person database
+	 * @param stockDBControl
+	 *            Stock control database
+	 * @param login
+	 *            Login functions
+	 */
 	public MainGUI(PersonDB personDB, StockDBControl stockDBControl, Login login) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
+		// Initialise
 		this.login = login;
 		this.stockDBControl = stockDBControl;
 		this.setVisible(true);
-
-		int xSize = ((int) tk.getScreenSize().getWidth());
-		int ySize = ((int) tk.getScreenSize().getHeight());
-		this.setSize(xSize, ySize);
-
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,6 +124,12 @@ public class MainGUI extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 
+		// Set the size of the window to full screem
+		int xSize = ((int) tk.getScreenSize().getWidth());
+		int ySize = ((int) tk.getScreenSize().getHeight());
+		this.setSize(xSize, ySize);
+
+		// Set up file choosing functions
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
@@ -125,7 +145,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		aboutMenuItem = new JMenuItem("About Group2");
 		howToMenuItem = new JMenuItem("User Guide");
 
-		// this is a comment
 		// Add menu items to their relevant menu
 		fileMenu.add(openMenuItem);
 		fileMenu.add(saveMenuItem);
@@ -173,10 +192,9 @@ public class MainGUI extends JFrame implements ActionListener {
 		tabbedPane.addTab("Stock Control", null, stockControlTab, null);
 	}
 
-	// Action events for the different menu items
-	// Note: It's bad practice to do action listeners in this way, even though
-	// it
-	// shortens the code.
+	/**
+	 * Action listeners
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 
@@ -194,20 +212,23 @@ public class MainGUI extends JFrame implements ActionListener {
 
 		// Logout option
 		if (event.getActionCommand().equals("Logout")) {
+
+			// Hide the main containing window
 			this.setVisible(false);
 			login.clearFields();
 			login.setVisible(true);
 
+			// Close all tabs
 			supplierTab.cancelButton.doClick();
 			staffTab.cancelButton.doClick();
 			customerTab.cancelButton.doClick();
 			productTab.cancelButton.doClick();
-
 			supplierTab.cancelEditButton.doClick();
 			staffTab.cancelEditButton.doClick();
 			customerTab.cancelEditButton.doClick();
 			productTab.cancelEditButton.doClick();
 
+			// Set the default component when login occurs again
 			tabbedPane.setSelectedComponent(customerTab);
 		}
 
@@ -219,14 +240,14 @@ public class MainGUI extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, message);
 		}
 
-		// About option
+		// Open file option
 		if (event.getActionCommand().equals("Open")) {
 			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 				file = fileChooser.getSelectedFile();
 			}
 		}
 
-		// Save option (need to edit)
+		// Save option
 		if (event.getActionCommand().equals("Save")) {
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				String str = "ERFERERERE";
