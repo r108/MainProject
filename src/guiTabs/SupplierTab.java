@@ -30,7 +30,7 @@ public class SupplierTab extends PersonTab {
 	 * 
 	 * @param index
 	 *            The selected index
-	 * @param lsit
+	 * @param list
 	 *            The list of suppliers
 	 */
 	public void setTextField(int index, ArrayList<Person> list) {
