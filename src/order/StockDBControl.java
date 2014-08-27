@@ -29,8 +29,6 @@ public class StockDBControl {
 		product.setProfitMargin(profitMargin); //automatically sets retail price
 	}
 	
-	
-	
 	/**
 	 * @return stockList
 	 */
@@ -45,7 +43,6 @@ public class StockDBControl {
 	public void addNewProductToStockList(Product product, int quantity){
 		stockList.add(new StockItem(product,quantity));
 	}
-	
 	
 	/**
 	 * @param productId

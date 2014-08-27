@@ -1,101 +1,93 @@
 package guiTabs;
+
 //test
 //another test comment
 
-
-
-
-
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
 
 import person.Person;
 import person.Staff;
 import retailSystem.PersonDB;
 import retailSystem.RetailSystemDriver;
 
-
 @SuppressWarnings("serial")
-public class StaffTab extends PersonTab{
+public class StaffTab extends PersonTab {
 
 	private boolean enablePasswordEdit;
 	private String password, password2, accessLevel;
-	private JTextField passwordField1,passwordField2,accessLevelField;
-	private JLabel passwordLabel1,passwordLabel2,accessLevelLabel;
-	
-	
-	
-	public void setTextField(int index, ArrayList<Person> list){
-		
+	private JTextField passwordField1, passwordField2, accessLevelField;
+	private JLabel passwordLabel1, passwordLabel2, accessLevelLabel;
+
+	public void setTextField(int index, ArrayList<Person> list) {
+
 		super.setTextField(index, list);
-			
-		accessLevelField.setText(""+((Staff)person).getAccessLevel());
-		passwordField1.setText(((Staff)person).getPassword());
-		passwordField2.setText(((Staff)person).getPassword());
+
+		accessLevelField.setText("" + ((Staff) person).getAccessLevel());
+		// passwordField1.setText(((Staff)person).getPassword());
+		// passwordField2.setText(((Staff)person).getPassword());
 		addItemsToCombobox(personDB.getStaffList());
 		comboBox.setSelectedIndex(index);
 		revalidate();
 		repaint();
 	}
-	
-	public void clearTextFields(ArrayList<Person> list){
+
+	public void clearTextFields(ArrayList<Person> list) {
 		super.clearTextFields(list);
-	
+
 		accessLevelField.setText("");
 		passwordField1.setText("");
 		passwordField2.setText("");
 		revalidate();
 		repaint();
 	}
-	
 
 	/**
 	 * Create the panel.
 	 */
 	public StaffTab(PersonDB personDB) {
-		
+
 		super(personDB);
 		enablePasswordEdit = false;
 		passwordLabel1 = new JLabel("Password");
 		passwordLabel2 = new JLabel("Password Again");
 		accessLevelLabel = new JLabel("Access Level");
 		comboboxLabel.setText("Staff List");
-				
+
 		passwordField1 = new JTextField();
 		passwordField2 = new JTextField();
 		accessLevelField = new JTextField();
-		
+
 		passwordField1.setVisible(false);
 		passwordField2.setVisible(false);
 		passwordLabel1.setVisible(false);
 		passwordLabel2.setVisible(false);
-		
+
 		accessLevelField.setBounds(200, 160, 265, 20);
 		accessLevelField.setColumns(10);
 		passwordField2.setBounds(200, 185, 265, 20);
 		passwordField2.setColumns(10);
 		passwordField1.setBounds(200, 210, 265, 20);
 		passwordField1.setColumns(10);
-		
+
 		accessLevelLabel.setBounds(59, 160, 94, 14);
 		passwordLabel1.setBounds(59, 185, 93, 14);
 		passwordLabel2.setBounds(59, 210, 93, 14);
-		
-		
-		setTextField(0,personDB.getStaffList());
+
+		setTextField(0, personDB.getStaffList());
 		setFieldEditable(false);
 		addAllElements();
-		
+
 	}
 
-	public void addAllElements(){
+	public void addAllElements() {
 		super.addAllElements();
-		
+
 		add(accessLevelLabel);
 		add(passwordLabel1);
 		add(passwordLabel2);
@@ -104,176 +96,174 @@ public class StaffTab extends PersonTab{
 		add(passwordField1);
 		add(passwordField2);
 	}
-	
-	
-	public void setFieldEditable(boolean editable){
-		super.setFieldEditable(editable);	
+
+	public void setFieldEditable(boolean editable) {
+		super.setFieldEditable(editable);
 		accessLevelField.setEditable(editable);
 	}
-	
-	
-	
-	public void personDetailsForm(){	
+
+	public void personDetailsForm() {
 		super.personDetailsForm();
 		int aLevel = 0;
 		accessLevel = null;
 		password = null;
 		password2 = null;
-		
-		if(!accessLevelField.getText().equals(""))
-			accessLevel =accessLevelField.getText();
+
+		if (!accessLevelField.getText().equals(""))
+			accessLevel = accessLevelField.getText();
 		else {
-			errorMessage = errorMessage +"Access level field cannot be empty!\n";	
-		}		
-		if(!passwordField1.getText().equals("")&&!passwordField2.getText().equals("")){
+			errorMessage = errorMessage + "Access level field cannot be empty!\n";
+		}
+		if (!passwordField1.getText().equals("") && !passwordField2.getText().equals("")) {
 			password = (passwordField1.getText());
 			password2 = (passwordField2.getText());
 		}
-		else{
-			errorMessage = errorMessage+ "Password fields cannot be empty!\n";
+		else {
+			errorMessage = errorMessage + "Password fields cannot be empty!\n";
 		}
-		if(name!=null && address!=null && email!=null && contactNumber!=null && accessLevel !=null && password!=null && password2!=null){
-			if(!password.equals(password2)){
+		if (name != null && address != null && email != null && contactNumber != null
+				&& accessLevel != null && password != null && password2 != null) {
+			if (!password.equals(password2)) {
 				JOptionPane.showMessageDialog(null, "Passwords do not match!!!");
-			}	
-			else{
+			}
+			else {
 				try {
 					aLevel = Integer.parseInt(accessLevel);
-				} 
+				}
 				catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Invalid input! Only numbers are allowed!");
 					e.printStackTrace();
 				}
-				
-				if(RetailSystemDriver.validateAccessLevel(accessLevel)){
-					
+
+				if (RetailSystemDriver.validateAccessLevel(accessLevel)) {
+
 					valid = true;
 				}
-				else{
+				else {
 					JOptionPane.showMessageDialog(null, "Only access level 1 or 2 are valid!");
-					errorMessage = errorMessage+ "Only access level 1 or 2 are valid!\n";
+					errorMessage = errorMessage + "Only access level 1 or 2 are valid!\n";
 				}
-				if(editMode){
+				if (editMode) {
 					System.out.println(valid);
-					if(valid){
-						personDB.changePersonDetails(person, name, email, contactNumber, address, aLevel, password, null, null);
+					if (valid) {
+						personDB.changePersonDetails(person, name, email, contactNumber, address,
+								aLevel, password, null, null);
 						System.out.println("Done");
 						setTextField(comboBox.getSelectedIndex(), personDB.getStaffList());
 					}
 				}
-				else{
-					if(valid){
-						personDB.createNewPerson(person,name, email, contactNumber, address,  aLevel, password,null, null);
-						setTextField(personDB.getStaffList().size()-1,personDB.getStaffList());
+				else {
+					if (valid) {
+						personDB.createNewPerson(person, name, email, contactNumber, address,
+								aLevel, password, null, null);
+						setTextField(personDB.getStaffList().size() - 1, personDB.getStaffList());
 					}
 				}
-				if(valid){
+				if (valid) {
 					deletePersonButton.setEnabled(true);
-					
+
 					newPersonButton.setEnabled(true);
 					newPersonButton.setVisible(true);
-					
+
 					editPersonButton.setEnabled(true);
 					editPersonButton.setVisible(true);
-					
+
 					submitButton.setVisible(false);
-					
-					
+
 					cancelButton.setVisible(false);
 					cancelEditButton.setVisible(false);
 				}
-			}	
+			}
 		}
-		else{
-			JOptionPane.showMessageDialog(null, ""+errorMessage);
-		}	
+		else {
+			JOptionPane.showMessageDialog(null, "" + errorMessage);
+		}
 		revalidate();
 		repaint();
-		
+
 	}
-	
-	
-	public void togglePasswordField(){
-		if(!enablePasswordEdit){
+
+	public void togglePasswordField() {
+		if (!enablePasswordEdit) {
 			passwordField1.setVisible(true);
 			passwordField2.setVisible(true);
 			passwordLabel1.setVisible(true);
 			passwordLabel2.setVisible(true);
 		}
-		else{
+		else {
 			passwordField1.setVisible(false);
 			passwordField2.setVisible(false);
 			passwordLabel1.setVisible(false);
 			passwordLabel2.setVisible(false);
 		}
-		enablePasswordEdit=!enablePasswordEdit;
+		enablePasswordEdit = !enablePasswordEdit;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		super.actionPerformed(e);	
-	
-		if(e.getSource()==submitButton){
-			if(submitButtonMode == 2){
+
+		super.actionPerformed(e);
+
+		if (e.getSource() == submitButton) {
+			if (submitButtonMode == 2) {
 				editMode = true;
 				personDetailsForm();
 			}
-			else if(submitButtonMode == 1){
+			else if (submitButtonMode == 1) {
 				editMode = false;
 				personDetailsForm();
 			}
 		}
-		
-		if(valid){
-			//super.actionPerformed(e);	
+
+		if (valid) {
+			// super.actionPerformed(e);
 			togglePasswordField();
 			setFieldEditable(false);
 			valid = false;
 		}
-		if(e.getSource()==newPersonButton){	
+		if (e.getSource() == newPersonButton) {
 			clearTextFields(personDB.getStaffList());
 			super.actionPerformed(e);
 			setFieldEditable(true);
 			togglePasswordField();
-				
-		}	
-		if(e.getSource()==editPersonButton){	
-			//super.actionPerformed(e);
+
+		}
+		if (e.getSource() == editPersonButton) {
+			// super.actionPerformed(e);
 			togglePasswordField();
-			setFieldEditable(true);	
-		}	
-		if(e.getSource()==cancelButton){
-			
+			setFieldEditable(true);
+		}
+		if (e.getSource() == cancelButton) {
+
 			setFieldEditable(false);
 			togglePasswordField();
-			setTextField(personDB.getStaffList().size()-1,personDB.getStaffList());	
-			if(!(personDB.getStaffList().size()>0))
+			setTextField(personDB.getStaffList().size() - 1, personDB.getStaffList());
+			if (!(personDB.getStaffList().size() > 0))
 				clearTextFields(personDB.getStaffList());
 		}
-		if(e.getSource()==cancelEditButton){		
-			setTextField(comboBox.getSelectedIndex(),personDB.getStaffList());
+		if (e.getSource() == cancelEditButton) {
+			setTextField(comboBox.getSelectedIndex(), personDB.getStaffList());
 			setFieldEditable(false);
-			togglePasswordField();	
-			if(!(personDB.getStaffList().size()>0))
+			togglePasswordField();
+			if (!(personDB.getStaffList().size() > 0))
 				clearTextFields(personDB.getStaffList());
 		}
-		
-		if(e.getSource()==deletePersonButton){
+
+		if (e.getSource() == deletePersonButton) {
 			deletePerson(person, personDB.getStaffList());
 		}
 		revalidate();
-  		repaint();
-		
+		repaint();
+
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent event) {
 		if (event.getStateChange() == ItemEvent.SELECTED) {
-			setTextField(comboBox.getSelectedIndex(),personDB.getStaffList());
-	  		revalidate();
-	  		repaint();
-       }
+			setTextField(comboBox.getSelectedIndex(), personDB.getStaffList());
+			revalidate();
+			repaint();
+		}
 	}
 
 }
