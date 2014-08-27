@@ -1,8 +1,6 @@
 package guiTabs;
 
-
-
-
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -24,8 +22,8 @@ import person.Person;
 import retailSystem.PersonDB;
 import retailSystem.RetailSystemDriver;
 
-public class PersonTab extends JPanel implements ActionListener, ItemListener{
-	
+public class PersonTab extends JPanel implements ActionListener, ItemListener {
+
 	protected boolean editMode;
 	protected boolean valid;
 	protected int submitButtonMode;
@@ -33,44 +31,43 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 	protected PersonDB personDB;
 	protected Vector<String> comboboxItems;
 	protected Person person;
-	protected String name, email, contactNumber, address,errorMessage;
-	protected JButton newPersonButton,editPersonButton,deletePersonButton,submitButton,cancelButton,cancelEditButton;
-	protected JTextField nameField,emailField,contactNumberField;
+	protected String name, email, contactNumber, address, errorMessage;
+	protected JButton newPersonButton, editPersonButton, deletePersonButton, submitButton,
+			cancelButton, cancelEditButton;
+	protected JTextField nameField, emailField, contactNumberField;
 	protected JTextArea addressField;
-	protected JLabel idLabel,idNumberLabel,nameLabel,emailLabel,contactNumberLabel,addressLabel,comboboxLabel;
+	protected JLabel idLabel, idNumberLabel, nameLabel, emailLabel, contactNumberLabel,
+			addressLabel, comboboxLabel;
 	protected JScrollPane scrollPane;
 	protected JComboBox<String> comboBox;
 	protected DefaultComboBoxModel<String> comboboxModel;
-	//private final boolean PRIVILEDGED_ACCESS = RetailSystemDriver.isPriviledged(); 
-	
-	
-	
-	
-	
+
+	// private final boolean PRIVILEDGED_ACCESS = RetailSystemDriver.isPriviledged();
+
 	public PersonTab(PersonDB personDB) {
-		
+
 		this.personDB = personDB;
 		valid = false;
 		emptiedList = false;
 		submitButtonMode = 0;
-		
+
 		comboboxItems = new Vector<String>();
 		comboboxModel = new DefaultComboBoxModel<String>(comboboxItems);
 		comboBox = new JComboBox<String>(comboboxModel);
-	
+
 		idLabel = new JLabel("ID");
 		idNumberLabel = new JLabel("1");
 		nameLabel = new JLabel("Name");
 		emailLabel = new JLabel("Email");
 		contactNumberLabel = new JLabel("Contact Number");
 		addressLabel = new JLabel("Address");
-	
+
 		comboboxLabel = new JLabel("");
-		
+
 		nameField = new JTextField();
 		contactNumberField = new JTextField();
 		emailField = new JTextField();
-		addressField = new JTextArea(5,20);
+		addressField = new JTextArea(5, 20);
 		addressField.setLineWrap(true);
 		addressField.setWrapStyleWord(true);
 		newPersonButton = new JButton("Add New");
@@ -79,13 +76,12 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		submitButton = new JButton("Submit");
 		cancelButton = new JButton("Cancel");
 		cancelEditButton = new JButton("Cancel");
-		
-		/*if(!RetailSystemDriver.isPriviledged()){
-			newPersonButton.setEnabled(false);
-			editPersonButton.setEnabled(false);
-			deletePersonButton.setEnabled(false);
-		}*/
-		
+
+		/*
+		 * if(!RetailSystemDriver.isPriviledged()){ newPersonButton.setEnabled(false);
+		 * editPersonButton.setEnabled(false); deletePersonButton.setEnabled(false); }
+		 */
+
 		newPersonButton.addActionListener(this);
 		editPersonButton.addActionListener(this);
 		deletePersonButton.addActionListener(this);
@@ -95,87 +91,83 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		cancelButton.setVisible(false);
 		cancelEditButton.addActionListener(this);
 		cancelEditButton.setVisible(false);
-	
-		idNumberLabel.setBounds(203, 7, 265, 20);	
+
+		idNumberLabel.setBounds(203, 7, 265, 20);
 		nameField.setBounds(200, 30, 265, 20);
 		nameField.setColumns(10);
 		emailField.setBounds(200, 55, 265, 20);
 		emailField.setColumns(10);
 		contactNumberField.setBounds(200, 80, 265, 20);
 		contactNumberField.setColumns(10);
-		
-		idLabel.setBounds(59, 10, 93, 14);	
-		nameLabel.setBounds(59, 33, 93, 14);		
+
+		idLabel.setBounds(59, 10, 93, 14);
+		nameLabel.setBounds(59, 33, 93, 14);
 		emailLabel.setBounds(59, 58, 46, 14);
 		contactNumberLabel.setBounds(59, 83, 93, 14);
 		addressLabel.setBounds(59, 106, 93, 14);
-		
-		
+
 		scrollPane = new JScrollPane(addressField);
 		scrollPane.setBounds(200, 105, 265, 50);
-		
-		
+
 		submitButton.setBounds(200, 250, 106, 23);
 		newPersonButton.setBounds(64, 320, 130, 23);
 		cancelButton.setBounds(64, 320, 130, 23);
 		cancelEditButton.setBounds(199, 320, 130, 23);
 		editPersonButton.setBounds(199, 320, 130, 23);
 		deletePersonButton.setBounds(335, 320, 130, 23);
-		
+
 		comboboxLabel.setBounds(65, 285, 120, 20);
 		comboBox.setBounds(200, 285, 265, 20);
 		comboBox.addItemListener(this);
-		
+
 		setLayout(null);
-		setVisible(true);	
+		setVisible(true);
 	}
 
-
-	public void addItemsToCombobox(ArrayList<Person> list){
+	public void addItemsToCombobox(ArrayList<Person> list) {
 		comboboxItems.clear();
 		String item = "";
-		for(Person person : list){
+		for (Person person : list) {
 			item = person.getName();
 			comboboxItems.add(item);
 		}
 		revalidate();
 		repaint();
 	}
-	
-	public void setTextField(int index,ArrayList<Person> list){
-		
-		if(list.size()>0){
+
+	public void setTextField(int index, ArrayList<Person> list) {
+
+		if (list.size() > 0) {
 			person = list.get(index);
-			idNumberLabel.setText(""+person.getId());
+			idNumberLabel.setText("" + person.getId());
 			emptiedList = false;
 		}
-		
+
 		nameField.setText(person.getName());
 		addressField.setText(person.getAddress());
 		contactNumberField.setText(person.getContactNumber());
 		emailField.setText(person.getEmail());
-		
+
 		addItemsToCombobox(list);
 		comboBox.setSelectedIndex(index);
 	}
-	
-	public void clearTextFields(ArrayList<Person> list){
-		if(list.size()>0){
-			idNumberLabel.setText(""+Person.getUniqueId());
+
+	public void clearTextFields(ArrayList<Person> list) {
+		if (list.size() > 0) {
+			idNumberLabel.setText("" + Person.getUniqueId());
 		}
-		else{
+		else {
 			idNumberLabel.setText("");
 			emptiedList = true;
-		}	
+		}
 		nameField.setText("");
 		contactNumberField.setText("");
 		emailField.setText("");
 		addressField.setText("");
 	}
-	
-	
-	public void addAllElements(){
-		
+
+	public void addAllElements() {
+
 		add(newPersonButton);
 		add(deletePersonButton);
 		add(submitButton);
@@ -184,12 +176,12 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		add(cancelEditButton);
 		add(comboBox);
 		add(comboboxLabel);
-		
+
 		add(nameField);
 		add(contactNumberField);
 		add(emailField);
 		add(scrollPane);
-		
+
 		add(idLabel);
 		add(idNumberLabel);
 		add(nameLabel);
@@ -198,30 +190,34 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		add(addressLabel);
 	}
 
-	public void setFieldEditable(boolean editable){
+	public void setFieldEditable(boolean editable) {
 		nameField.setEditable(editable);
 		contactNumberField.setEditable(editable);
 		emailField.setEditable(editable);
-		addressField.setEditable(editable);		
+		addressField.setEditable(editable);
 	}
-	
-	public void enableButtons(boolean enabled){
+
+	public void enableButtons(boolean enabled) {
 		newPersonButton.setEnabled(enabled);
 		editPersonButton.setEnabled(enabled);
 		deletePersonButton.setEnabled(enabled);
 	}
-	
-	public void deletePerson(Person person, ArrayList<Person> list){
-		
-		int answer=JOptionPane.showConfirmDialog(null, "Do you really want to delete "+person.getName()+"?", " CONFIRMATION " , JOptionPane.YES_NO_OPTION);//displaying JOptionPane.YES_NO_OPTION Confirmdialog box
-		if ( answer==JOptionPane.YES_OPTION ){
+
+	public void deletePerson(Person person, ArrayList<Person> list) {
+
+		int answer = JOptionPane.showConfirmDialog(null, "Do you really want to delete "
+				+ person.getName() + "?", " CONFIRMATION ", JOptionPane.YES_NO_OPTION);// displaying
+																						// JOptionPane.YES_NO_OPTION
+																						// Confirmdialog
+																						// box
+		if (answer == JOptionPane.YES_OPTION) {
 			personDB.deletePersonFromList(person);
 		}
-		if(list.size()>0){
-			setTextField(0, list);	
+		if (list.size() > 0) {
+			setTextField(0, list);
 		}
-		else{
-			setTextField(list.size()-1, list);
+		else {
+			setTextField(list.size() - 1, list);
 			clearTextFields(list);
 			deletePersonButton.setEnabled(false);
 			editPersonButton.setEnabled(false);
@@ -230,87 +226,108 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 		revalidate();
 		repaint();
 	}
-	
-	public void personDetailsForm(){	
+
+	public void personDetailsForm() {
 		name = null;
 		email = null;
 		contactNumber = null;
 		address = null;
-		
+
 		errorMessage = "";
-		
-		if(!nameField.getText().equals("")){
+
+		// Name field
+		if (!nameField.getText().equals("")) {
 			name = nameField.getText();
+			nameLabel.setForeground(Color.black);
 		}
-		else{ 
-			errorMessage = errorMessage +"Name field cannot be empty!\n";	
+		else {
+			errorMessage = errorMessage + "Name field cannot be empty!\n";
+			nameLabel.setForeground(Color.red);
 		}
-		if(!emailField.getText().equals("")){
+
+		// Email field
+		if (!emailField.getText().equals("")) {
+
 			email = (emailField.getText());
-			if(!RetailSystemDriver.validateEmail(email)){
+			emailLabel.setForeground(Color.black);
+			if (!RetailSystemDriver.validateEmail(email)) {
 				email = null;
-				errorMessage = errorMessage +"\nInvalid email address!!\nValid format is john.dough@example.com";
+				errorMessage = errorMessage
+						+ "\nInvalid email address!!\nValid format is john.dough@example.com";
+				emailLabel.setForeground(Color.red);
 			}
-		}	
-		else{
-			errorMessage = errorMessage +"Email field cannot be empty!\n";	
+
 		}
-		if(!contactNumberField.getText().equals("")){
+		else {
+			errorMessage = errorMessage + "Email field cannot be empty!\n";
+			emailLabel.setForeground(Color.red);
+		}
+		// Contact number field
+		if (!contactNumberField.getText().equals("")) {
+
 			contactNumber = (contactNumberField.getText());
-			/*try {*/
-				//Integer.parseInt(contactNumber);
-			/*} catch (NumberFormatException e) {
-				errorMessage = errorMessage +"\nInvalid phone number!!\nOnly numbers are allowed!";
-				e.printStackTrace();
-			}*/
-			if(!RetailSystemDriver.validateContactNumber(contactNumber)){
+			contactNumberLabel.setForeground(Color.black);
+
+			if (!RetailSystemDriver.validateContactNumber(contactNumber)) {
 				contactNumber = null;
-				errorMessage = errorMessage +"\nInvalid phone number!!\nValid format is 0xxxxxxxxx\nOnly numbers are allowed!";
+				errorMessage = errorMessage
+						+ "\nInvalid phone number!!\nValid format is 0xxxxxxxxx\nOnly numbers are allowed!";
+				emailLabel.setForeground(Color.red);
 			}
 		}
-		else{
-			errorMessage = errorMessage +"Contact number field cannot be empty!\n";	
+		else {
+			errorMessage = errorMessage + "Contact number field cannot be empty!\n";
+			contactNumberLabel.setForeground(Color.red);
 		}
-		
-		if(!addressField.getText().equals(""))
+		// Address field
+		if (!addressField.getText().equals("")) {
 			address = (addressField.getText());
-		else{
-			errorMessage = errorMessage +"Address field cannot be empty!\n";	
-		}	
+			addressLabel.setForeground(Color.black);
+		}
+		else {
+			errorMessage = errorMessage + "Address field cannot be empty!\n";
+			addressLabel.setForeground(Color.red);
+		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if(e.getSource()==newPersonButton){
+
+		if (e.getSource() == newPersonButton) {
 			submitButton.setVisible(true);
 			newPersonButton.setVisible(false);
 			deletePersonButton.setEnabled(false);
 			editPersonButton.setEnabled(false);
 			cancelButton.setVisible(true);
-			submitButtonMode = 1;		
-			if(emptiedList){
-				idNumberLabel.setText(""+Person.getUniqueId());
-			}			
-		}	
-		if(e.getSource()==editPersonButton){
+			submitButtonMode = 1;
+			if (emptiedList) {
+				idNumberLabel.setText("" + Person.getUniqueId());
+			}
+		}
+		if (e.getSource() == editPersonButton) {
 			submitButtonMode = 2;
 			editPersonButton.setVisible(false);
 			submitButton.setVisible(true);
 			cancelEditButton.setVisible(true);
 			newPersonButton.setEnabled(false);
 			deletePersonButton.setEnabled(false);
-		}	
-		if(e.getSource()==cancelButton){		
+		}
+		if (e.getSource() == cancelButton) {
 			submitButton.setVisible(false);
 			newPersonButton.setVisible(true);
 			cancelButton.setVisible(false);
-			if(!emptiedList){
+
+			if (!emptiedList) {
 				deletePersonButton.setEnabled(true);
 				editPersonButton.setEnabled(true);
 			}
+			nameLabel.setForeground(Color.black);
+			emailLabel.setForeground(Color.black);
+			addressLabel.setForeground(Color.black);
+			contactNumberLabel.setForeground(Color.black);
+
 		}
-		if(e.getSource()==cancelEditButton){
+		if (e.getSource() == cancelEditButton) {
 			submitButton.setVisible(false);
 			cancelEditButton.setVisible(false);
 			deletePersonButton.setEnabled(true);
@@ -319,16 +336,12 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener{
 			editPersonButton.setVisible(true);
 		}
 		revalidate();
-  		repaint();
+		repaint();
 	}
-	
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		
+
 	}
 
-
-	
-	
 }

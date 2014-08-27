@@ -26,7 +26,6 @@ import retailSystem.PersonDB;
 
 public class MainGUI extends JFrame implements ActionListener {
 
-	private JTabbedPane tabbedPane;
 	private PurchaseOrderTab purchaseOrderTab;
 	private CustomerOrderTab customerOrderTab;
 	private StockControlTab stockControlTab;
@@ -34,19 +33,16 @@ public class MainGUI extends JFrame implements ActionListener {
 	private ProductTab productTab;
 	private SupplierTab supplierTab;
 	private CustomerTab customerTab;
-	private JMenuBar menuBar;
-	private JMenu fileMenu;
-	private JMenu userMenu;
-	private JMenu helpMenu;
-	private JMenuItem logoutMenuItem;
-	private JMenuItem exitMenuItem;
-	private JMenuItem openMenuItem;
-	private JMenuItem saveMenuItem;
-	private JMenuItem aboutMenuItem;
-	private JMenuItem howToMenuItem;
-	private StockDBControl stockDBControl;
 	private Login login;
+
+	private JTabbedPane tabbedPane;
+	private JMenuBar menuBar;
+	private JMenu fileMenu, userMenu, helpMenu;
+	private JMenuItem logoutMenuItem, exitMenuItem, openMenuItem, saveMenuItem, aboutMenuItem,
+			howToMenuItem;
+	private StockDBControl stockDBControl;
 	private JFileChooser fileChooser;
+
 	private File file;
 	private BufferedWriter writer;
 	private StringBuilder stringBuilder;
@@ -89,6 +85,12 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 
+	public MainGUI(PersonDB personDB, StockDBControl stockDBControl) {
+		Login l = new Login(personDB, stockDBControl);
+		l.setVisible(false);
+		new MainGUI(personDB, stockDBControl, l);
+	}
+
 	public MainGUI(PersonDB personDB, StockDBControl stockDBControl, Login login) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
@@ -123,6 +125,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		aboutMenuItem = new JMenuItem("About Group2");
 		howToMenuItem = new JMenuItem("User Guide");
 
+		// this is a comment
 		// Add menu items to their relevant menu
 		fileMenu.add(openMenuItem);
 		fileMenu.add(saveMenuItem);
@@ -155,8 +158,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		supplierTab = new SupplierTab(personDB, tabbedPane, this);
 		staffTab = new StaffTab(personDB);
 		customerTab = new CustomerTab(personDB);
-		productTab = new ProductTab(stockDBControl, personDB, tabbedPane,
-				supplierTab, this);
+		productTab = new ProductTab(stockDBControl, personDB, tabbedPane, supplierTab, this);
 		stockControlTab = new StockControlTab(stockDBControl);
 		customerOrderTab = new CustomerOrderTab(stockDBControl);
 		// purchaseOrderTab = new PurchaseOrderTab(stockDBControl, personDB);
@@ -182,8 +184,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		if (event.getActionCommand().equals("Exit")) {
 
 			int answer = JOptionPane.showConfirmDialog(null,
-					"Are you sure you want to exit the program?",
-					" CONFIRMATION ", JOptionPane.YES_NO_OPTION);
+					"Are you sure you want to exit the program?", " CONFIRMATION ",
+					JOptionPane.YES_NO_OPTION);
 			if (answer == JOptionPane.YES_OPTION) {
 				System.exit(0);
 			}
@@ -211,10 +213,9 @@ public class MainGUI extends JFrame implements ActionListener {
 
 		// About option
 		if (event.getActionCommand().equals("About Group2")) {
-			String message = "DIT FCP-2014 GROUP 2 MEMBERS\n\n"
-					+ "Conor Clarke\n" + "Peter Farrel\n" + "John Fleming\n"
-					+ "Szabolcs Hutvagner\n" + "John O`Keeffe\n"
-					+ "Roland Katona";
+			String message = "DIT FCP-2014 GROUP 2 MEMBERS\n\n" + "Conor Clarke\n"
+					+ "Peter Farrel\n" + "John Fleming\n" + "Szabolcs Hutvagner\n"
+					+ "John O`Keeffe\n" + "Roland Katona";
 			JOptionPane.showMessageDialog(null, message);
 		}
 
@@ -230,20 +231,16 @@ public class MainGUI extends JFrame implements ActionListener {
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				String str = "ERFERERERE";
 				/*
-				 * try(FileWriter fw = new
-				 * FileWriter(fileChooser.getSelectedFile()+".txt")) {
-				 * fw.write(sb.toString()); } catch (IOException e) { //
-				 * Auto-generated catch block e.printStackTrace(); } file =
-				 * fileChooser.getSelectedFile();
+				 * try(FileWriter fw = new FileWriter(fileChooser.getSelectedFile()+".txt")) {
+				 * fw.write(sb.toString()); } catch (IOException e) { // Auto-generated catch block
+				 * e.printStackTrace(); } file = fileChooser.getSelectedFile();
 				 */
 				stringBuilder = new StringBuilder();
-				productTab.buildProductDetailsString(stockDBControl
-						.getStockList());
+				productTab.buildProductDetailsString(stockDBControl.getStockList());
 
 				try {
-					writer = new BufferedWriter(new OutputStreamWriter(
-							new FileOutputStream(fileChooser.getSelectedFile()
-									+ ".txt"), "utf-8"));
+					writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
+							fileChooser.getSelectedFile() + ".txt"), "utf-8"));
 					writer.write("Something " + stringBuilder);
 				}
 				catch (IOException e) {
