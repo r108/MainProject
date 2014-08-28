@@ -68,7 +68,6 @@ public class PersonTab extends JPanel implements ActionListener, ItemListener {
 		emailLabel = new JLabel("Email");
 		contactNumberLabel = new JLabel("Contact Number");
 		addressLabel = new JLabel("Address");
-
 		comboboxLabel = new JLabel("");
 
 		nameField = new JTextField();

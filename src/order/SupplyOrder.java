@@ -18,7 +18,7 @@ public class SupplyOrder extends Order {
 	}
 
 	/**
-	 * @return the orderId
+	 * @return The orderId
 	 */
 	public int getOrderId() {
 		return orderId;
@@ -26,14 +26,14 @@ public class SupplyOrder extends Order {
 
 	/**
 	 * @param orderId
-	 *            the orderId to set
+	 *            The orderId to set
 	 */
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 
 	/**
-	 * @return the shippingPrice
+	 * @return The shipping price
 	 */
 	public double getShippingPrice() {
 		return shippingPrice;
@@ -41,14 +41,14 @@ public class SupplyOrder extends Order {
 
 	/**
 	 * @param shippingPrice
-	 *            the shippingPrice to set
+	 *            The shipping price to set
 	 */
 	public void setShippingPrice(double shippingPrice) {
 		this.shippingPrice = shippingPrice;
 	}
 
 	/**
-	 * @return the person
+	 * @return The supplier associated with the order
 	 */
 	public Supplier getPerson() {
 		return person;
@@ -56,7 +56,7 @@ public class SupplyOrder extends Order {
 
 	/**
 	 * @param person
-	 *            the person to set
+	 *            The person to set
 	 */
 	public void setPerson(Supplier person) {
 		this.person = person;
@@ -70,8 +70,7 @@ public class SupplyOrder extends Order {
 	}
 
 	/**
-	 * Set the total price based on the price of the products and the delivery
-	 * price
+	 * Set the total price based on the price of the products and the delivery price
 	 */
 	public void setTotalPrice() {
 		this.totalPrice = getOrderPrice() + getShippingPrice();
