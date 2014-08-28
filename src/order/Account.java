@@ -8,36 +8,37 @@ import java.util.ArrayList;
  * @author Conor
  */
 public class Account {
-	private ArrayList<SupplyOrder> supplyOrderList;
-	private ArrayList<PurchaseOrder> purchaseOrderList;
+	private ArrayList<Order> supplyOrderList;
+	private ArrayList<Order> purchaseOrderList;
 	public double totalSales;
 	public double totalPurchases;
 
 	/**
 	 * Accounting constructor
 	 */
-	public Account(ArrayList<PurchaseOrder> purchaseOrderList,
-			ArrayList<SupplyOrder> supplyOrderList) {
+	public Account(ArrayList<Order> purchaseOrderList,
+			ArrayList<Order> supplyOrderList) {
 		this.totalPurchases = 0;
 		this.totalSales = 0;
 		this.purchaseOrderList = purchaseOrderList;
 		this.supplyOrderList = supplyOrderList;
-		getTotalPurchases();
 	}
 
 	/**
 	 * @param e
 	 */
-	public void add(SupplyOrder e) {
-		supplyOrderList.add(e);
-	}
+	//public void add(SupplyOrder e) {
+	//	supplyOrderList.add(e);
+	//}
+	
 
+	
 	/**
 	 * @param e
 	 */
-	public void add(PurchaseOrder e) {
-		purchaseOrderList.add(e);
-	}
+	//public void add(PurchaseOrder e) {
+	//	purchaseOrderList.add(e);
+	//}
 
 	/**
 	 * @return the totalSales
@@ -50,8 +51,8 @@ public class Account {
 	 * Calculate the amount of the total sales
 	 */
 	public void setTotalSales() {
-		for (SupplyOrder i : supplyOrderList) {
-			totalSales += i.getTotalPrice();
+		for (Order order : supplyOrderList) {			
+			totalSales += order.getGrandTotalOfOrder();					
 		}
 	}
 
@@ -66,18 +67,18 @@ public class Account {
 	 * Calculate the amount of the total purchases
 	 */
 	public void setTotalPurchases() {
-		for (PurchaseOrder i : purchaseOrderList) {
-			totalPurchases += i.getTotalPrice();
+		for (Order order : purchaseOrderList) {
+			totalPurchases += order.getGrandTotalOfOrder();
 		}
 	}
 
-	public ArrayList<PurchaseOrder> autoCreatePurchaseOrders() {
-		ArrayList<PurchaseOrder> purchases = new ArrayList<PurchaseOrder>();
+	public ArrayList<Order> autoCreatePurchaseOrders() {
+		ArrayList<Order> purchases = new ArrayList<Order>();
 		return purchases;
 	}
 
-	public ArrayList<SupplyOrder> autoCreateSupplyOrders() {
-		ArrayList<SupplyOrder> supplies = new ArrayList<SupplyOrder>();
+	public ArrayList<Order> autoCreateSupplyOrders() {
+		ArrayList<Order> supplies = new ArrayList<Order>();
 
 		return supplies;
 	}
