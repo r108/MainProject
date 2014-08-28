@@ -61,16 +61,4 @@ public class Supplier extends Person {
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
-	
-	/* (non-Javadoc)
-	 * @see group2.Person#displayDetails()
-	 */
-	public void displayDetails(){
-		super.displayDetails();
-		System.out.println("Contact Name : "+contactName);	
-		System.out.println("Supplier VAT Number : "+vatNumber);	
-	}
-	
-	
-
 }

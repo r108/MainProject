@@ -15,7 +15,6 @@ public class Person {
 	private String address;
 	
 
-	
 	/**
 	 * Default constructor
 	 */
@@ -24,7 +23,6 @@ public class Person {
 		email = "";
 		address = "";
 		contactNumber = "0";
-		//id = uniqueId++;
 	}
 	
 	/**
