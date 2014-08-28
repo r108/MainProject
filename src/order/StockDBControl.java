@@ -20,24 +20,6 @@ public class StockDBControl {
 
 	}
 
-	/**
-	 * Alters the details for a product in stock
-	 * 
-	 * @param productId
-	 *            The ID of the product
-	 * @param productName
-	 *            The name of the product
-	 * @param category
-	 *            The product category
-	 * @param description
-	 *            Description for the product
-	 * @param supplierPrice
-	 *            Price the supplier gets for the product
-	 * @param profitMargin
-	 *            Retailer's profit margin
-	 * @param supplier
-	 *            Supplier associated with the product
-	 */
 	public void changeProductDetails(int productId, String productName, String category,
 			String description, double supplierPrice, double profitMargin, Supplier supplier) {
 		Product product = getStockItem(productId).getProduct();
@@ -50,7 +32,7 @@ public class StockDBControl {
 	}
 
 	/**
-	 * @return The list of items in stock
+	 * @return stockList
 	 */
 	public ArrayList<StockItem> getStockList() {
 		return stockList;
@@ -58,9 +40,7 @@ public class StockDBControl {
 
 	/**
 	 * @param product
-	 *            The product to add
 	 * @param quantity
-	 *            The quantity to add
 	 */
 	public void addNewProductToStockList(Product product, int quantity) {
 		stockList.add(new StockItem(product, quantity));
@@ -68,8 +48,7 @@ public class StockDBControl {
 
 	/**
 	 * @param productId
-	 *            The product ID
-	 * @return The product and the amount in stock
+	 * @return productAndQuantityInStock
 	 */
 	public StockItem getStockItem(int productId) {
 		for (StockItem stockItem : stockList) {
@@ -82,7 +61,7 @@ public class StockDBControl {
 	}
 
 	/**
-	 * Delete an item from the stock list
+	 * Deleted an item from the stock list
 	 * 
 	 * @param stockItem
 	 *            The item to remove

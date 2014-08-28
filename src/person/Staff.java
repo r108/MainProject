@@ -2,6 +2,7 @@ package person;
 
 /**
  * @author Roland Katona
+ *
  */
 public class Staff extends Person {
 
@@ -10,7 +11,7 @@ public class Staff extends Person {
 	private boolean login;
 
 	/**
-	 * Staff constructor
+	 * Default constructor
 	 */
 	public Staff() {
 		super();
@@ -20,17 +21,11 @@ public class Staff extends Person {
 
 	/**
 	 * @param name
-	 *            The name of the staff member
 	 * @param email
-	 *            Staff email
 	 * @param contactNumber
-	 *            Staff contact number
 	 * @param address
-	 *            Staff address
 	 * @param password
-	 *            Staff password
 	 * @param accesslevel
-	 *            Staff access level
 	 */
 	public Staff(String name, String email, String contactNumber, String address, String password,
 			int accesslevel) {
@@ -39,22 +34,30 @@ public class Staff extends Person {
 		this.accessLevel = accesslevel;
 	}
 
-	/** @return password */
+	/**
+	 * @return password
+	 */
 	/*
 	 * public String getPassword() { return password; }
 	 */
 
-	/** @param password */
+	/**
+	 * @param password
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/** @return accessLevel */
+	/**
+	 * @return accessLevel
+	 */
 	public int getAccessLevel() {
 		return accessLevel;
 	}
 
-	/** @param accessLevel */
+	/**
+	 * @param accessLevel
+	 */
 	public void setAccessLevel(int accessLevel) {
 		this.accessLevel = accessLevel;
 	}
@@ -63,7 +66,7 @@ public class Staff extends Person {
 	 * Validates a char array to check if it matches the password. If it does, it returns the
 	 * boolean 'login' as true. 'login' is initially set to false in the constructor.
 	 * 
-	 * @return Status of whether the user can log in or not
+	 * @return login
 	 * @param charArr
 	 *            The password required for the staff member to log in
 	 */
@@ -74,4 +77,5 @@ public class Staff extends Person {
 			login = true;
 		return login;
 	}
+
 }

@@ -1,5 +1,6 @@
 package person;
 
+
 /**
  * @author Roland Katona
  *
@@ -7,7 +8,7 @@ package person;
 public class Customer extends Person {
 
 	/**
-	 * Customer constructor
+	 * Default constructor
 	 */
 	public Customer() {
 		super();
@@ -15,13 +16,9 @@ public class Customer extends Person {
 
 	/**
 	 * @param name
-	 *            Customer name
 	 * @param email
-	 *            Customer email
 	 * @param contactNumber
-	 *            Customer phone number
 	 * @param address
-	 *            Customer address
 	 */
 	public Customer(String name, String email, String contactNumber, String address) {
 		super(name, email, contactNumber, address);

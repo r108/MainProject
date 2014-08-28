@@ -73,14 +73,15 @@ public class Order {
 	 * Set the processing status of an order.
 	 * 
 	 * @param processed
-	 *            The status of the order. True if the order has been processed, false otherwise
+	 *            The status of the order. True if the order has been processed,
+	 *            false otherwise
 	 */
 	public void setProcessed(boolean processed) {
 		this.processed = processed;
 	}
 
 	/**
-	 * @return Total purchase price
+	 * @return totalPurchase
 	 */
 	public double getOrderPrice() {
 		double totalPurchase = 0;
@@ -93,7 +94,7 @@ public class Order {
 	}
 
 	/**
-	 * @return Shipping price
+	 * @return shippingPrice
 	 */
 	public double getShippingPrice() {
 		return shippingPrice;

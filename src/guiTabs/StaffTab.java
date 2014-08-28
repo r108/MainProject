@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -25,7 +24,6 @@ public class StaffTab extends PersonTab {
 	private String password, password2, accessLevel;
 	private JTextField passwordField1, passwordField2, accessLevelField;
 	private JLabel passwordLabel1, passwordLabel2, accessLevelLabel;
-	private JLabel lblNewLabel;
 
 	/**
 	 * Set up the text fields
@@ -116,11 +114,6 @@ public class StaffTab extends PersonTab {
 		add(accessLevelField);
 		add(passwordField1);
 		add(passwordField2);
-
-		lblNewLabel = new JLabel(new ImageIcon("Images/test.jpg"));
-		lblNewLabel.setBounds(509, 33, 300, 300);
-		add(lblNewLabel);
-
 	}
 
 	/**
