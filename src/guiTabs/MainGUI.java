@@ -232,10 +232,29 @@ public class MainGUI extends JFrame implements ActionListener {
 			tabbedPane.setSelectedComponent(customerTab);
 		}
 
-		// About option
+		// User Guide option - Peter
+		if (event.getActionCommand().equals("User Guide")){
+						
+			//File userGuideFile=new File("C:\\Users\\Kruppe\\Desktop\\LIT\\Ericsson\\retailSystem\\userGuide.txt");
+			File userGuideFile = new File("userGuide.txt");
+			try{
+				Runtime.getRuntime().exec("notepad userGuide.txt"); // MainProject/src/guiTabs/userGuide.txt");("notepad C:\\Users\\Kruppe\\Desktop\\LIT\\Ericsson\\retailSystem\\userGuide.txt");
+				}
+				catch(IOException ex){
+				ex.printStackTrace();
+				}
+			
+			// System.out.println("User guide file exists?: " + userGuideFile.exists());
+			// if true, the file exists and can be found
+			
+			// System.out.println("User guide file can be read by the program?: " + userGuideFile.canRead());
+			// if true, the file can be read
+		}
+				
+		// About option - fixed spelling, Peter
 		if (event.getActionCommand().equals("About Group2")) {
 			String message = "DIT FCP-2014 GROUP 2 MEMBERS\n\n" + "Conor Clarke\n"
-					+ "Peter Farrel\n" + "John Fleming\n" + "Szabolcs Hutvagner\n"
+					+ "Peter Farrell\n" + "John Fleming\n" + "Szabolcs Hutvagner\n"
 					+ "John O`Keeffe\n" + "Roland Katona";
 			JOptionPane.showMessageDialog(null, message);
 		}
