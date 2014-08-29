@@ -1,14 +1,14 @@
 package person;
 
-
 /**
  * @author Roland Katona
  *
  */
 public class Supplier extends Person {
-	private  String contactName;
-	private  String vatNumber;
-	
+	private String contactName;
+	private String vatNumber;
+	private String imageString;
+
 	/**
 	 * Default constructor
 	 */
@@ -25,11 +25,12 @@ public class Supplier extends Person {
 	 * @param contactName
 	 * @param vatNumber
 	 */
-	public Supplier(String name, String email, String contactNumber,
-			String address,String contactName, String vatNumber) {
+	public Supplier(String name, String email, String contactNumber, String address,
+			String contactName, String vatNumber) {
 		super(name, email, contactNumber, address);
 		this.vatNumber = vatNumber;
 		this.contactName = contactName;
+		this.imageString = null;
 	}
 
 	/**
@@ -38,7 +39,6 @@ public class Supplier extends Person {
 	public String getVatNumber() {
 		return vatNumber;
 	}
-	
 
 	/**
 	 * @param vatNumber
@@ -53,7 +53,6 @@ public class Supplier extends Person {
 	public String getContactName() {
 		return contactName;
 	}
-	
 
 	/**
 	 * @param contactName
@@ -61,4 +60,5 @@ public class Supplier extends Person {
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
+
 }

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,9 @@ public class SupplierTab extends PersonTab {
 	private MainGUI gui;
 	private String contactName, vatNumber;
 	private JTextField vatNumberField, contactNameField;
-	private JLabel vatNumberLabel, contactNameLabel;
+	private JLabel vatNumberLabel, contactNameLabel, profileImage;
+	private ImageIcon icon;
+	private int oldIndex = 0;
 
 	/**
 	 * Set the imformation to appear in the text fields
@@ -110,6 +113,12 @@ public class SupplierTab extends PersonTab {
 		add(contactNameField);
 		add(vatNumberLabel);
 		add(contactNameLabel);
+
+		icon = new ImageIcon(personDB.getSupplierList().get(0).getImageString());
+		profileImage = new JLabel();
+		profileImage.setIcon(icon);
+		profileImage.setBounds(498, 30, 100, 100);
+		add(profileImage);
 	}
 
 	/**
@@ -265,10 +274,10 @@ public class SupplierTab extends PersonTab {
 	}
 
 	/**
-	 * Toggle ediing of fields
+	 * Toggle editing of fields
 	 * 
 	 * @param editable
-	 *            Editiable status of the fields
+	 *            Editable status of the fields
 	 */
 	public void setFieldEditable(boolean editable) {
 		super.setFieldEditable(editable);
@@ -283,9 +292,17 @@ public class SupplierTab extends PersonTab {
 	public void itemStateChanged(ItemEvent event) {
 		if (event.getStateChange() == ItemEvent.SELECTED) {
 			setTextField(comboBox.getSelectedIndex(), personDB.getSupplierList());
-			revalidate();
 			repaint();
+			revalidate();
 		}
-
+		if (comboBox.getSelectedIndex() != oldIndex) {
+			int index = comboBox.getSelectedIndex();
+			oldIndex = index;
+			Person sup = personDB.getSupplierList().get(index);
+			String iconString = sup.getImageString();
+			profileImage.setIcon(new ImageIcon(iconString));
+			repaint();
+			revalidate();
+		}
 	}
 }
