@@ -1,5 +1,6 @@
 package guiTabs;
 
+import java.awt.Desktop;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -125,7 +126,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 
-		// Set the size of the window to full screem
+		// Set the size of the window to full screen
+
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());
 		this.setSize(xSize, ySize);
@@ -235,18 +237,15 @@ public class MainGUI extends JFrame implements ActionListener {
 			tabbedPane.setSelectedComponent(customerTab);
 		}
 
-		// User Guide option - Peter
+		// User Guide option
 		if (event.getActionCommand().equals("User Guide")) {
-
-			// File userGuideFile=new
-			// File("C:\\Users\\Kruppe\\Desktop\\LIT\\Ericsson\\retailSystem\\userGuide.txt");
 			File userGuideFile = new File("userGuide.txt");
 			try {
-				Runtime.getRuntime().exec("notepad userGuide.txt"); // MainProject/src/guiTabs/userGuide.txt");("notepad
-																	// C:\\Users\\Kruppe\\Desktop\\LIT\\Ericsson\\retailSystem\\userGuide.txt");
+				// Runtime.getRuntime().exec("notepad userGuide.txt");
+				openWebpage("UserGuide/UserGuide.html");
 			}
-			catch (IOException ex) {
-				ex.printStackTrace();
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 
 			// System.out.println("User guide file exists?: " + userGuideFile.exists());
@@ -257,7 +256,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			// if true, the file can be read
 		}
 
-		// About option - fixed spelling, Peter
+		// About option
 		if (event.getActionCommand().equals("About Group2")) {
 			String message = "DIT FCP-2014 GROUP 2 MEMBERS\n\n" + "Conor Clarke\n"
 					+ "Peter Farrell\n" + "John Fleming\n" + "Szabolcs Hutvagner\n"
@@ -301,6 +300,16 @@ public class MainGUI extends JFrame implements ActionListener {
 					}
 				}
 			}
+		}
+	}
+
+	public static void openWebpage(String urlString) {
+		try {
+			File htmlFile = new File(urlString);
+			Desktop.getDesktop().browse(htmlFile.toURI());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
