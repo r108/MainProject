@@ -116,6 +116,14 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 
+	/**
+	 * Main GUI constructor
+	 * 
+	 * @param personDB
+	 *            Person database
+	 * @param stockDBControl
+	 *            Stock control database
+	 */
 	public MainGUI(Staff currentlyLoggedInStaff, PersonDB personDB, StockDBControl stockDBControl,
 			Login login, OrderDB orderDB) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -191,22 +199,10 @@ public class MainGUI extends JFrame implements ActionListener {
 				orderDB, this);
 		customerTab = new CustomerTab(personDB, customerOrderTab);
 		productTab = new ProductTab(stockDBControl, personDB, tabbedPane, supplierTab, this);
-
-		customerOrderHistorytab = new CustomerOrderHistoryTab(orderDB);
-
-		supplyOrderHistorytab = new SupplyOrderHistoryTab(orderDB);
-
 		supplyOrderTab = new SupplyOrderTab(currentlyLoggedInStaff, personDB, stockDBControl,
 				orderDB, this);
-
-		/*
-		 * // Add the tabs to the pane tabbedPane.addTab("Customer", null, customerTab, null);
-		 * tabbedPane.addTab("Supplier", null, supplierTab, null); tabbedPane.addTab("Staff", null,
-		 * staffTab, null); tabbedPane.addTab("Product", null, productTab, null); //
-		 * tabbedPane.addTab("Purchase", null, supplyOrderTab, null);
-		 * tabbedPane.addTab("Customer Order", null, customerOrderTab, null);
-		 * tabbedPane.addTab("Stock Control", null, stockControlTab, null);
-		 */
+		customerOrderHistorytab = new CustomerOrderHistoryTab(orderDB);
+		supplyOrderHistorytab = new SupplyOrderHistoryTab(orderDB);
 
 		// Add the tabs to the pane
 		tabbedPane.addTab("Customer", new ImageIcon("Images/CustomerIcon.jpg"), customerTab,
@@ -217,7 +213,6 @@ public class MainGUI extends JFrame implements ActionListener {
 				"Select this tab to perform operations on staff.");
 		tabbedPane.addTab("Product", new ImageIcon("Images/ProductIcon.jpg"), productTab,
 				"Select this tab to perform operations on products.");
-		tabbedPane.addTab("Supply Order", null, supplyOrderTab, null);
 		tabbedPane.addTab("Customer Order", new ImageIcon("Images/CustomerOrderIcon.jpg"),
 				customerOrderTab, "Select this tab to perform operations on customer orders.");
 		tabbedPane.addTab("Stock Control", new ImageIcon("Images/StockControlIcon.jpg"),
@@ -229,11 +224,10 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	}
 
-	// Action events for the different menu items
-	// Note: It's bad practice to do action listeners in this way, even though
-	// it
-	// shortens the code.
 	@Override
+	/**
+	 * Action listeners
+	 */
 	public void actionPerformed(ActionEvent event) {
 
 		// Exit option
@@ -274,6 +268,7 @@ public class MainGUI extends JFrame implements ActionListener {
 					+ "John O`Keeffe\n" + "Roland Katona";
 			JOptionPane.showMessageDialog(null, message);
 		}
+		// User guide option
 		if (event.getActionCommand().equals("User Guide")) {
 			try {
 				// Runtime.getRuntime().exec("notepad userGuide.txt");
@@ -290,10 +285,9 @@ public class MainGUI extends JFrame implements ActionListener {
 			}
 		}
 
-		// Save option (need to edit)
+		// Save option
 		if (event.getActionCommand().equals("Save")) {
 			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-				String str = "ERFERERERE";
 				/*
 				 * try(FileWriter fw = new FileWriter(fileChooser.getSelectedFile()+".txt")) {
 				 * fw.write(sb.toString()); } catch (IOException e) { // Auto-generated catch block
@@ -322,6 +316,11 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Open a web page given by the String
+	 * 
+	 * @param urlString
+	 */
 	public static void openWebpage(String urlString) {
 		try {
 			File htmlFile = new File(urlString);
